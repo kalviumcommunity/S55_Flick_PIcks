@@ -5,5 +5,7 @@ Flick Pick is an online website that aligns with my love for movies. Feeling los
 ### My plan for the next few days will be as follows- 
 
 DAY 1 -> Creating React App & Designing Logo
+
 DAY 2 -> Low-Fid Design
+
 DAY 3 -> High-Fid Design
