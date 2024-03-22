@@ -23,7 +23,7 @@ function Login() {
                         <label className='amatic'>
                             PASSWORD
                         </label>
-                        <input type="text" />
+                        <input type="password" />
                     </div>
 
                     <h2 className='amatic signupInstead'>

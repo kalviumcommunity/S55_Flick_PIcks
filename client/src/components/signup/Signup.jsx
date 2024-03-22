@@ -29,14 +29,14 @@ function Signup() {
                         <label className='amatic'>
                             PASSWORD
                         </label>
-                        <input type="text" />
+                        <input type="password" />
                     </div>
 
                     <div className="fields">
                         <label className='amatic'>
                             CONFIRM PASSWORD
                         </label>
-                        <input type="text" />
+                        <input type="password" />
                     </div>
 
                     <h2 className='amatic signupInstead'>

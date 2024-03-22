@@ -42,3 +42,9 @@
     border: 3px solid white;
     margin-top: 40px;
 }
+
+.startButton:hover{
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
