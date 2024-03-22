@@ -1,0 +1,44 @@
+.background{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: -5;
+}
+
+.centerArea{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logo{
+    width: 27vw;
+    margin-top: 20px;
+}
+
+.subheading{
+    width: 80vw;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 30px;
+    line-height: 125%;
+}
+
+.koulen{
+    font-family: 'Koulen';
+}
+
+.white{
+    color: white;
+}
+
+.startButton{
+    width: 15vw;
+    background-color: #00000000;
+    height: 90px;
+    font-size: 35px;
+    border: 3px solid white;
+    margin-top: 40px;
+}
