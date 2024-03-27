@@ -8,7 +8,7 @@ function Signup() {
 
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
 
-    const onSubmit = (values) => {
+    const onSubmit = async(values) => {
         if (values.password != values.confirmPassword) {
             setError("confirmPassword", {
                 type: "manual",
@@ -18,7 +18,7 @@ function Signup() {
         }
         else {
             try {
-                const test = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', values)
+                const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', values)
                     .then((test) => {
                         console.log(test)
                         if (test.status == 200) {
