@@ -16,4 +16,31 @@ router.get('/users',async(req,res)=>{
     }
 })
 
+router.post('/login',async(req,res)=>{
+    try{
+        const {username , password} = req.body
+        const user = await userModel.findOne({username , password})
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid username or password' });
+        } else {
+            console.log(user);
+            return res.status(200).json({ success: true, message: 'Login successful' });
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/newUser',async(req,res)=>{
+    try{
+        const data = userModel.create(req.body)
+        console.log(data)
+        res.send(data)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router

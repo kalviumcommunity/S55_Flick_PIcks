@@ -2,28 +2,40 @@ import './Login.css'
 import React from 'react'
 import loginWP from '../../assets/loginWP.png'
 import { Link } from 'react-router-dom'
+import {useForm} from 'react-hook-form'
 
 function Login() {
+
+    const { register , handleSubmit , formState : {errors}} = useForm()
+
+    const onSubmit =(values) =>{
+        console.log(values)
+    }
+
     return (
         <>
             <img src={loginWP} alt="background" className="background" />
 
             <div className="mid">
-                <div className="loginForm">
+                <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
                     <h1 className='amatic loginHeading'>LOGIN</h1>
 
                     <div className="fields">
                         <label className='amatic'>
                             USERNAME
                         </label>
-                        <input type="text" />
+                        <input type="text" name='username'
+                        {...register("username", { required: 'username is Required!' })}/>
+                        {errors.username && <p>{errors.username.message}</p>}
                     </div>
 
                     <div className="fields">
                         <label className='amatic'>
                             PASSWORD
                         </label>
-                        <input type="password" />
+                        <input type="password" name='password'
+                        {...register("password", { required: 'Password is Required!' })} />
+                        {errors.password && <p>{errors.password.message}</p>}
                     </div>
 
                     <h2 className='amatic signupInstead'>
@@ -33,10 +45,10 @@ function Login() {
                         </Link>
                     </h2>
 
-                    <button className="amatic loginButton">
+                    <button type='submit' value='submit' className="amatic loginButton">
                         LOGIN
                     </button>
-                </div>
+                </form>
             </div>
         </>
     )
