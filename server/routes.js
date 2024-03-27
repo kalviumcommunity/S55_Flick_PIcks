@@ -34,9 +34,25 @@ router.post('/login',async(req,res)=>{
 
 router.post('/newUser',async(req,res)=>{
     try{
-        const data = userModel.create(req.body)
+        const data = await userModel.create(req.body)
         console.log(data)
         res.send(data)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/userExists',async(req,res)=>{
+    try{
+        console.log("REQ BODY",req.body)
+        const user = await userModel.findOne({"username":req.body.username})
+        if (!user) {
+            return res.status(200).json({ error: 'No Username Exists' });
+        } else {
+            console.log(user);
+            return res.status(201).json({ success: true, message: 'username Exists' });
+        }
     }
     catch(err){
         console.log(err)

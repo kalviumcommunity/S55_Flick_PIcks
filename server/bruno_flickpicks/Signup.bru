@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/newUser
-  body: none
+  url: https://s55-shaaz-capstone-flickpicks.onrender.com/newUser
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "username" : "sonu",
+    "name" : "Om Jadhav",
+    "password" : "RRR"
+  }
 }

@@ -3,13 +3,26 @@ import React from 'react'
 import loginWP from '../../assets/loginWP.png'
 import { Link } from 'react-router-dom'
 import {useForm} from 'react-hook-form'
+import axios from 'axios'
 
 function Login() {
 
     const { register , handleSubmit , formState : {errors}} = useForm()
 
     const onSubmit =(values) =>{
-        console.log(values)
+        try{
+            const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/login',values)
+                if(res.status == 200){
+                    console.log("Login Successful")
+                }
+                else{
+                    alert("Invalid Credentials")
+                }
+            
+        }
+        catch(err){
+            alert("Invalid Credentials")
+        }
     }
 
     return (
