@@ -3,10 +3,13 @@ import loginWP from '../../assets/loginWP.png'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Signup() {
 
     const { register, handleSubmit, setError, formState: { errors } } = useForm()
+
+    const navigate = useNavigate()
 
     const onSubmit = async(values) => {
         if (values.password != values.confirmPassword) {
@@ -29,7 +32,9 @@ function Signup() {
                             catch (err) {
                                 console.log(err)
                             }
+                            sessionStorage.setItem('username',values.username)
                             console.log("Signup Successfull")
+                            navigate('/main')
                         }
                         else{
                             alert("USERNAME EXISTS!")

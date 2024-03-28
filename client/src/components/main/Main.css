@@ -1,0 +1,113 @@
+.userBox{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    font-size: 50px;
+}
+
+.mainLogo{
+    width: 12vw;
+}
+
+.person{
+    height: 40px;
+    margin: 10px;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainHeading{
+    font-size: 70px;
+}
+
+.mainMoviesArea{
+    width: 80vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 40px;
+    /* background-color: aliceblue; */
+}
+
+.image{
+    position: relative;
+}
+
+.content{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 17vw;
+    height: 99%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 1s;
+    text-align: center;
+    padding: 30px;
+}
+
+.content:hover{
+    background-color: black;
+    opacity: 0.7;
+}
+
+.buttonsArea{
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60vw;
+}
+
+
+
+
+
+.wrapper{
+    width: 20vw;
+}
+
+.poster{
+    width: 17vw;
+    height: 50vh;
+}
+
+.inter{
+    font-family: 'inter';
+}
+
+.content h1{
+    margin: 20px;
+    font-size: 35px;
+}
+
+
+.buttonsArea button{
+    width: 170px;
+    height: 80px;
+    font-size: 25px;
+    font-family: 'Inter';
+    border-radius: 7px;
+}
+
+.selected{
+    background-color: rgba(207, 207, 207, 0.734);
+    color: black;
+    border: 4px solid rgb(58, 58, 58);
+}
+
+.ns{
+    color: white;
+    background-color: #00000000;
+    border: 4px solid white;
+
+}
