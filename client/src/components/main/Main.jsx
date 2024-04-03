@@ -3,11 +3,7 @@ import React from 'react'
 import HP from '../../assets/HP.jpg'
 import logo from '../../assets/logo.png'
 import person from '../../assets/person.png'
-
-import thriller1 from '../../assets/movies/thriller1.png'
-import thriller2 from '../../assets/movies/thriller2.png'
-import thriller3 from '../../assets/movies/thriller3.png'
-import thriller4 from '../../assets/movies/thriller4.png'
+import {Link} from 'react-router-dom'
 
 import { useState, useEffect } from 'react'
 
@@ -37,10 +33,11 @@ function Main() {
             <div className="centerArea">
                 <h1 className='amatic white mainHeading'>TODAY'S RECOMENDATIONS</h1>
 
+<Link to='/movie'>
                 <div className="mainMoviesArea">
                     {
                         movieList[genre].map((el,index) => {
-                                return <div className='wrapper'>
+                            return <div className='wrapper'>
                                 <div className="image" key={index}>
                                     <img src={el.img} alt="" className="poster" />
                                     <div className="content white inter">
@@ -52,6 +49,7 @@ function Main() {
                         })
                     }
                 </div>
+                    </Link>
 
                 <div className="buttonsArea amatic">
                     <button className={`${genre === 0 ? 'selected' : 'ns'}`} onClick={() => handleGenre(0)}>
