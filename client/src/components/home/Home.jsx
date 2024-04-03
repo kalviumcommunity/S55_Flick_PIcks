@@ -4,8 +4,10 @@ import homeWP from '../../assets/homeWP.png'
 import logo from '../../assets/logo.png'
 
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 function Home() {
+
     return (
         <>
             <img src={homeWP} alt="background" className="background" />
