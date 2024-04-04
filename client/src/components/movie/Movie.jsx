@@ -93,7 +93,7 @@ function Movie() {
 
           {/* {CAST AREA} */}
 
-          <h1 className='white cast flex-c'>
+          <h1 className='white cast flex-center'>
             Cast and Crew
             <img src={next} alt="" className='' />
           </h1>
@@ -121,7 +121,7 @@ function Movie() {
 
           {/* {RECCOMENDATIONS AREA} */}
 
-          <h1 className="cast white flex-c">
+          <h1 className="cast white flex-center">
             Recommendations
             <img src={next} alt="" className='' />
           </h1>
@@ -156,7 +156,7 @@ function Movie() {
 
           {/* {SIMILAR AREA} */}
 
-          <h1 className="cast white flex-c">
+          <h1 className="cast white flex-center">
             Similar
             <img src={next} alt="" className='' />
           </h1>
