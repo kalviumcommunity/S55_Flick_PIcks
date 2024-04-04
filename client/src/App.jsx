@@ -9,6 +9,7 @@ import Main from './components/main/Main'
 import Movie from './components/movie/Movie'
 
 function App() {
+  {console.log("Hi!")}
   return (
     <>
       <Routes>
