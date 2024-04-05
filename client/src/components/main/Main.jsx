@@ -3,7 +3,7 @@ import React from 'react'
 import HP from '../../assets/HP.jpg'
 import logo from '../../assets/logo.png'
 import person from '../../assets/person.png'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { useState, useEffect } from 'react'
 
@@ -33,23 +33,23 @@ function Main() {
             <div className="centerArea">
                 <h1 className='amatic white mainHeading'>TODAY'S RECOMENDATIONS</h1>
 
-<Link to='/movie'>
-                <div className="mainMoviesArea">
-                    {
-                        movieList[genre].map((el,index) => {
-                            return <div className='wrapper'>
-                                <div className="image" key={index}>
-                                    <img src={el.img} alt="" className="poster" />
-                                    <div className="content white inter">
-                                        <h1>{el.title.toLocaleUpperCase()}</h1>
-                                        <p>{el.desc}</p>
+                <Link to='/movie/22'>
+                    <div className="mainMoviesArea">
+                        {
+                            movieList[genre].map((el, index) => {
+                                return <div className='wrapper'>
+                                    <div className="image" key={index}>
+                                        <img src={el.img} alt="" className="poster" />
+                                        <div className="content white inter">
+                                            <h1>{el.title.toLocaleUpperCase()}</h1>
+                                            <p>{el.desc}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                        })
-                    }
-                </div>
-                    </Link>
+                            })
+                        }
+                    </div>
+                </Link>
 
                 <div className="buttonsArea amatic">
                     <button className={`${genre === 0 ? 'selected' : 'ns'}`} onClick={() => handleGenre(0)}>

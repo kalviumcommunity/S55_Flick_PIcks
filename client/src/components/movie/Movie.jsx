@@ -6,13 +6,17 @@ import { useParams } from 'react-router-dom'
 import Watchlist from '../../assets/watchlist.png'
 import next from '../../assets/next.png'
 import arrow from '../../assets/arrow.png'
+import { useNavigate } from 'react-router-dom';
 
 function Movie() {
+
+  const navigate = useNavigate()
 
   const [data, setData] = useState([])
   const [cast, setCast] = useState([])
   const [recommendations, setRecommendations] = useState([])
   const [similar, setSimilar] = useState([])
+  const [watch, setWatch] = useState([])
 
   const { id } = useParams()
   // const MOVIE_ID = '157336'
@@ -21,6 +25,7 @@ function Movie() {
   const CREDIS_URL = `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`
   const RECOMMENDATIONS_URL = `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1`
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
+  const WATCH_URL = `https://api.themoviedb.org/3/movie/${id}/watch/providers`
 
   const API_METHOD = (passed_url) => {
     return {
@@ -33,10 +38,9 @@ function Movie() {
     }
   }
 
-  const axios_request = (URL,location) => {
+  const axios_request = (URL, location) => {
     axios.request(API_METHOD(URL))
       .then(function (response) {
-        console.log(response.data);
         location(response.data)
       })
       .catch(function (error) {
@@ -46,12 +50,26 @@ function Movie() {
 
   useEffect(() => {
 
-      axios_request(MOVIE_URL,setData)
-      axios_request(CREDIS_URL,setCast)
-      axios_request(RECOMMENDATIONS_URL,setRecommendations)
-      axios_request(SIMILAR_URL,setSimilar)
+    axios_request(MOVIE_URL, setData)
+    axios_request(CREDIS_URL, setCast)
+    axios_request(RECOMMENDATIONS_URL, setRecommendations)
+    axios_request(SIMILAR_URL, setSimilar)
+    axios_request(WATCH_URL, setWatch)
 
-  }, [])
+  }, [data, cast, recommendations, similar])
+
+  const handleMovieClick = (movie_id) => {
+    console.log(movie_id)
+    navigate(`/movie/${movie_id}`)
+  }
+
+  const findDirector = cast.crew && cast.crew.find(el => {
+    return el.job == "Director"
+  })
+
+  const addCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
 
   return (
     <>
@@ -130,16 +148,16 @@ function Movie() {
             {recommendations.results && recommendations.results.map((el, index) => {
               if (index < 10) {
                 return (
-                  <div className='rec white' key={index}>
-                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop'/>
+                  <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop' />
                     <div className="partialGrad white"></div>
                     <div className="recDesc">
-                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster'/>
+                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />
                       <div className="recTitle"></div>
                     </div>
-                      <div className='mons white recT'>
-                        {el.original_title}
-                      </div>
+                    <div className='mons white recT'>
+                      {el.title}
+                    </div>
                   </div>
                 )
               }
@@ -148,7 +166,7 @@ function Movie() {
             <div className="more white">
               <div>SEE MORE</div>
               <img src={arrow} alt="arrow" className='moreArrow' />
-              
+
             </div>
           </div>
 
@@ -165,16 +183,16 @@ function Movie() {
             {similar.results && similar.results.map((el, index) => {
               if (index < 10 && index > 0) {
                 return (
-                  <div className='rec white' key={index}>
-                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop'/>
+                  <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop' />
                     <div className="partialGrad white"></div>
                     <div className="recDesc">
-                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster'/>
+                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />
                       <div className="recTitle"></div>
                     </div>
-                      <div className='mons white recT'>
-                        {el.original_title}
-                      </div>
+                    <div className='mons white recT'>
+                      {el.title}
+                    </div>
                   </div>
                 )
               }
@@ -183,11 +201,178 @@ function Movie() {
             <div className="more white">
               <div>SEE MORE</div>
               <img src={arrow} alt="arrow" className='moreArrow' />
-              
+
             </div>
           </div>
 
           {/* {SIMILAR AREA OVER} */}
+
+          <div className="generalInfo">
+
+
+            {/* MOVIE INFO AREA */}
+
+            {data && <div className="movieDetails white">
+              <h1 className="cast white flex-center">
+                Details
+                <img src={next} alt="" className='' />
+              </h1>
+
+              <div className="watchArea">
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Directed by:
+                  </div>
+                  <div className="movieDetailField">
+                    {findDirector && `${findDirector.name}`}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Genre:
+                  </div>
+                  <div className="movieDetailField genreField">
+                    {data.genres && data.genres.map((el, index) => {
+                      return (<div className='genreKey'>{el.name}</div>)
+                    })}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Release Year:
+                  </div>
+                  <div className="movieDetailField">
+                    {data.release_date && data.release_date.split("-")[0]}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Budget:
+                  </div>
+                  <div className="movieDetailField">
+                    {data.budget && `$${addCommas(data.budget)}`}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Collection:
+                  </div>
+                  <div className="movieDetailField">
+                    {data.revenue && `$${addCommas(data.revenue)}`}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Original Language:
+                  </div>
+                  <div className="movieDetailField">
+                    {data.original_language && data.original_language.toUpperCase()}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Runtime:
+                  </div>
+                  <div className="movieDetailField">
+                    {`${data.runtime} Minutes`}
+                  </div>
+                </div>
+
+                <div className="flex">
+                  <div className="movieDetailKey">
+                    Rating:
+                  </div>
+                  <div className="movieDetailField">
+                    {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)} %`}
+                  </div>
+                </div>
+
+
+              </div>
+            </div>}
+
+            {/* MOVIE INFO AREA OVER*/}
+
+            {/* {WATCH AREA} */}
+
+            {watch.results && watch.results.IN && <div className="watch">
+
+              <h1 className="cast white flex-center">
+                Watch Providers
+                <img src={next} alt="" className='' />
+              </h1>
+
+              <div className="watchArea white">
+              {watch && console.log(watch)}
+                {
+                  watch.results.IN.flatrate &&
+                  <div className="stream">
+
+                    <h2>Stream</h2>
+
+                    <div className="watchProviders">
+                      {
+                        watch.results.IN.flatrate.map(el => {
+                          return (
+                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                }
+
+                {
+                  watch.results.IN.rent &&
+                  <div className="stream">
+
+                    <h2>Rent</h2>
+
+                    <div className="watchProviders">
+                      {
+                        watch.results.IN.rent.map(el => {
+                          return (
+                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                }
+
+                {
+                  watch.results.IN.buy &&
+                  <div className="stream">
+
+                    <h2>Buy</h2>
+
+                    <div className="watchProviders">
+                      {
+                        watch.results.IN.buy.map(el => {
+                          return (
+                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                }
+
+              </div>
+
+            </div>}  
+
+            {/* {WATCH AREA OVER} */}
+
+
+          </div>
 
         </div>
 
