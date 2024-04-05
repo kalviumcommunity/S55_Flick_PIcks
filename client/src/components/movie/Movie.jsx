@@ -7,6 +7,7 @@ import Watchlist from '../../assets/watchlist.png'
 import next from '../../assets/next.png'
 import arrow from '../../assets/arrow.png'
 import { useNavigate } from 'react-router-dom';
+import WatchProvider from './WatchProvider';
 
 function Movie() {
 
@@ -56,7 +57,7 @@ function Movie() {
     axios_request(SIMILAR_URL, setSimilar)
     axios_request(WATCH_URL, setWatch)
 
-  }, [data, cast, recommendations, similar])
+  }, [id])
 
   const handleMovieClick = (movie_id) => {
     console.log(movie_id)
@@ -73,6 +74,7 @@ function Movie() {
 
   return (
     <>
+    {data && <div>
       <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} alt="" className='backdrop' />
       <div className="gradient">
         <div className="description">
@@ -317,15 +319,8 @@ function Movie() {
 
                     <h2>Stream</h2>
 
-                    <div className="watchProviders">
-                      {
-                        watch.results.IN.flatrate.map(el => {
-                          return (
-                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
-                          )
-                        })
-                      }
-                    </div>
+                    {watch && watch.results && watch.results.IN.flatrate && <WatchProvider data={watch.results.IN.flatrate}/>}
+
                   </div>
                 }
 
@@ -335,15 +330,8 @@ function Movie() {
 
                     <h2>Rent</h2>
 
-                    <div className="watchProviders">
-                      {
-                        watch.results.IN.rent.map(el => {
-                          return (
-                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
-                          )
-                        })
-                      }
-                    </div>
+                    {watch && watch.results && watch.results.IN.rent && <WatchProvider data={watch.results.IN.rent}/>}
+
                   </div>
                 }
 
@@ -353,15 +341,8 @@ function Movie() {
 
                     <h2>Buy</h2>
 
-                    <div className="watchProviders">
-                      {
-                        watch.results.IN.buy.map(el => {
-                          return (
-                            <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
-                          )
-                        })
-                      }
-                    </div>
+                    {watch && watch.results && watch.results.IN.buy && <WatchProvider data={watch.results.IN.buy}/>}
+
                   </div>
                 }
 
@@ -378,6 +359,7 @@ function Movie() {
 
 
       </div>
+    </div>}
     </>
   )
 }

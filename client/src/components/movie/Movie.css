@@ -13,6 +13,10 @@
 
 .black{
     background-color: #131416e9;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .description{
@@ -79,13 +83,6 @@
     width: 30px;
     height: 30px;
     margin-left: 12px;
-}
-
-.black{
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
 }
 
 .centerMovie{
