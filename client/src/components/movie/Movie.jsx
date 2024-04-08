@@ -94,11 +94,11 @@ function Movie() {
   return (
     <>
       {data && <div>
-        {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' />}
+        {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy"/>}
         <div className="gradient">
           <div className="description">
             <div className="descArea mons white">
-            {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" />}
+            {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy"/>}
               <div className="movieInfo">
                 <div className="title">{data.original_title}</div>
                 <div className="general">
@@ -120,7 +120,7 @@ function Movie() {
                   <div>
                     ADD TO WATCHLIST
                   </div>
-                  <img src={Watchlist} alt="watchlist logo" className='watchlist' />
+                  <img src={Watchlist} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
               </div>
             </div>
@@ -134,7 +134,7 @@ function Movie() {
 
             <h1 className='white cast flex-center'>
               Cast and Crew
-              <img src={next} alt="" className='' />
+              <img src={next} alt="" className='' loading="lazy"/>
             </h1>
 
             <div className='profileArea scrollbar'>
@@ -142,7 +142,7 @@ function Movie() {
                 if (index < 10) {
                   return (
                     <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
-                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" />}  
+                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy"/>}  
                       <h2>{el.name}</h2>
                       <h3>{el.character}</h3>
                     </div>
@@ -152,7 +152,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectClass}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' />
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
               </div>
             </div>
 
@@ -162,7 +162,7 @@ function Movie() {
 
             <h1 className="cast white flex-center">
               Recommendations
-              <img src={next} alt="" className='' />
+              <img src={next} alt="" className='' loading="lazy"/>
             </h1>
 
             <div className='profileArea scrollbar'>
@@ -170,10 +170,10 @@ function Movie() {
                 if (index < 10) {
                   return (
                     <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path &&<img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`}  className='recBackdrop' />}
+                      {el.backdrop_path &&<img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`}  className='recBackdrop' loading="lazy"/>}
                       <div className="partialGrad white"></div>
                       <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' />}
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' loading="lazy"/>}
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
@@ -186,7 +186,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectRecs}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' />
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
 
               </div>
             </div>
@@ -197,7 +197,7 @@ function Movie() {
 
             <h1 className="cast white flex-center">
               Similar
-              <img src={next} alt="" className='' />
+              <img src={next} alt="" className='' loading="lazy" />
             </h1>
 
             <div className='profileArea scrollbar'>
@@ -205,10 +205,10 @@ function Movie() {
                 if (index < 10 && index > 0) {
                   return (
                     <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' />}
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy"/>}
                       <div className="partialGrad white"></div>
                       <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />}
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' loading="lazy"/>}
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
@@ -221,7 +221,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectSimilar}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' />
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
 
               </div>
             </div>
@@ -236,7 +236,7 @@ function Movie() {
               {data && <div className="movieDetails white">
                 <h1 className="cast white flex-center">
                   Details
-                  <img src={next} alt="" className='' />
+                  <img src={next} alt="" className='' loading="lazy"/>
                 </h1>
 
                 <div className="watchArea">
@@ -327,7 +327,7 @@ function Movie() {
 
                 <h1 className="cast white flex-center">
                   Watch Providers
-                  <img src={next} alt="" className='' />
+                  <img src={next} alt="" className='' loading="lazy"/>
                 </h1>
 
                 <div className="watchArea white">
@@ -378,7 +378,7 @@ function Movie() {
               {review && <div className="reviewArea">
                 <h1 className="cast white flex-center">
                   Reviews                
-                  <img src={next} alt="" className='' />
+                  <img src={next} alt="" className='' loading="lazy"/>
                 </h1>
 
                   <div className="reviewGrid">
@@ -387,8 +387,8 @@ function Movie() {
                       if(index < 4){
                       return (<div className='review white'>
                           <div className="reviewTop">
-                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" />
-                                                           : <img src={profile}/>}
+                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy"/>
+                                                           : <img src={profile}loading="lazy"/>}
                             <div className="author">{el.author}</div>
                           </div>
                           <div className="reviewRating">
@@ -402,8 +402,8 @@ function Movie() {
                     {review && showAllReviews && review.results && review.results.map((el,index) => {
                       return (<div className='review white'>
                           <div className="reviewTop">
-                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" />
-                                                           : <img src={profile}/>}
+                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy"/>
+                                                           : <img src={profile}loading="lazy"/>}
                             <div className="author">{el.author}</div>
                           </div>
                           <div className="reviewRating">
@@ -418,11 +418,11 @@ function Movie() {
 
                   {review.total_results > 4 && !showAllReviews && <div className='white seeAll' onClick={() => setShowAllReviews(true)}>
                       <h3>SEE ALL</h3>
-                      <img src={next}/>
+                      <img src={next}loading="lazy"/>
                     </div>}
 
                     {review.total_results > 4 && showAllReviews && <div className='white seeAll seeLess' onClick={() => setShowAllReviews(false)}>
-                      <img src={next}/>
+                      <img src={next}loading="lazy"/>
                       <h3>SEE LESS</h3>
                     </div>}
 
