@@ -8,6 +8,7 @@ import next from '../../assets/next.png'
 import arrow from '../../assets/arrow.png'
 import { useNavigate } from 'react-router-dom';
 import WatchProvider from './WatchProvider';
+import profile from '../../assets/profile.png'
 
 function Movie() {
 
@@ -18,6 +19,7 @@ function Movie() {
   const [recommendations, setRecommendations] = useState([])
   const [similar, setSimilar] = useState([])
   const [watch, setWatch] = useState([])
+  const [review, setReview] = useState([])
 
   const { id } = useParams()
   // const MOVIE_ID = '157336'
@@ -27,6 +29,8 @@ function Movie() {
   const RECOMMENDATIONS_URL = `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1`
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
   const WATCH_URL = `https://api.themoviedb.org/3/movie/${id}/watch/providers`
+  const REVIEW_URL =  `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`
+
 
   const API_METHOD = (passed_url) => {
     return {
@@ -56,8 +60,11 @@ function Movie() {
     axios_request(RECOMMENDATIONS_URL, setRecommendations)
     axios_request(SIMILAR_URL, setSimilar)
     axios_request(WATCH_URL, setWatch)
+    axios_request(REVIEW_URL, setReview)
 
   }, [id])
+
+  const [showAllReviews,setShowAllReviews] = useState(false)
 
   const handleMovieClick = (movie_id) => {
     console.log(movie_id)
@@ -72,294 +79,362 @@ function Movie() {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
+  const redirectClass = () => {
+    navigate(`/movie/${id}/cast`)
+  }
+
+  const redirectRecs = () => {
+    navigate(`/movie/${id}/recs`)
+  }
+
+  const redirectSimilar = () => {
+    navigate(`/movie/${id}/similar`)
+  }
+
   return (
     <>
-    {data && <div>
-      <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} alt="" className='backdrop' />
-      <div className="gradient">
-        <div className="description">
-          <div className="descArea mons white">
-            <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="poster" />
-            <div className="movieInfo">
-              <div className="title">{data.original_title}</div>
-              <div className="general">
-                <span>{data.release_date && data.release_date.split("-")[0]}</span>
-                <span>{data.runtime}M</span>
-                {
-                  data.genres && data.genres.map((el, index) => {
-                    if (index < 3) {
-                      return <span>{el.name}</span>
-                    }
-                  })
-                }
-              </div>
-              <div className="overview">
-                {data.overview}
-              </div>
-
-              <button className='addToWatchlist'>
-                <div>
-                  ADD TO WATCHLIST
+      {data && <div>
+        {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' />}
+        <div className="gradient">
+          <div className="description">
+            <div className="descArea mons white">
+            {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" />}
+              <div className="movieInfo">
+                <div className="title">{data.original_title}</div>
+                <div className="general">
+                  <span>{data.release_date && data.release_date.split("-")[0]}</span>
+                  <span>{data.runtime}M</span>
+                  {
+                    data.genres && data.genres.map((el, index) => {
+                      if (index < 3) {
+                        return <span>{el.name}</span>
+                      }
+                    })
+                  }
                 </div>
-                <img src={Watchlist} alt="watchlist logo" className='watchlist' />
-              </button>
+                <div className="overview">
+                  {data.overview}
+                </div>
+
+                <button className='addToWatchlist'>
+                  <div>
+                    ADD TO WATCHLIST
+                  </div>
+                  <img src={Watchlist} alt="watchlist logo" className='watchlist' />
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="black mons">
+        <div className="black mons">
 
-        <div className="centerMovie">
+          <div className="centerMovie">
 
-          {/* {CAST AREA} */}
+            {/* {CAST AREA} */}
 
-          <h1 className='white cast flex-center'>
-            Cast and Crew
-            <img src={next} alt="" className='' />
-          </h1>
+            <h1 className='white cast flex-center'>
+              Cast and Crew
+              <img src={next} alt="" className='' />
+            </h1>
 
-          <div className='profileArea scrollbar'>
-            {cast.cast && cast.cast.map((el, index) => {
-              if (index < 10) {
-                return (
-                  <div className='profile white' key={index}>
-                    <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" />
-                    <h2>{el.name}</h2>
-                    <h3>{el.character}</h3>
-                  </div>
-                )
-              }
-            })}
+            <div className='profileArea scrollbar'>
+              {cast.cast && cast.cast.map((el, index) => {
+                if (index < 10) {
+                  return (
+                    <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
+                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" />}  
+                      <h2>{el.name}</h2>
+                      <h3>{el.character}</h3>
+                    </div>
+                  )
+                }
+              })}
 
-            <div className="more white">
-              <div>SEE MORE</div>
-              <img src={arrow} alt="arrow" className='moreArrow' />
+              <div className="more white" onClick={redirectClass}>
+                <div>SEE MORE</div>
+                <img src={arrow} alt="arrow" className='moreArrow' />
+              </div>
             </div>
-          </div>
 
-          {/* {CAST AREA OVER} */}
+            {/* {CAST AREA OVER} */}
 
-          {/* {RECCOMENDATIONS AREA} */}
+            {/* {RECCOMENDATIONS AREA} */}
 
-          <h1 className="cast white flex-center">
-            Recommendations
-            <img src={next} alt="" className='' />
-          </h1>
+            <h1 className="cast white flex-center">
+              Recommendations
+              <img src={next} alt="" className='' />
+            </h1>
 
-          <div className='profileArea scrollbar'>
-            {recommendations.results && recommendations.results.map((el, index) => {
-              if (index < 10) {
-                return (
-                  <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop' />
-                    <div className="partialGrad white"></div>
-                    <div className="recDesc">
-                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />
-                      <div className="recTitle"></div>
+            <div className='profileArea scrollbar'>
+              {recommendations.results && recommendations.results.map((el, index) => {
+                if (index < 10) {
+                  return (
+                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                      {el.backdrop_path &&<img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`}  className='recBackdrop' />}
+                      <div className="partialGrad white"></div>
+                      <div className="recDesc">
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' />}
+                        <div className="recTitle"></div>
+                      </div>
+                      <div className='mons white recT'>
+                        {el.title}
+                      </div>
                     </div>
-                    <div className='mons white recT'>
-                      {el.title}
-                    </div>
-                  </div>
-                )
-              }
-            })}
+                  )
+                }
+              })}
 
-            <div className="more white">
-              <div>SEE MORE</div>
-              <img src={arrow} alt="arrow" className='moreArrow' />
+              <div className="more white" onClick={redirectRecs}>
+                <div>SEE MORE</div>
+                <img src={arrow} alt="arrow" className='moreArrow' />
 
+              </div>
             </div>
-          </div>
 
-          {/* {RECCOMENDATIONS AREA OVER} */}
+            {/* {RECCOMENDATIONS AREA OVER} */}
 
-          {/* {SIMILAR AREA} */}
+            {/* {SIMILAR AREA} */}
 
-          <h1 className="cast white flex-center">
-            Similar
-            <img src={next} alt="" className='' />
-          </h1>
+            <h1 className="cast white flex-center">
+              Similar
+              <img src={next} alt="" className='' />
+            </h1>
 
-          <div className='profileArea scrollbar'>
-            {similar.results && similar.results.map((el, index) => {
-              if (index < 10 && index > 0) {
-                return (
-                  <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                    <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} alt="backdrop" className='recBackdrop' />
-                    <div className="partialGrad white"></div>
-                    <div className="recDesc">
-                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />
-                      <div className="recTitle"></div>
+            <div className='profileArea scrollbar'>
+              {similar.results && similar.results.map((el, index) => {
+                if (index < 10 && index > 0) {
+                  return (
+                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' />}
+                      <div className="partialGrad white"></div>
+                      <div className="recDesc">
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' />}
+                        <div className="recTitle"></div>
+                      </div>
+                      <div className='mons white recT'>
+                        {el.title}
+                      </div>
                     </div>
-                    <div className='mons white recT'>
-                      {el.title}
-                    </div>
-                  </div>
-                )
-              }
-            })}
+                  )
+                }
+              })}
 
-            <div className="more white">
-              <div>SEE MORE</div>
-              <img src={arrow} alt="arrow" className='moreArrow' />
+              <div className="more white" onClick={redirectSimilar}>
+                <div>SEE MORE</div>
+                <img src={arrow} alt="arrow" className='moreArrow' />
 
+              </div>
             </div>
-          </div>
 
-          {/* {SIMILAR AREA OVER} */}
+            {/* {SIMILAR AREA OVER} */}
 
-          <div className="generalInfo">
+            <div className="generalInfo">
 
 
-            {/* MOVIE INFO AREA */}
+              {/* MOVIE INFO AREA */}
 
-            {data && <div className="movieDetails white">
-              <h1 className="cast white flex-center">
-                Details
-                <img src={next} alt="" className='' />
-              </h1>
+              {data && <div className="movieDetails white">
+                <h1 className="cast white flex-center">
+                  Details
+                  <img src={next} alt="" className='' />
+                </h1>
 
-              <div className="watchArea">
+                <div className="watchArea">
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Directed by:
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Directed by:
+                    </div>
+                    <div className="movieDetailField">
+                      {findDirector && `${findDirector.name}`}
+                    </div>
                   </div>
-                  <div className="movieDetailField">
-                    {findDirector && `${findDirector.name}`}
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Genre:
+                    </div>
+                    <div className="movieDetailField genreField">
+                      {data.genres && data.genres.map((el, index) => {
+                        return (<div className='genreKey'>{el.name}</div>)
+                      })}
+                    </div>
                   </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Release Year:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.release_date && data.release_date.split("-")[0]}
+                    </div>
+                  </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Budget:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.budget && `$${addCommas(data.budget)}`}
+                    </div>
+                  </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Collection:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.revenue && `$${addCommas(data.revenue)}`}
+                    </div>
+                  </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Original Language:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.original_language && data.original_language.toUpperCase()}
+                    </div>
+                  </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Runtime:
+                    </div>
+                    <div className="movieDetailField">
+                      {`${data.runtime} Minutes`}
+                    </div>
+                  </div>
+
+                  <div className="flex">
+                    <div className="movieDetailKey">
+                      Rating:
+                    </div>
+                    <div className="movieDetailField">
+                      {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)} %`}
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>}
+
+              {/* MOVIE INFO AREA OVER*/}
+
+              {/* {WATCH AREA} */}
+
+              {watch.results && watch.results.IN && <div className="watch">
+
+                <h1 className="cast white flex-center">
+                  Watch Providers
+                  <img src={next} alt="" className='' />
+                </h1>
+
+                <div className="watchArea white">
+                  {watch && console.log(watch)}
+                  {
+                    watch.results.IN.flatrate &&
+                    <div className="stream">
+
+                      <h2>Stream</h2>
+
+                      {watch && watch.results && watch.results.IN.flatrate && <WatchProvider data={watch.results.IN.flatrate} />}
+
+                    </div>
+                  }
+
+                  {
+                    watch.results.IN.rent &&
+                    <div className="stream">
+
+                      <h2>Rent</h2>
+
+                      {watch && watch.results && watch.results.IN.rent && <WatchProvider data={watch.results.IN.rent} />}
+
+                    </div>
+                  }
+
+                  {
+                    watch.results.IN.buy &&
+                    <div className="stream">
+
+                      <h2>Buy</h2>
+
+                      {watch && watch.results && watch.results.IN.buy && <WatchProvider data={watch.results.IN.buy} />}
+
+                    </div>
+                  }
+
                 </div>
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Genre:
-                  </div>
-                  <div className="movieDetailField genreField">
-                    {data.genres && data.genres.map((el, index) => {
-                      return (<div className='genreKey'>{el.name}</div>)
+              </div>}
+
+              {/* {WATCH AREA OVER} */}
+            
+            </div>
+
+              {/* REVIEW AREA */}
+
+              {review && <div className="reviewArea">
+                <h1 className="cast white flex-center">
+                  Reviews                
+                  <img src={next} alt="" className='' />
+                </h1>
+
+                  <div className="reviewGrid">
+                    {console.log("REVIEWS",review)}
+                    {review && !showAllReviews && review.results && review.results.map((el,index) => {
+                      if(index < 4){
+                      return (<div className='review white'>
+                          <div className="reviewTop">
+                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" />
+                                                           : <img src={profile}/>}
+                            <div className="author">{el.author}</div>
+                          </div>
+                          <div className="reviewRating">
+                            {el.author_details.rating && `${el.author_details.rating} / 10`}
+                          </div>
+                          <div className="reviewContent">
+                            {el.content}
+                          </div>
+                      </div>)}
+                    })}
+                    {review && showAllReviews && review.results && review.results.map((el,index) => {
+                      return (<div className='review white'>
+                          <div className="reviewTop">
+                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" />
+                                                           : <img src={profile}/>}
+                            <div className="author">{el.author}</div>
+                          </div>
+                          <div className="reviewRating">
+                            {el.author_details.rating && `${el.author_details.rating} / 10`}
+                          </div>
+                          <div className="reviewContent">
+                            {el.content}
+                          </div>
+                      </div>)
                     })}
                   </div>
-                </div>
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Release Year:
-                  </div>
-                  <div className="movieDetailField">
-                    {data.release_date && data.release_date.split("-")[0]}
-                  </div>
-                </div>
+                  {review.total_results > 4 && !showAllReviews && <div className='white seeAll' onClick={() => setShowAllReviews(true)}>
+                      <h3>SEE ALL</h3>
+                      <img src={next}/>
+                    </div>}
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Budget:
-                  </div>
-                  <div className="movieDetailField">
-                    {data.budget && `$${addCommas(data.budget)}`}
-                  </div>
-                </div>
+                    {review.total_results > 4 && showAllReviews && <div className='white seeAll seeLess' onClick={() => setShowAllReviews(false)}>
+                      <img src={next}/>
+                      <h3>SEE LESS</h3>
+                    </div>}
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Collection:
-                  </div>
-                  <div className="movieDetailField">
-                    {data.revenue && `$${addCommas(data.revenue)}`}
-                  </div>
-                </div>
+              </div>}
 
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Original Language:
-                  </div>
-                  <div className="movieDetailField">
-                    {data.original_language && data.original_language.toUpperCase()}
-                  </div>
-                </div>
-
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Runtime:
-                  </div>
-                  <div className="movieDetailField">
-                    {`${data.runtime} Minutes`}
-                  </div>
-                </div>
-
-                <div className="flex">
-                  <div className="movieDetailKey">
-                    Rating:
-                  </div>
-                  <div className="movieDetailField">
-                    {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)} %`}
-                  </div>
-                </div>
-
-
-              </div>
-            </div>}
-
-            {/* MOVIE INFO AREA OVER*/}
-
-            {/* {WATCH AREA} */}
-
-            {watch.results && watch.results.IN && <div className="watch">
-
-              <h1 className="cast white flex-center">
-                Watch Providers
-                <img src={next} alt="" className='' />
-              </h1>
-
-              <div className="watchArea white">
-              {watch && console.log(watch)}
-                {
-                  watch.results.IN.flatrate &&
-                  <div className="stream">
-
-                    <h2>Stream</h2>
-
-                    {watch && watch.results && watch.results.IN.flatrate && <WatchProvider data={watch.results.IN.flatrate}/>}
-
-                  </div>
-                }
-
-                {
-                  watch.results.IN.rent &&
-                  <div className="stream">
-
-                    <h2>Rent</h2>
-
-                    {watch && watch.results && watch.results.IN.rent && <WatchProvider data={watch.results.IN.rent}/>}
-
-                  </div>
-                }
-
-                {
-                  watch.results.IN.buy &&
-                  <div className="stream">
-
-                    <h2>Buy</h2>
-
-                    {watch && watch.results && watch.results.IN.buy && <WatchProvider data={watch.results.IN.buy}/>}
-
-                  </div>
-                }
-
-              </div>
-
-            </div>}  
-
-            {/* {WATCH AREA OVER} */}
-
+              {/* REVIEW AREA OVER*/}
 
           </div>
 
+
         </div>
-
-
-      </div>
-    </div>}
+      </div>}
     </>
   )
 }

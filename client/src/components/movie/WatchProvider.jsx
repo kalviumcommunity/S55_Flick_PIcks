@@ -6,7 +6,6 @@ function WatchProvider(props) {
 
     return (
         <div className="watchProviders">
-            {console.log("props",currData)}
             {
                 currData && currData.map(el => {
                     return (
