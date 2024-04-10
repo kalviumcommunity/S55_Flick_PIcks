@@ -17,6 +17,8 @@ import Alert from '@mui/material/Alert';
 
 function Movie() {
 
+  const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
+
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
@@ -95,31 +97,20 @@ function Movie() {
     navigate(`/movie/${id}/similar`)
   }
 
-  const addToWatchlist = async() => {
+  const addToList = async(listName) => {
     const username = sessionStorage.getItem("username")
 
     try{
-      const response = await axios.post(`http://localhost:3000/addToWatchlist/${username}`,data)
+      const response = await axios.post(`${RENDER_LINK}addTo${listName}/${username}`,data)
       if(response.status == 200){
-        setWatchlistAdded(true)
+        set`${listName}Added`(true)
         setTimeout(() => {
-          setWatchlistAdded(false)
+          set`${listName}Added`(false)
         }, 3000)
       }
     }
     catch(err){
-      console.log(err)
-    }
-  }
-
-  const addToLiked = async() => {
-    const username = sessionStorage.getItem("username")
-
-    try{
-      const response = await axios.post(`http://localhost:3000/addToLiked/${username}`,data)
-    }
-    catch(err){
-      console.log(err)
+      console.log(`unable to add to ${listName}`,err)
     }
   }
 
@@ -196,11 +187,11 @@ function Movie() {
                   
                   <div className="movieButtonsArea">
 
-                <button className='addToWatchlist' onClick={() => addToWatchlist()}>
+                <button className='addToWatchlist' onClick={() => addToList(Watchlist)}>
                   <img src={Watchlist} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
 
-                <button className='addToWatchlist bg-black' onClick={() => addToLiked()}>
+                <button className='addToWatchlist bg-black' onClick={() => addToList(Liked)}>
                   <img src={heart} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
                   </div>
