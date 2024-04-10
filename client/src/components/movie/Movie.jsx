@@ -9,6 +9,11 @@ import arrow from '../../assets/arrow.png'
 import { useNavigate } from 'react-router-dom';
 import WatchProvider from './WatchProvider';
 import profile from '../../assets/profile.png'
+import heart from '../../assets/heart.png'
+
+import Alert from '@mui/material/Alert';
+
+
 
 function Movie() {
 
@@ -22,7 +27,6 @@ function Movie() {
   const [review, setReview] = useState([])
 
   const { id } = useParams()
-  // const MOVIE_ID = '157336'
 
   const MOVIE_URL = `https://api.themoviedb.org/3/movie/${id}?language=en-US`
   const CREDIS_URL = `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`
@@ -91,8 +95,82 @@ function Movie() {
     navigate(`/movie/${id}/similar`)
   }
 
+  const addToWatchlist = async() => {
+    const username = sessionStorage.getItem("username")
+
+    try{
+      const response = await axios.post(`http://localhost:3000/addToWatchlist/${username}`,data)
+      if(response.status == 200){
+        setWatchlistAdded(true)
+        setTimeout(() => {
+          setWatchlistAdded(false)
+        }, 3000)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  const addToLiked = async() => {
+    const username = sessionStorage.getItem("username")
+
+    try{
+      const response = await axios.post(`http://localhost:3000/addToLiked/${username}`,data)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  const [watchlistAdded,setWatchlistAdded] = useState(false)
+  const [watchlistAlready,setWatchlistAlready] = useState(false)
+  const [watchlistRemoved,setWatchlistRemoved] = useState(false)
+
+  const [likedAdded,setLikedAdded] = useState(false)
+  const [likedAlready,setLikedAlready] = useState(false)
+  const [likedRemoved,setLikedRemoved] = useState(false)
+
   return (
     <>
+
+      <div className="alertArea">
+        {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
+          <h2>
+            Movie added to Watchlist
+          </h2>
+        </Alert>}
+
+        {watchlistAlready && <Alert variant="filled" severity="info" className='alert'>
+          <h2>
+            Movie already in Watchlist
+          </h2>
+        </Alert>}
+
+        {watchlistRemoved && <Alert variant="filled" severity="error" className='alert'>
+          <h2>
+            Movie removed from Watchlist
+          </h2>
+        </Alert>}
+
+        {likedAdded && <Alert variant="filled" severity="success" className='alert'>
+          <h2>
+            Movie added to Watchlist
+          </h2>
+        </Alert>}
+
+        {likedAlready && <Alert variant="filled" severity="info" className='alert'>
+          <h2>
+            Movie already in Watchlist
+          </h2>
+        </Alert>}
+
+        {likedRemoved && <Alert variant="filled" severity="error" className='alert'>
+          <h2>
+            Movie removed from Watchlist
+          </h2>
+        </Alert>}
+      </div>
       {data && <div>
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy"/>}
         <div className="gradient">
@@ -115,13 +193,17 @@ function Movie() {
                 <div className="overview">
                   {data.overview}
                 </div>
+                  
+                  <div className="movieButtonsArea">
 
-                <button className='addToWatchlist'>
-                  <div>
-                    ADD TO WATCHLIST
-                  </div>
+                <button className='addToWatchlist' onClick={() => addToWatchlist()}>
                   <img src={Watchlist} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
+
+                <button className='addToWatchlist bg-black' onClick={() => addToLiked()}>
+                  <img src={heart} alt="watchlist logo" className='watchlist' loading="lazy"/>
+                </button>
+                  </div>
               </div>
             </div>
           </div>

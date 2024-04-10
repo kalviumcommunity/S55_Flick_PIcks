@@ -59,4 +59,48 @@ router.post('/userExists',async(req,res)=>{
     }
 })
 
+router.post('/addToWatchlist/:username', async(req,res) => {
+    const {username} = req.params
+    const movie = req.body
+
+    try{
+        const user = await userModel.findOne({username})
+        
+        console.log(movie)
+        
+        user.watchlist.push(movie)
+        
+        await user.save()
+
+        console.log(user)
+
+        res.status(200).json(movie)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/addToLiked/:username', async(req,res) => {
+    const {username} = req.params
+    const movie = req.body
+
+    try{
+        const user = await userModel.findOne({username})
+        
+        console.log(movie)
+        
+        user.liked.push(movie)
+        
+        await user.save()
+
+        console.log(user)
+
+        res.json(movie)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router
