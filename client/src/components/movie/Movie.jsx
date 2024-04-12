@@ -17,6 +17,8 @@ import Alert from '@mui/material/Alert';
 
 function Movie() {
 
+  const API_KEY = process.env.API_KEY
+
   const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
 
   const navigate = useNavigate()
@@ -44,7 +46,7 @@ function Movie() {
       url: passed_url,
       headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NjYxNmNlYTAzZmFiNTU0YWM1NGEyZTdlMWE4YzIwMiIsInN1YiI6IjY1ZjI4Y2MxMmZkZWM2MDE4OTIzM2E4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eccxvzxCctqBTZ8lXeSUHgTBcc5r17hhsNLVy845QA4'
+        Authorization: `Bearer ${API_KEY}`
       }
     }
   }
@@ -131,6 +133,7 @@ function Movie() {
       }
     }
     catch(err){
+      alert("Unable to add movie to watchlist. Try sigining in!")
       console.log(err)
     }
   }
