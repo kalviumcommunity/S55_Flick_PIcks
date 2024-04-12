@@ -99,42 +99,55 @@ function Movie() {
 
   const addToList = async(listName) => {
     const username = sessionStorage.getItem("username")
-
     try{
-      const response = await axios.post(`${RENDER_LINK}addTo${listName}/${username}`,data)
-      if(response.status == 200){
-        set`${listName}Added`(true)
-        setTimeout(() => {
-          set`${listName}Added`(false)
-        }, 3000)
+      const response = await axios.post(`http://localhost:3000/addTo${listName}/${username}`,data)
+      if(listName == "Watchlist"){
+        if(response.status == 200){
+          setWatchlistAdded(true)
+          setTimeout(()=>{
+            setWatchlistAdded(false)
+          },3000)
+        }
+        else if(response.status == 201){
+          setWatchlistRemoved(true)
+          setTimeout(()=>{
+            setWatchlistRemoved(false)
+          },3000)
+        }
+      }
+      else if(listName == "Liked"){
+        if(response.status == 200){
+          setLikedAdded(true)
+          setTimeout(()=>{
+            setLikedAdded(false)
+          },3000)
+        }
+        else if(response.status == 201){
+          setLikedRemoved(true)
+          setTimeout(()=>{
+            setLikedRemoved(false)
+          },3000)
+        }
       }
     }
     catch(err){
-      console.log(`unable to add to ${listName}`,err)
+      console.log(err)
     }
   }
 
   const [watchlistAdded,setWatchlistAdded] = useState(false)
-  const [watchlistAlready,setWatchlistAlready] = useState(false)
   const [watchlistRemoved,setWatchlistRemoved] = useState(false)
 
   const [likedAdded,setLikedAdded] = useState(false)
-  const [likedAlready,setLikedAlready] = useState(false)
   const [likedRemoved,setLikedRemoved] = useState(false)
 
   return (
     <>
 
-      <div className="alertArea">
+      <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
             Movie added to Watchlist
-          </h2>
-        </Alert>}
-
-        {watchlistAlready && <Alert variant="filled" severity="info" className='alert'>
-          <h2>
-            Movie already in Watchlist
           </h2>
         </Alert>}
 
@@ -147,12 +160,6 @@ function Movie() {
         {likedAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
             Movie added to Watchlist
-          </h2>
-        </Alert>}
-
-        {likedAlready && <Alert variant="filled" severity="info" className='alert'>
-          <h2>
-            Movie already in Watchlist
           </h2>
         </Alert>}
 
@@ -187,11 +194,11 @@ function Movie() {
                   
                   <div className="movieButtonsArea">
 
-                <button className='addToWatchlist' onClick={() => addToList(Watchlist)}>
+                <button className='addToWatchlist' onClick={() => addToList("Watchlist")}>
                   <img src={Watchlist} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
 
-                <button className='addToWatchlist bg-black' onClick={() => addToList(Liked)}>
+                <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
                   <img src={heart} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
                   </div>

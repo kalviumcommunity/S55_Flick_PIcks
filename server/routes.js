@@ -4,6 +4,7 @@ const router = express.Router()
 router.use(express.json())
 
 const userModel = require('./userSchema')
+const movieModel = require('./moviesSchema')
 
 router.get('/users',async(req,res)=>{
     try{
@@ -63,21 +64,23 @@ router.post('/addToWatchlist/:username', async(req,res) => {
     const {username} = req.params
     const movie = req.body
 
-    try{
-        const user = await userModel.findOne({username})
-        
-        console.log(movie)
-        
-        user.watchlist.push(movie)
-        
+    const user = await userModel.findOne({username})
+    const isMoviePresent = user.watchlist.find(item => item.id == movie.id)
+    if(isMoviePresent){
+        const newWatchlist = user.watchlist.filter(item => item.id != movie.id)
+        user.watchlist = newWatchlist
         await user.save()
-
-        console.log(user)
-
-        res.status(200).json(movie)
+        return res.status(201).json({"Status":"Movie removed"})
     }
-    catch(err){
-        console.log(err)
+    else{
+        try{
+            user.watchlist.push(movie)
+            await user.save()
+            res.status(200).json(movie)
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 })
 
@@ -85,18 +88,47 @@ router.post('/addToLiked/:username', async(req,res) => {
     const {username} = req.params
     const movie = req.body
 
-    try{
-        const user = await userModel.findOne({username})
-        
-        console.log(movie)
-        
-        user.liked.push(movie)
-        
+    const user = await userModel.findOne({username})
+    const isMoviePresent = user.liked.find(item => item.id == movie.id)
+    if(isMoviePresent){
+        const newliked = user.liked.filter(item => item.id != movie.id)
+        user.liked = newliked
         await user.save()
+        return res.status(201).json({"Status":"Movie removed"})
+    }
+    else{
+        try{
+            user.liked.push(movie)
+            await user.save()
+            res.status(200).json(movie)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+})
 
-        console.log(user)
+router.get('/movies',async(req,res)=>{
+    try{
+        const test = await movieModel.find({})
+        res.send(test)
+        console.log(test)
+    }
+    catch(err){
+        console.log("USER ERROR",err)
+    }
+})
 
-        res.json(movie)
+router.post('/add',async(req,res) => {
+    try{
+        const user = await movieModel.findOne({"user":"admin"})
+
+        // user.sports.push(req.body)
+        
+        // user.random.push(req.body)
+        user.sports.map(el => console.log(el.title))
+        await user.save()
+        res.status(200).json(req.body)
     }
     catch(err){
         console.log(err)

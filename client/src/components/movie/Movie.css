@@ -81,11 +81,11 @@
     cursor: pointer;
 }
 
-.bg-black{
+.bg-black {
     /* background-color: rgb(255, 255, 255); */
 }
 
-.movieButtonsArea{
+.movieButtonsArea {
     display: flex;
 }
 
@@ -439,67 +439,72 @@
     flex-direction: column;
 }
 
-.seeAll:hover{
+.seeAll:hover {
     cursor: pointer;
 }
 
-.seeAll h3{
+.seeAll h3 {
     text-align: center;
 }
 
-.seeAll img{
+.seeAll img {
     width: 50px;
     transform: rotate(90deg);
 }
 
-.seeLess img{
+.seeLess img {
     transform: rotate(-90deg);
     margin-bottom: 10px;
 }
 
-.castPage{
+.castPage {
     display: grid;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(6, 1fr);
 }
 
-.flex-end{
+.flex-end {
     display: flex;
     align-items: center;
     margin-bottom: 50px;
     cursor: pointer;
 }
 
-.flex-end img{
+.flex-end img {
     height: 300px;
 }
 
-.flex-end div{
+.flex-end div {
     width: 800px;
 }
 
-.recsPage{
+.recsPage {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
-.recsPageCenterMovie{
-        width: 88vw;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        margin: 50px 0px;
+.recsPageCenterMovie {
+    width: 88vw;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 50px 0px;
 }
 
-.alert{
+.alert {
     width: 50vw;
     display: flex;
     height: 60px;
     align-items: center;
     font-size: 30px;
+    transition: opacity 0.5s;
+}
+
+.show {
+    transition: opacity 0.5s;
     opacity: 0.9;
 }
 
-.alertArea{
+.alertArea {
     width: 100%;
     display: flex;
     align-items: center;
