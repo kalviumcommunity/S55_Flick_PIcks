@@ -13,11 +13,14 @@ import heart from '../../assets/heart.png'
 
 import Alert from '@mui/material/Alert';
 
+import watchlistInLogo from '../../assets/watchlist in.png'
+import watchlistOutLogo from '../../assets/watchlist out.png'
+
+import likedInLogo from '../../assets/liked in.png'
+import likedOutLogo from '../../assets/liked out.png'
 
 
 function Movie() {
-
-  const API_KEY = process.env.API_KEY
 
   const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
 
@@ -46,7 +49,7 @@ function Movie() {
       url: passed_url,
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${API_KEY}`
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NjYxNmNlYTAzZmFiNTU0YWM1NGEyZTdlMWE4YzIwMiIsInN1YiI6IjY1ZjI4Y2MxMmZkZWM2MDE4OTIzM2E4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eccxvzxCctqBTZ8lXeSUHgTBcc5r17hhsNLVy845QA4`
       }
     }
   }
@@ -75,7 +78,6 @@ function Movie() {
   const [showAllReviews,setShowAllReviews] = useState(false)
 
   const handleMovieClick = (movie_id) => {
-    console.log(movie_id)
     navigate(`/movie/${movie_id}`)
   }
 
@@ -136,6 +138,7 @@ function Movie() {
       alert("Unable to add movie to watchlist. Try sigining in!")
       console.log(err)
     }
+    handle()
   }
 
   const [watchlistAdded,setWatchlistAdded] = useState(false)
@@ -143,6 +146,38 @@ function Movie() {
 
   const [likedAdded,setLikedAdded] = useState(false)
   const [likedRemoved,setLikedRemoved] = useState(false)
+
+  const [inWachlist,setInWachlist] = useState(false)
+  const [inLiked,setInLiked] = useState(false)
+
+  useEffect(() => {
+    if(data){
+      handle()
+    }
+  },[data,inWachlist,inLiked])
+  
+  const handle = async() => {
+
+    const username = sessionStorage.getItem("username")
+
+    console.log("handle is working")
+
+    const res1 = await axios.post(`http://localhost:3000/isInWatchlist/${username}`,data)
+    if(res1.status == 200){
+      setInWachlist(true)
+    }
+    else{
+      setInWachlist(false)
+    }
+
+    const res2 = await axios.post(`http://localhost:3000/isInLiked/${username}`,data)
+    if(res2.status == 200){
+      setInLiked(true)
+    }
+    else{
+      setInLiked(false)
+    }
+  }
 
   return (
     <>
@@ -162,13 +197,13 @@ function Movie() {
 
         {likedAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
-            Movie added to Watchlist
+            Movie added to Liked list
           </h2>
         </Alert>}
 
         {likedRemoved && <Alert variant="filled" severity="error" className='alert'>
           <h2>
-            Movie removed from Watchlist
+            Movie removed from Liked list
           </h2>
         </Alert>}
       </div>
@@ -179,7 +214,7 @@ function Movie() {
             <div className="descArea mons white">
             {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy"/>}
               <div className="movieInfo">
-                <div className="title">{data.original_title}</div>
+                <div className="title">{data.title}</div>
                 <div className="general">
                   <span>{data.release_date && data.release_date.split("-")[0]}</span>
                   <span>{data.runtime}M</span>
@@ -198,11 +233,11 @@ function Movie() {
                   <div className="movieButtonsArea">
 
                 <button className='addToWatchlist' onClick={() => addToList("Watchlist")}>
-                  <img src={Watchlist} alt="watchlist logo" className='watchlist' loading="lazy"/>
+                  <img src={inWachlist ? watchlistInLogo : watchlistOutLogo} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
 
                 <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
-                  <img src={heart} alt="watchlist logo" className='watchlist' loading="lazy"/>
+                  <img src={inLiked ? likedInLogo : likedOutLogo} alt="watchlist logo" className='watchlist' loading="lazy"/>
                 </button>
                   </div>
               </div>
@@ -414,7 +449,6 @@ function Movie() {
                 </h1>
 
                 <div className="watchArea white">
-                  {watch && console.log(watch)}
                   {
                     watch.results.IN.flatrate &&
                     <div className="stream">
@@ -465,7 +499,6 @@ function Movie() {
                 </h1>
 
                   <div className="reviewGrid">
-                    {console.log("REVIEWS",review)}
                     {review && !showAllReviews && review.results && review.results.map((el,index) => {
                       if(index < 4){
                       return (<div className='review white'>

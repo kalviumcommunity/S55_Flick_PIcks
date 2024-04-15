@@ -12,6 +12,7 @@ import Cast from './components/movie/info/Cast'
 import Recs from './components/movie/info/Recs'
 import Similar from './components/movie/info/Similar'
 import Search from './components/search/Search'
+import User from './components/user/User'
 
 function App() {
   {console.log("Hi!")}
@@ -30,6 +31,8 @@ function App() {
         
         <Route path='/person/:id' element={<Person/>}/>
         <Route path='/search' element={<Search/>}/>
+
+        <Route path='/user/:username' element={<User/>}/>
       </Routes>
     </>
   )
