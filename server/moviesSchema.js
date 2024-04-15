@@ -12,7 +12,7 @@ const movieSchema = mongoose.Schema({
     sports : Array,
     random : Array,
     user : String,
-    unique : Array
+    unique : [Object]
 })
 
 const movieModel = mongoose.model("recommendation",movieSchema)

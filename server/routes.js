@@ -119,27 +119,27 @@ router.get('/movies',async(req,res)=>{
     }
 })
 
-router.post('/add',async(req,res) => {
-    try{
-        const user = await movieModel.findOne({"user":"admin"})
+// router.post('/add',async(req,res) => {
+//     try{
+//         const user = await movieModel.findOne({"user":"admin"})
 
-        user.random = user.unique
+//         user.random = user.unique
 
-        await user.save()
-        console.log(user.unique.length)
-        res.status(200).json(req.body)
-    }
-    catch(err){
-        console.log(err)
-    }
-})
+//         await user.save()
+//         console.log(user.unique.length)
+//         res.status(200).json(req.body)
+//     }
+//     catch(err){
+//         console.log(err)
+//     }
+// })
 
 router.post('/isInWatchlist/:username', async(req,res) => {
     const {username} = req.params
     const movie = req.body
 
     const user = await userModel.findOne({username})
-    const isMoviePresent = user.watchlist.find(item => item.id == movie.id)
+    const isMoviePresent = user.watchlist.find(item => item.id === movie.id)
 
     if(isMoviePresent){
         return res.status(200).json("Movie is in Watchlist")
@@ -154,7 +154,7 @@ router.post('/isInLiked/:username', async(req,res) => {
     const movie = req.body
 
     const user = await userModel.findOne({username})
-    const isMoviePresent = user.liked.find(item => item.id == movie.id)
+    const isMoviePresent = user.liked.find(item => item.id === movie.id)
     
     if(isMoviePresent){
         return res.status(200).json("Movie is in Liked")
