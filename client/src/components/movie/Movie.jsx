@@ -19,6 +19,9 @@ import watchlistOutLogo from '../../assets/watchlist out.png'
 import likedInLogo from '../../assets/liked in.png'
 import likedOutLogo from '../../assets/liked out.png'
 
+import watchedIn from '../../assets/watchedIn.png'
+import watchedOut from '../../assets/watchedOut.png'
+
 
 function Movie() {
 
@@ -40,7 +43,7 @@ function Movie() {
   const RECOMMENDATIONS_URL = `https://api.themoviedb.org/3/movie/${id}/recommendations?language=en-US&page=1`
   const SIMILAR_URL = `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`
   const WATCH_URL = `https://api.themoviedb.org/3/movie/${id}/watch/providers`
-  const REVIEW_URL =  `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`
+  const REVIEW_URL = `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`
 
 
   const API_METHOD = (passed_url) => {
@@ -75,7 +78,7 @@ function Movie() {
 
   }, [id])
 
-  const [showAllReviews,setShowAllReviews] = useState(false)
+  const [showAllReviews, setShowAllReviews] = useState(false)
 
   const handleMovieClick = (movie_id) => {
     navigate(`/movie/${movie_id}`)
@@ -101,88 +104,114 @@ function Movie() {
     navigate(`/movie/${id}/similar`)
   }
 
-  const addToList = async(listName) => {
+  const addToList = async (listName) => {
     const username = sessionStorage.getItem("username")
-    try{
-      const response = await axios.post(`http://localhost:3000/addTo${listName}/${username}`,data)
-      if(listName == "Watchlist"){
-        if(response.status == 200){
+    try {
+      const response = await axios.post(`http://localhost:3000/addTo${listName}/${username}`, data)
+      if (listName == "Watchlist") {
+        if (response.status == 200) {
           setWatchlistAdded(true)
-          setTimeout(()=>{
+          setTimeout(() => {
             setWatchlistAdded(false)
-          },3000)
+          }, 3000)
         }
-        else if(response.status == 201){
+        else if (response.status == 201) {
           setWatchlistRemoved(true)
-          setTimeout(()=>{
+          setTimeout(() => {
             setWatchlistRemoved(false)
-          },3000)
+          }, 3000)
         }
       }
-      else if(listName == "Liked"){
-        if(response.status == 200){
+      else if (listName == "Liked") {
+        if (response.status == 200) {
           setLikedAdded(true)
-          setTimeout(()=>{
+          setTimeout(() => {
             setLikedAdded(false)
-          },3000)
+          }, 3000)
         }
-        else if(response.status == 201){
+        else if (response.status == 201) {
           setLikedRemoved(true)
-          setTimeout(()=>{
+          setTimeout(() => {
             setLikedRemoved(false)
-          },3000)
+          }, 3000)
+        }
+      }
+      else if (listName == "Watched") {
+        if (response.status == 200) {
+          setWatchedAdded(true)
+          setTimeout(() => {
+            setWatchedAdded(false)
+          }, 3000)
+        }
+        else if (response.status == 201) {
+          setWatchedRemoved(true)
+          setTimeout(() => {
+            setWatchedRemoved(false)
+          }, 3000)
         }
       }
     }
-    catch(err){
+    catch (err) {
       alert("Unable to add movie to watchlist. Try sigining in!")
       console.log(err)
     }
     handle()
   }
 
-  const [watchlistAdded,setWatchlistAdded] = useState(false)
-  const [watchlistRemoved,setWatchlistRemoved] = useState(false)
+  const [watchlistAdded, setWatchlistAdded] = useState(false)
+  const [watchlistRemoved, setWatchlistRemoved] = useState(false)
 
-  const [likedAdded,setLikedAdded] = useState(false)
-  const [likedRemoved,setLikedRemoved] = useState(false)
+  const [likedAdded, setLikedAdded] = useState(false)
+  const [likedRemoved, setLikedRemoved] = useState(false)
 
-  const [inWachlist,setInWachlist] = useState(false)
-  const [inLiked,setInLiked] = useState(false)
+  const [watchedAdded, setWatchedAdded] = useState(false)
+  const [watchedRemoved, setWatchedRemoved] = useState(false)
+
+  const [inWachlist, setInWachlist] = useState(false)
+  const [inLiked, setInLiked] = useState(false)
+  const [inWatched, setInWatched] = useState(false)
 
   useEffect(() => {
-    if(data){
+    if (data) {
       handle()
     }
-  },[data,inWachlist,inLiked])
-  
-  const handle = async() => {
+  }, [data, inWachlist, inLiked,inWatched])
+
+  const handle = async () => {
 
     const username = sessionStorage.getItem("username")
 
     console.log("handle is working")
 
-    const res1 = await axios.post(`http://localhost:3000/isInWatchlist/${username}`,data)
-    if(res1.status == 200){
+    const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatchlist/${username}`, data)
+    if (res1.status == 200) {
       setInWachlist(true)
     }
-    else{
+    else {
       setInWachlist(false)
     }
 
-    const res2 = await axios.post(`http://localhost:3000/isInLiked/${username}`,data)
-    if(res2.status == 200){
+    const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInLiked/${username}`, data)
+    if (res2.status == 200) {
       setInLiked(true)
     }
-    else{
+    else {
       setInLiked(false)
+    }
+
+    const res3 = await axios.post(`http://localhost:3000/isInWatched/${username}`, data)
+    if (res3.status == 200) {
+      setInWatched(true)
+    }
+    else {
+      setInWatched(false)
     }
   }
 
   return (
     <>
 
-      <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved ? 'show' : ''}`}>
+      <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
             Movie added to Watchlist
@@ -206,13 +235,25 @@ function Movie() {
             Movie removed from Liked list
           </h2>
         </Alert>}
+
+        {watchedAdded && <Alert variant="filled" severity="success" className='alert'>
+          <h2>
+            Movie added to Watched list
+          </h2>
+        </Alert>}
+
+        {watchedRemoved && <Alert variant="filled" severity="error" className='alert'>
+          <h2>
+            Movie removed from Watched list
+          </h2>
+        </Alert>}
       </div>
       {data && <div>
-        {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy"/>}
+        {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
           <div className="description">
             <div className="descArea mons white">
-            {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy"/>}
+              {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy" />}
               <div className="movieInfo">
                 <div className="title">{data.title}</div>
                 <div className="general">
@@ -229,17 +270,21 @@ function Movie() {
                 <div className="overview">
                   {data.overview}
                 </div>
-                  
-                  <div className="movieButtonsArea">
 
-                <button className='addToWatchlist' onClick={() => addToList("Watchlist")}>
-                  <img src={inWachlist ? watchlistInLogo : watchlistOutLogo} alt="watchlist logo" className='watchlist' loading="lazy"/>
-                </button>
+                <div className="movieButtonsArea">
 
-                <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
-                  <img src={inLiked ? likedInLogo : likedOutLogo} alt="watchlist logo" className='watchlist' loading="lazy"/>
-                </button>
-                  </div>
+                  <button className='addToWatchlist' onClick={() => addToList("Watched")}>
+                    <img src={inWatched ? watchedIn : watchedOut} className='watchlist' loading="lazy" />
+                  </button>
+
+                  <button className='addToWatchlist' onClick={() => addToList("Watchlist")}>
+                    <img src={inWachlist ? watchlistInLogo : watchlistOutLogo} className='watchlist' loading="lazy" />
+                  </button>
+
+                  <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
+                    <img src={inLiked ? likedInLogo : likedOutLogo}className='watchlist' loading="lazy" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -252,7 +297,7 @@ function Movie() {
 
             <h1 className='white cast flex-center'>
               Cast and Crew
-              <img src={next} alt="" className='' loading="lazy"/>
+              <img src={next} alt="" className='' loading="lazy" />
             </h1>
 
             <div className='profileArea scrollbar'>
@@ -260,7 +305,7 @@ function Movie() {
                 if (index < 10) {
                   return (
                     <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
-                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy"/>}  
+                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy" />}
                       <h2>{el.name}</h2>
                       <h3>{el.character}</h3>
                     </div>
@@ -270,7 +315,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectClass}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
               </div>
             </div>
 
@@ -280,7 +325,7 @@ function Movie() {
 
             <h1 className="cast white flex-center">
               Recommendations
-              <img src={next} alt="" className='' loading="lazy"/>
+              <img src={next} alt="" className='' loading="lazy" />
             </h1>
 
             <div className='profileArea scrollbar'>
@@ -288,10 +333,10 @@ function Movie() {
                 if (index < 10) {
                   return (
                     <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path &&<img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`}  className='recBackdrop' loading="lazy"/>}
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
                       <div className="partialGrad white"></div>
                       <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' loading="lazy"/>}
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' loading="lazy" />}
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
@@ -304,7 +349,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectRecs}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
 
               </div>
             </div>
@@ -323,10 +368,10 @@ function Movie() {
                 if (index < 10 && index > 0) {
                   return (
                     <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy"/>}
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
                       <div className="partialGrad white"></div>
                       <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' loading="lazy"/>}
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' loading="lazy" />}
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
@@ -339,7 +384,7 @@ function Movie() {
 
               <div className="more white" onClick={redirectSimilar}>
                 <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy"/>
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
 
               </div>
             </div>
@@ -354,7 +399,7 @@ function Movie() {
               {data && <div className="movieDetails white">
                 <h1 className="cast white flex-center">
                   Details
-                  <img src={next} alt="" className='' loading="lazy"/>
+                  <img src={next} alt="" className='' loading="lazy" />
                 </h1>
 
                 <div className="watchArea">
@@ -445,7 +490,7 @@ function Movie() {
 
                 <h1 className="cast white flex-center">
                   Watch Providers
-                  <img src={next} alt="" className='' loading="lazy"/>
+                  <img src={next} alt="" className='' loading="lazy" />
                 </h1>
 
                 <div className="watchArea white">
@@ -487,64 +532,65 @@ function Movie() {
               </div>}
 
               {/* {WATCH AREA OVER} */}
-            
+
             </div>
 
-              {/* REVIEW AREA */}
+            {/* REVIEW AREA */}
 
-              {review && <div className="reviewArea">
-                <h1 className="cast white flex-center">
-                  Reviews                
-                  <img src={next} alt="" className='' loading="lazy"/>
-                </h1>
+            {review && <div className="reviewArea">
+              <h1 className="cast white flex-center">
+                Reviews
+                <img src={next} alt="" className='' loading="lazy" />
+              </h1>
 
-                  <div className="reviewGrid">
-                    {review && !showAllReviews && review.results && review.results.map((el,index) => {
-                      if(index < 4){
-                      return (<div className='review white'>
-                          <div className="reviewTop">
-                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy"/>
-                                                           : <img src={profile}loading="lazy"/>}
-                            <div className="author">{el.author}</div>
-                          </div>
-                          <div className="reviewRating">
-                            {el.author_details.rating && `${el.author_details.rating} / 10`}
-                          </div>
-                          <div className="reviewContent">
-                            {el.content}
-                          </div>
-                      </div>)}
-                    })}
-                    {review && showAllReviews && review.results && review.results.map((el,index) => {
-                      return (<div className='review white'>
-                          <div className="reviewTop">
-                            {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy"/>
-                                                           : <img src={profile}loading="lazy"/>}
-                            <div className="author">{el.author}</div>
-                          </div>
-                          <div className="reviewRating">
-                            {el.author_details.rating && `${el.author_details.rating} / 10`}
-                          </div>
-                          <div className="reviewContent">
-                            {el.content}
-                          </div>
-                      </div>)
-                    })}
-                  </div>
+              <div className="reviewGrid">
+                {review && !showAllReviews && review.results && review.results.map((el, index) => {
+                  if (index < 4) {
+                    return (<div className='review white'>
+                      <div className="reviewTop">
+                        {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy" />
+                          : <img src={profile} loading="lazy" />}
+                        <div className="author">{el.author}</div>
+                      </div>
+                      <div className="reviewRating">
+                        {el.author_details.rating && `${el.author_details.rating} / 10`}
+                      </div>
+                      <div className="reviewContent">
+                        {el.content}
+                      </div>
+                    </div>)
+                  }
+                })}
+                {review && showAllReviews && review.results && review.results.map((el, index) => {
+                  return (<div className='review white'>
+                    <div className="reviewTop">
+                      {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy" />
+                        : <img src={profile} loading="lazy" />}
+                      <div className="author">{el.author}</div>
+                    </div>
+                    <div className="reviewRating">
+                      {el.author_details.rating && `${el.author_details.rating} / 10`}
+                    </div>
+                    <div className="reviewContent">
+                      {el.content}
+                    </div>
+                  </div>)
+                })}
+              </div>
 
-                  {review.total_results > 4 && !showAllReviews && <div className='white seeAll' onClick={() => setShowAllReviews(true)}>
-                      <h3>SEE ALL</h3>
-                      <img src={next}loading="lazy"/>
-                    </div>}
-
-                    {review.total_results > 4 && showAllReviews && <div className='white seeAll seeLess' onClick={() => setShowAllReviews(false)}>
-                      <img src={next}loading="lazy"/>
-                      <h3>SEE LESS</h3>
-                    </div>}
-
+              {review.total_results > 4 && !showAllReviews && <div className='white seeAll' onClick={() => setShowAllReviews(true)}>
+                <h3>SEE ALL</h3>
+                <img src={next} loading="lazy" />
               </div>}
 
-              {/* REVIEW AREA OVER*/}
+              {review.total_results > 4 && showAllReviews && <div className='white seeAll seeLess' onClick={() => setShowAllReviews(false)}>
+                <img src={next} loading="lazy" />
+                <h3>SEE LESS</h3>
+              </div>}
+
+            </div>}
+
+            {/* REVIEW AREA OVER*/}
 
           </div>
 

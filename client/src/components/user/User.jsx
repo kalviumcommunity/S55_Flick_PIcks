@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './User.css'
 
 import { useParams } from 'react-router-dom'
@@ -29,10 +29,16 @@ function User() {
 
     console.log(username)
 
+    const [selectedTile, setSelectedTile] = useState(0);
+
+    const selectTile = (index) => {
+        setSelectedTile(index);
+    };
+
     return (
         <div className="MainUser">
 
-                <div className="userNav white mons">
+            {/* <div className="userNav white mons">
 
                     <div className="tile ">
                         <div className="tileWhite">
@@ -70,8 +76,9 @@ function User() {
                         </div>
                         RECOMMENDED
                     </div>
-            </div>
+            </div> */}
             <div className="userPage white mons">
+
                 <div className="userInfoArea">
                     <div className="userBackdropArea">
                         <div id="outer">
@@ -81,6 +88,7 @@ function User() {
                     </div>
 
                 </div>
+
                 <div className="userProfilePic">
                     <img src={profilePic} />
                     <div className="userProfileName">
@@ -89,102 +97,147 @@ function User() {
                     </div>
                 </div>
 
-                <div className="userFavFilms">
-                    <h5>FAVOURITE FILMS</h5>
-                    <hr />
-                    <div className="fourFavs">
-                        <div className="imgArea">
-                            <img src={m1} alt="" />
-                            <div className="userImgGradient">
-                                INTERSTELLAR
-                                (2014)
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={m2} alt="" />
-                            <div className="userImgGradient">
-                                GONE GIRL
-                                (2014)
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={m3} alt="" />
-                            <div className="userImgGradient">
-                                KISS KISS BANG BANG
-                                (2005)
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={m4} alt="" />
-                            <div className="userImgGradient">
-                                THE SOCIAL NETWROK
-                                (2010)
-                            </div>
-                        </div>
+                <div className="selectBar">
+                    <div className={selectedTile === 0 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(0)}>
+                        PROFILE
+                    </div>
+                    <div className={selectedTile === 1 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(1)}>
+                        WATCHED
+                    </div>
+                    <div className={selectedTile === 2 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(2)}>
+                        WATCHLIST
+                    </div>
+                    <div className={selectedTile === 3 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(3)}>
+                        LIKED
+                    </div>
+                    <div className={selectedTile === 4 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(4)}>
+                        RECOMMENDED
                     </div>
                 </div>
 
-                <div className="userFavFilms">
-                    <h5>FAVOURITE ACTORS</h5>
-                    <hr />
-                    <div className="fourFavs">
-                        <div className="imgArea">
-                            <img src={a1} alt="" />
-                            <div className="userImgGradient">
-                                BRAD PITT
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={a2} alt="" />
-                            <div className="userImgGradient">
-                                CHRISTIAN BALE
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={a3} alt="" />
-                            <div className="userImgGradient">
-                                EMMA STONE
-                            </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={a4} alt="" />
-                            <div className="userImgGradient">
-                                JENNIFER LAWRENCE
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {selectedTile == 0 ? <div className="userProfileTile">
 
-                <div className="userFavFilms">
-                    <h5>FAVOURITE DIRECTORS</h5>
-                    <hr />
-                    <div className="fourFavs">
-                        <div className="imgArea">
-                            <img src={d1} alt="" />
-                            <div className="userImgGradient">
-                                DAVID FINCHER
+                    <div className="userFavFilms">
+                        <h5>FAVOURITE FILMS</h5>
+                        <hr />
+                        <div className="fourFavs">
+                            <div className="imgArea">
+                                <img src={m1} alt="" />
+                                <div className="userImgGradient">
+                                    INTERSTELLAR
+                                    (2014)
+                                </div>
                             </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={d2} alt="" />
-                            <div className="userImgGradient">
-                                CHRISTOPHER NOLAN
+                            <div className="imgArea">
+                                <img src={m2} alt="" />
+                                <div className="userImgGradient">
+                                    GONE GIRL
+                                    (2014)
+                                </div>
                             </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={d3} alt="" />
-                            <div className="userImgGradient">
-                                DENIS VILLENUEVE
+                            <div className="imgArea">
+                                <img src={m3} alt="" />
+                                <div className="userImgGradient">
+                                    KISS KISS BANG BANG
+                                    (2005)
+                                </div>
                             </div>
-                        </div>
-                        <div className="imgArea">
-                            <img src={d4} alt="" />
-                            <div className="userImgGradient">
-                                DAMIEN CHEZELLE
+                            <div className="imgArea">
+                                <img src={m4} alt="" />
+                                <div className="userImgGradient">
+                                    THE SOCIAL NETWROK
+                                    (2010)
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <div className="userFavFilms">
+                        <h5>FAVOURITE ACTORS</h5>
+                        <hr />
+                        <div className="fourFavs">
+                            <div className="imgArea">
+                                <img src={a1} alt="" />
+                                <div className="userImgGradient">
+                                    BRAD PITT
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={a2} alt="" />
+                                <div className="userImgGradient">
+                                    CHRISTIAN BALE
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={a3} alt="" />
+                                <div className="userImgGradient">
+                                    EMMA STONE
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={a4} alt="" />
+                                <div className="userImgGradient">
+                                    JENNIFER LAWRENCE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="userFavFilms">
+                        <h5>FAVOURITE DIRECTORS</h5>
+                        <hr />
+                        <div className="fourFavs">
+                            <div className="imgArea">
+                                <img src={d1} alt="" />
+                                <div className="userImgGradient">
+                                    DAVID FINCHER
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={d2} alt="" />
+                                <div className="userImgGradient">
+                                    CHRISTOPHER NOLAN
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={d3} alt="" />
+                                <div className="userImgGradient">
+                                    DENIS VILLENUEVE
+                                </div>
+                            </div>
+                            <div className="imgArea">
+                                <img src={d4} alt="" />
+                                <div className="userImgGradient">
+                                    DAMIEN CHEZELLE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> : ''}
+
+                {selectedTile == 1 ? <div className="userWatchedTile">
+                    <div className="container">
+                        <img src={m1} alt="" className='image' />
+                        <div className="overlay">
+                            INTERSTELLAR
+                            <br/>
+                            (2014)
+                        </div>
+                    </div>
+                </div> : ''}
+
+                {selectedTile == 2 ? <div className="userWatchlistTile">
+                    watchlist
+                </div> : ''}
+
+                {selectedTile == 3 ? <div className="userLikedTile">
+                    liked
+                </div> : ''}
+
+                {selectedTile == 4 ? <div className="userRecommendedTile">
+                    recs
+                </div> : ''}
+
             </div>
 
         </div>

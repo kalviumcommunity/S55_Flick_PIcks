@@ -10,15 +10,15 @@
     right: 0;
 }
 
-:root{
-    --font-user : #aaaaaa
+:root {
+    --font-user: #aaaaaa
 }
 
-.MainUser{
+.MainUser {
     display: flex;
 }
 
-.userNav{
+.userNav {
     width: 30%;
     background-color: rgb(0, 0, 0);
     /* box-shadow: 15px 15px 10px 14px rgba(227, 5, 5, 0.982); */
@@ -32,8 +32,9 @@
     position: relative;
 }
 
-#outer img,#outer{
-    width: 50vw;
+#outer img,
+#outer {
+    width: 60vw;
 }
 
 #inner {
@@ -44,7 +45,7 @@
     width: 100%;
 }
 
-.userProfilePic{
+.userProfilePic {
     z-index: 4;
     margin-top: -150px;
     width: 27%;
@@ -53,28 +54,28 @@
     justify-content: space-evenly;
 }
 
-.userProfilePic img{
+.userProfilePic img {
     height: 220px;
     border-radius: 200px;
 }
 
-.userProfileName h1{
+.userProfileName h1 {
     font-size: 45px;
     font-weight: 500;
 }
 
-.userProfileName h3{
+.userProfileName h3 {
     font-size: 25px;
     font-weight: 400;
     color: var(--font-user);
 }
 
-.userFavFilms{
+.userFavFilms {
     width: 70%;
     margin-top: 40px;
 }
 
-.userFavFilms h5{
+.userFavFilms h5 {
     color: var(--font-user);
     font-size: 20px;
     font-weight: 400;
@@ -89,7 +90,7 @@ hr {
     padding: 0;
 }
 
-.fourFavs{
+.fourFavs {
     display: flex;
     padding: 5px;
     align-items: center;
@@ -97,24 +98,20 @@ hr {
     margin-top: 20px;
 }
 
-.imgArea{
+.imgArea {
     position: relative;
 }
 
-.imgArea img{
-    width: 240px;
-    height: 340px;
+.imgArea img {
     border-radius: 4px;
     position: absolute;
     opacity: 0.9;
 }
 
-.userImgGradient{
+.userImgGradient {
     position: relative;
-    background-color: #2a2a2acb;
+    background-color: #1d1d1db7;
     width: 100%;
-    height: 340px;
-    width: 240px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,12 +123,18 @@ hr {
     transition: opacity 0.5s;
 }
 
-.userImgGradient:hover{
+.userImgGradient,
+.imgArea img {
+    height: 390px;
+    width: 270px;
+}
+
+.userImgGradient:hover {
     opacity: 1;
     cursor: pointer;
 }
 
-.userNav{
+.userNav {
     box-shadow: none;
     position: fixed;
     width: 25%;
@@ -141,14 +144,14 @@ hr {
     flex-direction: column;
     justify-content: center;
     /* background-image: linear-gradient(to right, #000 0%, #525252 100%); */
-    
+
     background-image: linear-gradient(to right, #2B4162 0%, #12100E 100%);
     display: none;
-    
+
 
 }
 
-.tile{
+.tile {
     width: 80%;
     height: 95px;
     border-left: none;
@@ -163,20 +166,21 @@ hr {
     background-color: white;
     box-shadow: 5px 10px 10px 10px rgba(224, 224, 224, 0.0713);
     overflow: hidden;
-    transition: border 0.3s ease-in-out, border-radius 0.3s ease-in-out;;
+    transition: border 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+    ;
 }
 
-.selectedTile{
+.selectedTile {
     width: 95%;
     height: 110px;
     background-image: linear-gradient(to top, #2B4162 0%, #607189 130%);
     /* background-image: linear-gradient(to top, #000 0%, #525252 100%); */
 
     border-left: none;
-    color:white; 
+    color: white;
 }
 
-.tileWhite{
+.tileWhite {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,24 +190,120 @@ hr {
     margin-right: 30px;
 }
 
-.selectedTile .tileWhite{
+.selectedTile .tileWhite {
     width: 110px;
 }
 
-.tileWhite img{
+.tileWhite img {
     width: 45%;
     height: 45%;
 }
 
-.selectedTile img{
+.selectedTile img {
     width: 60%;
     height: 60%;
 }
 
-.tile:hover{
+.tile:hover {
     cursor: pointer;
     border-right: 40px solid #92a4be;
     border-image: linear-gradient(to top, #2B4162 0%, #607189 130%) 1;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
+}
+
+.selectBar {
+    margin-top: 50px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: #92a4be; */
+    position: sticky;
+    top: 0;
+    background-color: #000000;
+    z-index: 11;
+}
+
+.selectBarTile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: var(--font-user);
+    font-size: 23px;
+    font-weight: 600;
+    padding: 30px;
+    border-bottom: 5px solid black;
+}
+
+.selectBarTile:hover {
+    cursor: pointer;
+}
+
+.selectedBarTile {
+    border-bottom: 5px solid var(--font-user);
+}
+
+.userProfileTile {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.userWatchedTile {
+    /* background-color: azure; */
+    padding: 30px 0;
+    width: 70vw;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 30px;
+    row-gap: 30px;
+}
+
+.movieUser {
+    width: 100%;
+}
+
+.movieUser img {
+    /* width: 100%; */
+    position: absolute;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #1d1d1db7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.container:hover .overlay {
+    cursor: pointer;
+    opacity: 1;
 }

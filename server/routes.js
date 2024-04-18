@@ -108,6 +108,31 @@ router.post('/addToLiked/:username', async(req,res) => {
     }
 })
 
+router.post('/addToWatched/:username', async(req,res) => {
+    const {username} = req.params
+    const movie = req.body
+
+    const user = await userModel.findOne({username})
+    const isMoviePresent = user.watched.find(item => item.id == movie.id)
+    if(isMoviePresent){
+        const newwatched = user.watched.filter(item => item.id != movie.id)
+        user.watched = newwatched
+        await user.save()
+        cnsole.log(user.watched)
+        return res.status(201).json({"Status":"Movie removed"})
+    }
+    else{
+        try{
+            user.watched.push(movie)
+            await user.save()
+            res.status(200).json(movie)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+})
+
 router.get('/movies',async(req,res)=>{
     try{
         const test = await movieModel.find({})
@@ -161,6 +186,21 @@ router.post('/isInLiked/:username', async(req,res) => {
     }
     else{
         return res.status(201).json("Movie is not in Liked")
+    }
+})
+
+router.post('/isInWatched/:username', async(req,res) => {
+    const {username} = req.params
+    const movie = req.body
+
+    const user = await userModel.findOne({username})
+    const isMoviePresent = user.watched.find(item => item.id === movie.id)
+    
+    if(isMoviePresent){
+        return res.status(200).json("Movie is in Watched")
+    }
+    else{
+        return res.status(201).json("Movie is not in Watched")
     }
 })
 
