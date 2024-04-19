@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './User.css'
-
+import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import edit from '../../assets/edit.png'
 
 import backdrop from '../../assets/backdrop.jpg'
 import profilePic from '../../assets/profile.png'
@@ -22,12 +23,31 @@ import watchlistBlue from '../../assets/watchlistBlue.png'
 import heartBlue from '../../assets/heartBlue.png'
 import recsBlue from '../../assets/recsBlue.png'
 import watchedBlue from '../../assets/watchedBlue.png'
+import axios from 'axios'
 
 function User() {
 
-    const { username } = useParams()
+    const LOCALHOST_LINK = "http://localhost:3000/"
+    const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
 
-    console.log(username)
+    const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
+
+    const { username } = useParams()
+    const navigate  = useNavigate()
+    const [userData, setUserData] = useState()
+
+    const getUserData = async () => {
+        const res = await axios.get(`${LOCALHOST_LINK}user/${username}`)
+            .then(res => {
+                console.log("USER DATA IS", res.data)
+                setUserData(res.data)
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        getUserData()
+    }, [username])
 
     const [selectedTile, setSelectedTile] = useState(0);
 
@@ -90,11 +110,14 @@ function User() {
                 </div>
 
                 <div className="userProfilePic">
-                    <img src={profilePic} />
+                    {userData && userData.profilePic && <img src={ userData.profilePic} />}
                     <div className="userProfileName">
-                        <h1>Shaaz</h1>
-                        <h3>shaaaaz</h3>
+                        <h1>{userData && userData.name}</h1>
+                        <h3>{userData && userData.username}</h3>
                     </div>
+                    <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
+                        <img src={edit} alt="" />
+                    </button>
                 </div>
 
                 <div className="selectBar">
@@ -216,22 +239,42 @@ function User() {
                 </div> : ''}
 
                 {selectedTile == 1 ? <div className="userWatchedTile">
-                    <div className="container">
-                        <img src={m1} alt="" className='image' />
-                        <div className="overlay">
-                            INTERSTELLAR
-                            <br/>
-                            (2014)
+                    {userData.watched && userData.watched.map(el => {
+                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                            <div className="overlay">
+                                {el.title}
+                                <br />
+                                ({el.release_date.split("-")[0]})
+                            </div>
                         </div>
-                    </div>
+                    })}
                 </div> : ''}
 
-                {selectedTile == 2 ? <div className="userWatchlistTile">
-                    watchlist
+                {selectedTile == 2 ? <div className="userWatchedTile">
+                {userData.watchlist && userData.watchlist.map(el => {
+                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                            <div className="overlay">
+                                {el.title}
+                                <br />
+                                ({el.release_date.split("-")[0]})
+                            </div>
+                        </div>
+                    })}
                 </div> : ''}
 
-                {selectedTile == 3 ? <div className="userLikedTile">
-                    liked
+                {selectedTile == 3 ? <div className="userWatchedTile">
+                {userData.liked && userData.liked.map(el => {
+                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                            <div className="overlay">
+                                {el.title}
+                                <br />
+                                ({el.release_date.split("-")[0]})
+                            </div>
+                        </div>
+                    })}
                 </div> : ''}
 
                 {selectedTile == 4 ? <div className="userRecommendedTile">

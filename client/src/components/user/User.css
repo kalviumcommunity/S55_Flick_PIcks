@@ -86,7 +86,7 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid var(--font-user);
-    margin: 5px 0px;
+    margin: 8px 0px;
     padding: 0;
 }
 
@@ -305,5 +305,226 @@ hr {
 
 .container:hover .overlay {
     cursor: pointer;
+    opacity: 1;
+}
+
+.editProfile{
+    background-color: rgb(50, 151, 50);
+    border: none;
+    height: 70px;
+    width: 70px;
+    border-radius: 8px;
+}
+
+.editProfile img{
+    /* padding: 40px; */
+    height: 50%;
+    width: 50%;
+    border-radius: 0;
+}
+
+.editProfile:hover{
+    cursor: pointer;
+}
+
+.editProfilePage{
+    background-color: #12100E;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editInputArea{
+    display: flex;
+    flex-direction: column;
+}
+
+.editInputArea input{
+    width: 300px;
+    height: 40px;
+    border: none;
+    outline: none;
+}
+
+.EditArea{
+    /* background-color: pink; */
+    width: 45vw;
+    /* background-color: #92a4be; */
+
+}
+
+.editProfileImg{
+    width: 250px;
+    position: absolute;
+
+}
+
+.editImgArea{
+    position: relative;
+}
+
+.editImgGradient{
+    width: 250px;
+    height: 250px;
+    background-color: rgba(63, 63, 63, 0.594);
+    border-radius: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+
+}
+
+.editImgGradient img{
+
+    width: 100px;
+}
+
+.editImgGradient:hover{
+    opacity: 1;
+}
+
+.editInputArea label{
+    font-size: 19px;
+    font-weight: 500;
+    margin-top: 40px;
+    margin-bottom: 5px;
+    color: var(--font-user);
+}
+
+.editInputArea input{
+    width: 20vw;
+    height: 50px;
+    background-color: #f0f0f0;
+    padding-left: 15px;
+    font-size: 25px;
+}
+
+.df{
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+#bioInput{
+    height: 170px;
+    vertical-align: top;
+    width: 20vw;
+    background-color: #f0f0f0;
+    padding: 15px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+#fileInput{
+    display: none;
+
+}
+
+.editImgGradient label:hover{
+    cursor: pointer;
+}
+
+.editFavFilmsArea{
+    margin-top: 40px;
+}
+
+.fontColor{
+    color: var(--font-user);
+}
+
+.editFavs {
+    position: relative;
+}
+
+.editFavs img {
+    border-radius: 4px;
+    position: absolute;
+    opacity: 0.9;
+}
+
+.editUserImgGradient {
+    position: relative;
+    background-color: #1d1d1ddd;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    padding: 20px;
+    font-size: 25px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.editUserImgGradient,
+.editFavs img {
+    height: 290px;
+    width: 200px;
+}
+
+.editUserImgGradient:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.saveChangesArea{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin: 50px 0;
+}
+
+.saveChangesArea button{
+    border-radius: 4px;
+    width: 200px;
+    height: 55px;
+    background-color: rgb(9, 156, 17);
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size:20px;
+}
+
+.movieDelete{
+    background-color: #5b5b5b;
+    border-radius: 10px;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(30%,-30%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+
+}
+
+.movieDelete img{
+    width: 20px;
+    height: 20px;
+}
+
+.movieDelete:hover{
+    cursor: pointer;
+}
+
+.editFavs:hover .editUserImgGradient {
+    opacity: 1;
+}
+
+.editFavs:hover .movieDelete {
     opacity: 1;
 }

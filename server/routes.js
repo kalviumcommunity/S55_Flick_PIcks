@@ -204,4 +204,45 @@ router.post('/isInWatched/:username', async(req,res) => {
     }
 })
 
+router.get('/user/:username', async(req,res)=>{
+    const username = req.params.username
+
+    try{
+        const user = await userModel.findOne({username})
+        if(user){
+            console.log(user)
+            return res.send(user)
+        }
+        return res.json("User not found")
+    }
+    catch(err){
+        console.log(err)
+    }
+
+})
+
+router.post('/profileUpdate/:username', async(req,res) => {
+    const {username} = req.params
+    const imageLink = req.body.imageLink
+
+    console.log(username)
+    console.log(imageLink)
+
+    try{
+        const user = await userModel.findOne({username})
+        if(user){
+            user.profilePic = imageLink
+            await user.save()
+            console.log(user.profilePic,"profile")
+        }
+        else{
+            res.status(400).json("user does not exist")
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+    
+})
+
 module.exports = router

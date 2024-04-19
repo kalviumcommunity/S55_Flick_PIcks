@@ -13,6 +13,8 @@ import Recs from './components/movie/info/Recs'
 import Similar from './components/movie/info/Similar'
 import Search from './components/search/Search'
 import User from './components/user/User'
+import UserProfile from './components/user/UserProfile'
+import EditProfile from './components/user/EditProfile'
 
 function App() {
   {console.log("Hi!")}
@@ -33,6 +35,8 @@ function App() {
         <Route path='/search' element={<Search/>}/>
 
         <Route path='/user/:username' element={<User/>}/>
+        <Route path='/editProfile/:username' element={<EditProfile/>}/>
+        <Route path='/userProfile' element={<UserProfile/>}/>
       </Routes>
     </>
   )

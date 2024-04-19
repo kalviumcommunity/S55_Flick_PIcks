@@ -107,7 +107,7 @@ function Movie() {
   const addToList = async (listName) => {
     const username = sessionStorage.getItem("username")
     try {
-      const response = await axios.post(`http://localhost:3000/addTo${listName}/${username}`, data)
+      const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/addTo${listName}/${username}`, data)
       if (listName == "Watchlist") {
         if (response.status == 200) {
           setWatchlistAdded(true)
@@ -152,7 +152,7 @@ function Movie() {
       }
     }
     catch (err) {
-      alert("Unable to add movie to watchlist. Try sigining in!")
+      alert("Unable to add movie. Try sigining in!")
       console.log(err)
     }
     handle()
@@ -199,7 +199,7 @@ function Movie() {
       setInLiked(false)
     }
 
-    const res3 = await axios.post(`http://localhost:3000/isInWatched/${username}`, data)
+    const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatched/${username}`, data)
     if (res3.status == 200) {
       setInWatched(true)
     }
