@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema({
     watchlist : Array,
     liked : Array,
     watched : Array,
+    bio : String,
     favourites : {
         movies : Array,
         actors : Array,

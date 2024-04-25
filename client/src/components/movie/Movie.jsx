@@ -107,7 +107,7 @@ function Movie() {
   const addToList = async (listName) => {
     const username = sessionStorage.getItem("username")
     try {
-      const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/addTo${listName}/${username}`, data)
+      const response = await axios.post(`http://localhost:3000/addTo${listName}/${username}`, data)
       if (listName == "Watchlist") {
         if (response.status == 200) {
           setWatchlistAdded(true)
