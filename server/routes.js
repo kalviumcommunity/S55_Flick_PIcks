@@ -317,4 +317,17 @@ router.post('/removeFromFavDirectors/:username', async (req, res) => {
     return res.status(201).json({ "Status": "Actor removed" })
 })
 
+router.get('/recs',async(req,res) => {
+    try {
+        const results = await movieModel.findOne()
+        if (results) {
+            return res.send(results)
+        }
+        return res.json("No recommendations")
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
 module.exports = router

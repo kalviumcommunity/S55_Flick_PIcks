@@ -15,6 +15,7 @@ import Search from './components/search/Search'
 import User from './components/user/User'
 import UserProfile from './components/user/UserProfile'
 import EditProfile from './components/user/EditProfile'
+import FinalRecs from './components/recs/Recs'
 
 function App() {
   {console.log("Hi!")}
@@ -37,6 +38,8 @@ function App() {
         <Route path='/user/:username' element={<User/>}/>
         <Route path='/editProfile/:username' element={<EditProfile/>}/>
         <Route path='/userProfile' element={<UserProfile/>}/>
+
+        <Route path='/recs' element={<FinalRecs/>}/>
       </Routes>
     </>
   )

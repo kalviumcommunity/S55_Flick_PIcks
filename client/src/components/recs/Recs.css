@@ -1,0 +1,161 @@
+.recsBackdrop{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.recsBackdropImg{
+    width: 100vw;
+}
+
+.recsGrad{
+    background-color: #3a3a3a7e;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    padding: 0 0 0 8vw;
+}
+
+.recsTitle{
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.recsDesc{
+    font-size: 25px;
+    font-weight: 500;
+    width: 40vw;
+    margin: 20px 0;
+}
+
+.recsSeeMore{
+    border: 3px solid white;
+    height: 60px;
+    width: 200px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 22px;
+    background: linear-gradient(45deg, rgb(255, 255, 255) 50%, rgba(255, 255, 255, 0) 50%);
+  background-size: 250% 100%;
+  background-position: right bottom;
+  transition: all .3s ease-out;
+}
+
+.recsSeeMore:hover {
+    background-position: left bottom;
+    color: black;
+  }
+
+.otherRecsArea{
+    margin:  0 0 0 150px;
+    /* background-color: aqua; */
+    width: 100%;
+    height:55vh;
+    display: flex;
+    align-items: center;
+}
+
+.otherRecsArea img{
+    margin: 0 50px 0 0;
+}
+
+.r1{
+    height: 90%;
+    border-radius: 8px;
+}
+
+.r2{
+    height: 75%;
+    border-radius: 8px;
+}
+
+.r3{
+    height: 60%;
+    border-radius: 8px;
+}
+
+.genreBigArea{
+    height: 100vh;
+    z-index: 10;
+    left: 0;
+    width: 4vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    transition: background-image 0.5s ease-in-out; 
+}
+
+.hoverBlackBG{
+    transition: background-image 0.5s ease;
+    background-image: linear-gradient(to right,#000000b2 0%, #00000045 80%,#00000000 100%);
+    width: 30vw;
+}
+
+.genreLogos{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    justify-content: space-between;
+    left: 30px;
+}
+
+.genreLogos img{
+    width: 40px;
+    opacity: 0.5;
+    transition:  opacity 0.4s ease;
+}
+
+.genreBlocks{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.genreBlocks span{
+    margin-left: 25px;
+    opacity: 0;
+    transition:  opacity 0.4s ease;
+}
+
+.genreBlocks:hover{
+    cursor: pointer;
+}
+
+.genreBlocks:hover img{
+    opacity: 1;
+}
+
+.genreBlocks:hover  span{
+    cursor: pointer;
+    opacity: 1;
+}
+
+.activeGenre img{
+    opacity: 1;
+}
+
+.recsSeeMore:hover{
+    cursor: pointer;
+}
+
+.r1,.r2,.r3{
+    opacity: 0.9;
+}
+
+.r1:hover,.r2:hover,.r3:hover{
+    cursor: pointer;
+}
