@@ -42,6 +42,10 @@ function EditProfile() {
         read.onload = () => {
             console.log(read.result)
             setImage(read.result)
+            setUserData((prevData) => ({
+                ...prevData,
+                profilePic: read.result
+            }))
         }
         read.onerror = err => {
             console.log("You have an error ", err)
@@ -153,6 +157,15 @@ function EditProfile() {
             })
             .catch(err => console.log(err))
         getData()
+    }
+
+    const saveChanges = async() => {
+        const res = await axios.put(`http://localhost:3000/saveUserChanges/${username}`,userData)
+        .then(res => {
+            console.log("save is ", res.data)
+            console.log("sent data is ",userData)
+        })
+        .catch(err => console.log(err))
     }
 
     return (
@@ -282,7 +295,7 @@ function EditProfile() {
                     </div>
 
                     <div className="saveChangesArea">
-                        <button>
+                        <button  onClick={saveChanges} className='hoverCursor'>
                             SAVE CHANGES
                         </button>
                     </div>

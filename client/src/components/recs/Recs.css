@@ -5,10 +5,13 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
+
 }
 
 .recsBackdropImg{
     width: 100vw;
+    position: absolute;
+    top: 0;
 }
 
 .recsGrad{

@@ -330,4 +330,20 @@ router.get('/recs',async(req,res) => {
     }
 })
 
+router.put('/saveUserChanges/:username', async(req,res) => {
+    const { username } = req.params
+    const info = req.body
+    const user = await userModel.findOne({ username })
+    try{
+        user.name = info.name
+        user.bio = info.bio
+        user.profilePic = info.profilePic
+        await user.save()
+        return res.status(201).json({ "Status": "Updated" })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router

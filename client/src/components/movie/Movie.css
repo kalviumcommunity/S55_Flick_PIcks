@@ -118,17 +118,17 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #2e2e2e;
+    background-color: #272727;
     border-radius: 8px;
     /* border: 1px solid rgb(121, 121, 121); */
-    box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
+    /* box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2); */
     transition: background-color 0.5s;
     min-height: 430px;
 }
 
 .profile:hover,
 .rec:hover {
-    background-color: #757575;
+    /* background-color: #757575; */
     cursor: pointer;
 }
 
@@ -239,10 +239,10 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #2e2e2e;
+    background-color: #272727;
     border-radius: 8px;
     /* border: 1px solid rgb(121, 121, 121); */
-    box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2);
+    /* box-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2); */
     transition: background-color 0.5s;
     position: relative;
     min-height: 360px;
@@ -316,7 +316,7 @@
 
 .watchArea {
     width: 100%;
-    background-color: #2e2e2e;
+    background-color: #272727;
     padding: 30px;
     border-radius: 8px;
 }
@@ -352,6 +352,10 @@
 .movieDetailField,
 .movieDetailKey {
     font-size: 23px;
+}
+
+.movieDetailField:hover{
+    cursor: pointer;
 }
 
 .movieDetailKey {
@@ -410,7 +414,7 @@
 
 .review {
     padding: 28px;
-    background-color: #2e2e2e;
+    background-color: #272727;
     border-radius: 8px;
     width: 100%;
     max-height: 300px;

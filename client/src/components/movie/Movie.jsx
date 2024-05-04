@@ -85,6 +85,7 @@ function Movie() {
   }
 
   const findDirector = cast.crew && cast.crew.find(el => {
+    console.log("el is",el)
     return el.job == "Director"
   })
 
@@ -340,7 +341,7 @@ function Movie() {
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
-                        {el.title}
+                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
                       </div>
                     </div>
                   )
@@ -375,7 +376,7 @@ function Movie() {
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
-                        {el.title}
+                      {el.title} ({el.release_date && el.release_date.split("-")[0]})
                       </div>
                     </div>
                   )
@@ -408,7 +409,8 @@ function Movie() {
                     <div className="movieDetailKey">
                       Directed by:
                     </div>
-                    <div className="movieDetailField">
+                    <div className="movieDetailField" onClick={() => navigate(`/person/${findDirector.id}`)}>
+                    
                       {findDirector && `${findDirector.name}`}
                     </div>
                   </div>
