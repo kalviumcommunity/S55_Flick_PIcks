@@ -81,10 +81,6 @@
     cursor: pointer;
 }
 
-.bg-black {
-    /* background-color: rgb(255, 255, 255); */
-}
-
 .movieButtonsArea {
     display: flex;
 }

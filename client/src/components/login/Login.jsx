@@ -19,7 +19,7 @@ function Login() {
 
                 if(res.status == 200){
                     sessionStorage.setItem('username',values.username)
-                    navigate('/main')
+                    navigate('/recs')
                     console.log("Login Successfull")
                 }
                 else{

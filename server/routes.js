@@ -28,7 +28,8 @@ router.post('/login', async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err)
+        console.log("Internal server Error")
+        return res.status(401).json({ error: 'Internal Server Error' });
     }
 })
 
@@ -117,7 +118,7 @@ router.post('/addToWatched/:username', async (req, res) => {
         const newwatched = user.watched.filter(item => item.id != movie.id)
         user.watched = newwatched
         await user.save()
-        cnsole.log(user.watched)
+        console.log(user.watched)
         return res.status(201).json({ "Status": "Movie removed" })
     }
     else {

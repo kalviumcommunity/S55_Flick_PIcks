@@ -33,7 +33,7 @@ function Recs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('http://localhost:3000/recs')
+        const res = axios.get('https://s55-shaaz-capstone-flickpicks.onrender.com/recs')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)

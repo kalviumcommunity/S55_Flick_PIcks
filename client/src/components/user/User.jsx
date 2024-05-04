@@ -26,8 +26,7 @@ import watchedBlue from '../../assets/watchedBlue.png'
 import axios from 'axios'
 
 function User() {
-
-    const LOCALHOST_LINK = "http://localhost:3000/"
+    
     const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
@@ -37,7 +36,7 @@ function User() {
     const [userData, setUserData] = useState()
 
     const getUserData = async () => {
-        const res = await axios.get(`${LOCALHOST_LINK}user/${username}`)
+        const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
             .then(res => {
                 console.log("USER DATA IS", res.data)
                 setUserData(res.data)
