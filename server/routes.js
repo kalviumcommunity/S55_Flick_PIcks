@@ -347,4 +347,29 @@ router.put('/saveUserChanges/:username', async(req,res) => {
     }
 })
 
+router.post('/backdrop/:id', async (req, res) => {
+    const { id } = req.params
+    const movie = req.body
+
+    const user = await userModel.findOne({ "_id" : id })
+    try {
+        user.backdrop = movie
+        await user.save()
+        res.status(200).json(movie)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/rmBackdrop/:id', async (req, res) => {
+    const { id } = req.params
+
+    const user = await userModel.findOne({ "_id" : id })
+    const newBackdrop = {} 
+    user.backdrop = newBackdrop
+    await user.save()
+    return res.status(201).json({ "Status": "Backdrop removed" })
+})
+
 module.exports = router

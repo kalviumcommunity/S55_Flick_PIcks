@@ -1,13 +1,10 @@
 .userPage {
-    background-color: #000000;
     min-height: 100vh;
-    width: 100%;
+    width: 80%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: absolute;
-    right: 0;
 }
 
 :root {
@@ -16,6 +13,10 @@
 
 .MainUser {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
 }
 
 .userNav {
@@ -308,26 +309,7 @@ hr {
     opacity: 1;
 }
 
-.editProfile{
-    background-color: rgb(50, 151, 50);
-    border: none;
-    height: 70px;
-    width: 70px;
-    border-radius: 8px;
-}
-
-.editProfile img{
-    /* padding: 40px; */
-    height: 50%;
-    width: 50%;
-    border-radius: 0;
-}
-
-.editProfile:hover{
-    cursor: pointer;
-}
-
-.editProfilePage{
+.editProfilePage {
     background-color: #12100E;
     width: 100vw;
     min-height: 100vh;
@@ -336,19 +318,19 @@ hr {
     justify-content: center;
 }
 
-.editInputArea{
+.editInputArea {
     display: flex;
     flex-direction: column;
 }
 
-.editInputArea input{
+.editInputArea input {
     width: 300px;
     height: 40px;
     border: none;
     outline: none;
 }
 
-.EditArea{
+.EditArea {
     /* background-color: pink; */
     width: 45vw;
     /* background-color: #92a4be; */
@@ -356,18 +338,18 @@ hr {
 
 }
 
-.editProfileImg{
+.editProfileImg {
     width: 250px;
     position: absolute;
     border-radius: 400px;
 
 }
 
-.editImgArea{
+.editImgArea {
     position: relative;
 }
 
-.editImgGradient{
+.editImgGradient {
     width: 250px;
     height: 250px;
     background-color: rgba(63, 63, 63, 0.594);
@@ -382,16 +364,16 @@ hr {
 
 }
 
-.editImgGradient img{
+.editImgGradient img {
 
     width: 100px;
 }
 
-.editImgGradient:hover{
+.editImgGradient:hover {
     opacity: 1;
 }
 
-.editInputArea label{
+.editInputArea label {
     font-size: 19px;
     font-weight: 500;
     margin-top: 40px;
@@ -399,7 +381,7 @@ hr {
     color: var(--font-user);
 }
 
-.editInputArea input{
+.editInputArea input {
     width: 20vw;
     height: 50px;
     background-color: #f0f0f0;
@@ -407,13 +389,13 @@ hr {
     font-size: 25px;
 }
 
-.df{
+.df {
     display: flex;
     align-items: start;
     justify-content: space-between;
 }
 
-#bioInput{
+#bioInput {
     height: 170px;
     vertical-align: top;
     width: 20vw;
@@ -425,20 +407,27 @@ hr {
     resize: none;
 }
 
-#fileInput{
-    display: none;
-
+#fileInput {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    position: absolute;
 }
 
-.editImgGradient label:hover{
+#fileInput:hover{
     cursor: pointer;
 }
 
-.editFavFilmsArea{
+.editImgGradient label:hover {
+    cursor: pointer;
+}
+
+.editFavFilmsArea {
     margin-top: 40px;
 }
 
-.fontColor{
+.fontColor {
     color: var(--font-user);
 }
 
@@ -473,7 +462,7 @@ hr {
     width: 200px;
 }
 
-.extraFav{
+.extraFav {
     background-color: #323232;
     border-radius: 4px;
     height: 290px;
@@ -484,12 +473,12 @@ hr {
     justify-content: center;
 }
 
-.extraFav img{
+.extraFav img {
     /* width: 30%; */
     height: 23%;
 }
 
-.extraFav:hover{
+.extraFav:hover {
     cursor: pointer;
 }
 
@@ -498,14 +487,14 @@ hr {
     cursor: pointer;
 }
 
-.saveChangesArea{
+.saveChangesArea {
     display: flex;
     align-items: center;
     justify-content: end;
     margin: 50px 0;
 }
 
-.saveChangesArea button{
+.saveChangesArea button {
     border-radius: 4px;
     width: 200px;
     height: 55px;
@@ -513,10 +502,10 @@ hr {
     border: none;
     color: white;
     font-weight: 500;
-    font-size:20px;
+    font-size: 20px;
 }
 
-.movieDelete{
+.movieDelete {
     background-color: #5b5b5b;
     border-radius: 10px;
     width: 32px;
@@ -525,7 +514,7 @@ hr {
     position: absolute;
     right: 0;
     top: 0;
-    transform: translate(30%,-30%);
+    transform: translate(30%, -30%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -534,12 +523,12 @@ hr {
 
 }
 
-.movieDelete img{
+.movieDelete img {
     width: 20px;
     height: 20px;
 }
 
-.movieDelete:hover{
+.movieDelete:hover {
     cursor: pointer;
 }
 
@@ -551,7 +540,7 @@ hr {
     opacity: 1;
 }
 
-.addFavFilm{
+.addFavFilm {
     position: fixed;
     z-index: 5;
     height: 100vh;
@@ -565,7 +554,7 @@ hr {
 
 }
 
-.addFilmToFav{
+.addFilmToFav {
     width: 40vw;
     height: 50vh;
     background-color: #242323;
@@ -578,7 +567,7 @@ hr {
     position: relative;
 }
 
-.addFilmToFav input{
+.addFilmToFav input {
     width: 27vw;
     height: 50px;
     outline: none;
@@ -587,11 +576,11 @@ hr {
     padding: 20px;
 }
 
-.searchAreaFav{
+.searchAreaFav {
     display: flex;
 }
 
-.searchIconFav{
+.searchIconFav {
     width: 50px;
     height: 50px;
     background-color: white;
@@ -601,15 +590,15 @@ hr {
     justify-content: center;
 }
 
-.searchIconFav img{
+.searchIconFav img {
     width: 50%;
 }
 
-.searchIconFav:hover{
+.searchIconFav:hover {
     cursor: pointer;
 }
 
-.FavSearchResults{
+.FavSearchResults {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -619,7 +608,7 @@ hr {
     position: relative;
 }
 
-.favMovieAddResult{
+.favMovieAddResult {
     width: 100%;
     margin: 10px 0;
     background-color: gray;
@@ -627,21 +616,239 @@ hr {
     border-radius: 4px;
 }
 
-.favMovieAddResult:hover{
+.favMovieAddResult:hover {
     cursor: pointer;
 }
 
-.AddFavClose{
+.AddFavClose {
     width: 40px;
     position: absolute;
     top: 20px;
     right: 20px;
 }
 
-.AddFavClose:hover{
+.AddFavClose:hover {
     cursor: pointer;
 }
 
-.hoverCursor:hover{
+.hoverCursor:hover {
+    cursor: pointer;
+}
+
+
+.userInfoArea1{
+    background-color: white;
+    padding: 20px 0;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    font-size: 23px;
+    font-weight: 600;
+    position: relative;
+    transform: rotate(-8deg);
+}
+
+.userName1{
+    padding-top: 10px;
+}
+
+.profilePicArea1 img{
+    width: 260px;
+}
+
+.pin{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.userInfo1{
+    display: flex;
+    align-items: end;
+    margin-top: 120px;
+}
+
+.nameAndBio1{
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 60px;
+}
+
+.name1{
+    font-size: 32px;
+    padding: 20px 0;
+    display: flex;
+}
+
+.bio1{
+    font-size: 18px;
+    color: rgb(231, 231, 231);
+}
+
+.backdrop1{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.backdrop1 img{
+    width: 100vw;
+    /* height: 100vh; */
+    position: fixed;
+    z-index: -110;
+}
+
+.userGradient1{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.85);
+    position: fixed;
+    z-index: -100;
+}
+
+.favFilmsArea1{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    width: 62%;
+    /* background-color: #92a4be; */
+    align-items: start;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.favFilmsArea2{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 62%;
+    /* background-color: #92a4be; */
+    align-items: start;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.images1 {
+    display: flex;
+    width: 100%;
+    flex-wrap: nowrap; 
+    justify-content: space-between; 
+    margin-top: 15px;
+}
+
+.item1 {
+    position: relative;
+    overflow: hidden;
+    flex-basis: auto; 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    
+}
+
+.item1 img {
+    width: 100%;
+    height: 100%;
+    height: auto; /* Let the height adjust based on aspect ratio */
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.item1:hover .overlay1 {
+    opacity: 1;
+}
+
+.overlay1{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.76); 
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+    font-size: 22px;
+    border: 1px solid rgba(74, 74, 74, 1);
+}
+
+.overlay1:hover{
+    cursor: pointer;
+}
+
+.item1 img,.overlay1{
+    height: 300px;
+    width: 200px;
+    border-radius: 4px;
+}
+
+.editProfile {
+    background-color: rgb(50, 151, 50);
+    border: none;
+    height: 45px;
+    /* width:45px; */
+    border-radius: 8px;
+    margin-left: 20px;
+    color: white;
+    font-size: 21px;
+    font-weight: 600;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editProfile img {
+    height: 110%;
+    border-radius: 0;
+    margin-left: 10px;
+}
+
+.editProfile:hover {
+    cursor: pointer;
+}
+
+.profilePicGradient1{
+    width: 86%;
+    height: 86%;
+    z-index: 10;
+    background-color: #92a4be84;
+    position: absolute;
+}
+
+.pin{
+    z-index: 1100;
+}
+
+.editImgGradient1{
+    width: 86%;
+    height: 86%;
+    background-color: rgba(40, 40, 40, 0.594);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+
+}
+
+.editImgGradient1 img {
+    width: 100px;
+}
+
+.editImgGradient1 img:hover {
+    cursor: pointer;
+}
+
+.editImgGradient1:hover {
+    opacity: 1;
     cursor: pointer;
 }

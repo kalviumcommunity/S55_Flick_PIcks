@@ -18,7 +18,6 @@ import EditProfile from './components/user/EditProfile'
 import FinalRecs from './components/recs/Recs'
 
 function App() {
-  {console.log("Hi!")}
   return (
     <>
       <Routes>

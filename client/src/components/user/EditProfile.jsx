@@ -6,25 +6,29 @@ import close from '../../assets/close.png'
 import axios from 'axios'
 import add from '../../assets/add.png'
 import search from '../../assets/search.png'
+import luka from '../../assets/luka.png'
+import pin from '../../assets/pin.png'
+import { useNavigate } from 'react-router-dom'
 
 function EditProfile() {
 
+    const navigate = useNavigate()
+    
     const dummyArray = [0, 0, 0, 0]
+    const dummyArray2 = [0]
 
     const [image, setImage] = useState()
     const [userData, setUserData] = useState()
     const [movieSearch, setMovieSearch] = useState(false)
     const [actorSearch, setActorSearch] = useState(false)
     const [directorSearch, setDirectorSearch] = useState(false)
+    const [backdropSearch, setBackdropSearch] = useState(false)
 
     const { username } = useParams()
-
-    console.log("USERNAME IS", username)
 
     const getData = async () => {
         const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
             .then(res => {
-                console.log("res is", res.data)
                 setUserData(res.data)
             })
             .catch(err => console.log(err))
@@ -35,12 +39,9 @@ function EditProfile() {
     }, [username])
 
     const convertToBase64 = (e) => {
-        console.log(e)
-
         var read = new FileReader()
         read.readAsDataURL(e.target.files[0])
         read.onload = () => {
-            console.log(read.result)
             setImage(read.result)
             setUserData((prevData) => ({
                 ...prevData,
@@ -62,21 +63,28 @@ function EditProfile() {
 
     const removeFilm = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavMovies/${username}`, data)
-            .then(res => console.log(res))
+            .then()
+            .catch(err => console.log(err))
+        getData()
+    }
+
+    const removeBackdrop = async () => {
+        const res = await axios.post(`http://localhost:3000/rmBackdrop/${userData._id}`, {})
+            .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeActors = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavActors/${username}`, data)
-            .then(res => console.log(res))
+            .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeDirectors = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavDirectors/${username}`, data)
-            .then(res => console.log(res))
+            .then()
             .catch(err => console.log(err))
         getData()
     }
@@ -102,7 +110,6 @@ function EditProfile() {
     const axios_request = (URL, location) => {
         axios.request(API_METHOD(URL))
             .then(function (response) {
-                console.log(response.data)
                 location(response.data)
             })
             .catch(function (error) {
@@ -114,8 +121,6 @@ function EditProfile() {
 
         axios_request(MOVIE_URL, setMovieResults)
         axios_request(CAST_URL, setCastResults)
-
-        console.log(searchInput)
 
     }, [searchInput])
 
@@ -132,8 +137,16 @@ function EditProfile() {
     const pushToFav = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFav/${username}`, data)
             .then(res => {
-                console.log("res is", res.data)
                 setMovieSearch(false)
+            })
+            .catch(err => console.log(err))
+        getData()
+    }
+
+    const pushToBackdrop = async (data) => {
+        const res = await axios.post(`http://localhost:3000/backdrop/${userData._id}`, data)
+            .then(res => {
+                setBackdropSearch(false)
             })
             .catch(err => console.log(err))
         getData()
@@ -142,7 +155,6 @@ function EditProfile() {
     const pushToFavActor = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavActors/${username}`, data)
             .then(res => {
-                console.log("res is", res.data)
                 setActorSearch(false)
             })
             .catch(err => console.log(err))
@@ -152,30 +164,46 @@ function EditProfile() {
     const pushToFavDirectors = async (data) => {
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavDirectors/${username}`, data)
             .then(res => {
-                console.log("res is", res.data)
                 setDirectorSearch(false)
             })
             .catch(err => console.log(err))
         getData()
     }
 
-    const saveChanges = async() => {
-        const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/saveUserChanges/${username}`,userData)
-        .then(res => {
-            console.log("save is ", res.data)
-            console.log("sent data is ",userData)
-        })
-        .catch(err => console.log(err))
+    const saveChanges = async () => {
+        const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/saveUserChanges/${username}`, userData)
+            .then(res => {
+                navigate(`/user/${username}`)
+            })
+            .catch(err => console.log(err))
     }
 
     return (
         <div>
             {userData && <div className="editProfilePage white mons">
                 <div className="EditArea">
-                    <div className="editImgArea">
+                    {/* <div className="editImgArea">
                         <img src={image ? image : userData.profilePic} alt="" className='editProfileImg' />
                         <div className="editImgGradient">
-                            <label htmlFor="fileInput">
+                            <label >
+                                <img src={upload} alt="" />
+                            </label>
+                            <input
+                                id='fileInput'
+                                type="file"
+                                name='file'
+                                accept='image/'
+                                 onChange={convertToBase64} />
+                        </div>
+                    </div> */}
+
+                    <div className="userInfoArea1">
+                        <div className="profilePicArea1">
+                            <img src={image ? image : userData.profilePic} />
+                        </div>
+                        <img src={pin} className='pin' />
+                        <div className="editImgGradient1">
+                            <label >
                                 <img src={upload} alt="" />
                             </label>
                             <input
@@ -185,8 +213,9 @@ function EditProfile() {
                                 accept='image/'
                                 onChange={convertToBase64} />
                         </div>
-
                     </div>
+
+
                     <div className="df">
                         <div>
 
@@ -210,6 +239,36 @@ function EditProfile() {
 
                     <div className="editFavFilmsArea">
                         <label className='fontColor'>
+                            BACKDROP FILM
+                        </label>
+                        <hr style={{width : "100%"}}/>
+
+                        <div className="fourFavs">
+                            {userData &&  dummyArray2.map((el, index) => {
+                                if (userData.backdrop) {
+                                    return <div className="editFavs" key={index}>
+                                        <img src={`https://image.tmdb.org/t/p/original/${userData.backdrop.poster_path}`} alt="" />
+                                        <div className="editUserImgGradient">
+                                            {userData.backdrop.title}
+                                            <br />
+                                            ({userData.backdrop.release_date.split("-")[0]})
+                                        </div>
+                                        <div className="movieDelete" onClick={() => removeBackdrop()}>
+                                            <img src={close} alt="" />
+                                        </div>
+                                    </div>
+                                }
+                                else {
+                                    return <div className="extraFav" onClick={() => setBackdropSearch(true)}>
+                                        <img src={add} alt="" />
+                                    </div>
+                                }
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="editFavFilmsArea">
+                        <label className='fontColor'>
                             FAVORITE FILMS
                         </label>
                         <hr />
@@ -217,7 +276,7 @@ function EditProfile() {
                         <div className="fourFavs">
                             {userData && userData.favourites.movies && dummyArray.map((el, index) => {
                                 if (userData.favourites.movies[index]) {
-                                    return <div className="editFavs">
+                                    return <div className="editFavs" key={index}>
                                         <img src={`https://image.tmdb.org/t/p/original/${userData.favourites.movies[index].poster_path}`} alt="" />
                                         <div className="editUserImgGradient">
                                             {userData.favourites.movies[index].title}
@@ -245,9 +304,9 @@ function EditProfile() {
                         <hr />
 
                         <div className="fourFavs">
-                        {userData && userData.favourites.actors && dummyArray.map((el, index) => {
+                            {userData && userData.favourites.actors && dummyArray.map((el, index) => {
                                 if (userData.favourites.actors[index]) {
-                                    return <div className="editFavs">
+                                    return <div className="editFavs" key={index}>
                                         <img src={`https://image.tmdb.org/t/p/original/${userData.favourites.actors[index].profile_path}`} alt="" />
                                         <div className="editUserImgGradient">
                                             {userData.favourites.actors[index].name}
@@ -273,9 +332,9 @@ function EditProfile() {
                         <hr />
 
                         <div className="fourFavs">
-                        {userData && userData.favourites.directors && dummyArray.map((el, index) => {
+                            {userData && userData.favourites.directors && dummyArray.map((el, index) => {
                                 if (userData.favourites.directors[index]) {
-                                    return <div className="editFavs">
+                                    return <div className="editFavs" key={index}>
                                         <img src={`https://image.tmdb.org/t/p/original/${userData.favourites.directors[index].profile_path}`} alt="" />
                                         <div className="editUserImgGradient">
                                             {userData.favourites.directors[index].name}
@@ -295,14 +354,14 @@ function EditProfile() {
                     </div>
 
                     <div className="saveChangesArea">
-                        <button  onClick={saveChanges} className='hoverCursor'>
+                        <button onClick={saveChanges} className='hoverCursor'>
                             SAVE CHANGES
                         </button>
                     </div>
                 </div>
             </div>}
 
-            {(actorSearch || movieSearch || directorSearch) && <div className="addFavFilm white mons">
+            {(actorSearch || movieSearch || directorSearch || backdropSearch) && <div className="addFavFilm white mons">
                 <div className="addFilmToFav">
                     <div className="searchAreaFav">
                         <input type="text" onKeyDown={(event) => handlePress(event)} />
@@ -316,7 +375,20 @@ function EditProfile() {
                         <hr className='red' />
 
                         {movieResults && movieResults.results && movieResults.results.map(el => {
-                            return <div className='favMovieAddResult' onClick={() => pushToFav(el)}>
+                            return <div className='favMovieAddResult' key={index} onClick={() => pushToFav(el)}>
+                                <h3>{el.title} ({el.release_date.split("-")[0]})
+                                </h3>
+                            </div>
+                        })}
+
+                    </div>}
+
+                    {backdropSearch && <div className="FavSearchResults">
+                        <h3>MOVIES</h3>
+                        <hr className='red' />
+
+                        {movieResults && movieResults.results && movieResults.results.map(el => {
+                            return <div className='favMovieAddResult' key={index} onClick={() => pushToBackdrop(el)}>
                                 <h3>{el.title} ({el.release_date.split("-")[0]})
                                 </h3>
                             </div>
@@ -329,7 +401,7 @@ function EditProfile() {
                         <hr className='red' />
 
                         {castResults && castResults.results && castResults.results.map(el => {
-                            return <div className='favMovieAddResult' onClick={() => pushToFavActor(el)}>
+                            return <div className='favMovieAddResult' key={index} onClick={() => pushToFavActor(el)}>
                                 <h3>{el.name}</h3>
                             </div>
                         })}
@@ -341,7 +413,7 @@ function EditProfile() {
                         <hr className='red' />
 
                         {castResults && castResults.results && castResults.results.map(el => {
-                            return <div className='favMovieAddResult' onClick={() => pushToFavDirectors(el)}>
+                            return <div className='favMovieAddResult' key={index} onClick={() => pushToFavDirectors(el)}>
                                 <h3>{el.name}</h3>
                             </div>
                         })}

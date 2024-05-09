@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Nav from '../../nav/Nav'
 
 function Recs() {
 
@@ -53,13 +54,20 @@ function Recs() {
   }
 
   return (
-    <div className="black mons">
+    <div className=" mons">
+      <Nav/>
 
-      <div className="recsPageCenterMovie">
+<div className="castBackArea">
+
+<img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='movieCastBackdrop' />
+<div className="castGradient"></div>
+</div>
+
+      <div className="recsCenterMovie">
 
         <div className="flex-end" onClick={() => navigate(`/movie/${id}`)}>
           <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
-          <div className="title white">{data.original_title}</div>
+          <div className="title white">{data.title}</div>
         </div>
 
         <h1 className='white cast flex-center'>

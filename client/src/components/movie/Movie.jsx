@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import WatchProvider from './WatchProvider';
 import profile from '../../assets/profile.png'
 import heart from '../../assets/heart.png'
+import Nav from '../nav/Nav'
+import user from '../../assets/user.png'
 
 import Alert from '@mui/material/Alert';
 
@@ -85,7 +87,7 @@ function Movie() {
   }
 
   const findDirector = cast.crew && cast.crew.find(el => {
-    console.log("el is",el)
+    console.log("el is", el)
     return el.job == "Director"
   })
 
@@ -176,7 +178,7 @@ function Movie() {
     if (data) {
       handle()
     }
-  }, [data, inWachlist, inLiked,inWatched])
+  }, [data, inWachlist, inLiked, inWatched])
 
   const handle = async () => {
 
@@ -211,7 +213,6 @@ function Movie() {
 
   return (
     <>
-
       <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
@@ -250,10 +251,13 @@ function Movie() {
         </Alert>}
       </div>
       {data && <div>
+
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
+          <Nav></Nav>
           <div className="description">
             <div className="descArea mons white">
+
               {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy" />}
               <div className="movieInfo">
                 <div className="title">{data.title}</div>
@@ -283,7 +287,7 @@ function Movie() {
                   </button>
 
                   <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
-                    <img src={inLiked ? likedInLogo : likedOutLogo}className='watchlist' loading="lazy" />
+                    <img src={inLiked ? likedInLogo : likedOutLogo} className='watchlist' loading="lazy" />
                   </button>
                 </div>
               </div>
@@ -304,13 +308,27 @@ function Movie() {
             <div className='profileArea scrollbar'>
               {cast.cast && cast.cast.map((el, index) => {
                 if (index < 10) {
-                  return (
-                    <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
-                      {el.profile_path && <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy" />}
-                      <h2>{el.name}</h2>
-                      <h3>{el.character}</h3>
-                    </div>
-                  )
+                  if(el.profile_path){
+                    return(
+                      <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
+                        {<img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy" />}
+                        <h2>{el.name}</h2>
+                        <h3>{el.character}</h3>
+                      </div>
+                    )
+                  }
+                  else{
+                    return(
+                      <div className='noPhotoProfile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
+                          <div className='noPhotoArea'>{<img src={user} alt="profile" loading="lazy" />}
+                            </div>
+                            <div>
+                          <h2 className='noPhotoText'>{el.name}</h2>
+                          <h3>{el.character}</h3>
+                            </div>
+                        </div>
+                    )
+                  }
                 }
               })}
 
@@ -376,7 +394,7 @@ function Movie() {
                         <div className="recTitle"></div>
                       </div>
                       <div className='mons white recT'>
-                      {el.title} ({el.release_date && el.release_date.split("-")[0]})
+                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
                       </div>
                     </div>
                   )
@@ -410,7 +428,7 @@ function Movie() {
                       Directed by:
                     </div>
                     <div className="movieDetailField" onClick={() => navigate(`/person/${findDirector.id}`)}>
-                    
+
                       {findDirector && `${findDirector.name}`}
                     </div>
                   </div>
@@ -476,7 +494,7 @@ function Movie() {
                       Rating:
                     </div>
                     <div className="movieDetailField">
-                      {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)} %`}
+                      {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)}%`}
                     </div>
                   </div>
 
@@ -551,7 +569,7 @@ function Movie() {
                     return (<div className='review white'>
                       <div className="reviewTop">
                         {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy" />
-                          : <img src={profile} loading="lazy" />}
+                          : <div className='imgNA'> <img src={user} /></div>}
                         <div className="author">{el.author}</div>
                       </div>
                       <div className="reviewRating">

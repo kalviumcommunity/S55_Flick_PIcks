@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import Nav from '../nav/Nav';
 
 function Person() {
 
@@ -66,11 +67,13 @@ function Person() {
 
   return (
     <div>
+
       {console.log("details",details)}
       {console.log("images",images)}
       {console.log("movies",movies)}
 
       <div className="blackBG"></div>
+        <Nav></Nav>
 
       <div className="centerPage white mons">
         

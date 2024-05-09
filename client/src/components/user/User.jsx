@@ -23,22 +23,24 @@ import watchlistBlue from '../../assets/watchlistBlue.png'
 import heartBlue from '../../assets/heartBlue.png'
 import recsBlue from '../../assets/recsBlue.png'
 import watchedBlue from '../../assets/watchedBlue.png'
+import luka from '../../assets/luka.png'
 import axios from 'axios'
+import pin from '../../assets/pin.png'
+import backdropIMG from '../../assets/backdrop.png'
 
 function User() {
-    
+
     const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
 
     const { username } = useParams()
-    const navigate  = useNavigate()
+    const navigate = useNavigate()
     const [userData, setUserData] = useState()
 
     const getUserData = async () => {
         const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
             .then(res => {
-                console.log("USER DATA IS", res.data)
                 setUserData(res.data)
             })
             .catch(err => console.log(err))
@@ -55,234 +57,98 @@ function User() {
     };
 
     return (
-        <div className="MainUser">
+        <>
+            {userData && <div className="MainUser">
+                <div className="backdrop1">
+                    {userData.backdrop && <img src={`https://image.tmdb.org/t/p/original${userData.backdrop.backdrop_path}`} alt="" />}
+                    <div className="userGradient1"></div>
+                </div>
+                <div className="userPage white mons">
 
-            {/* <div className="userNav white mons">
-
-                    <div className="tile ">
-                        <div className="tileWhite">
-                            <img src={userProfile} alt="" />
+                    <div className="userInfo1">
+                        <div className="userInfoArea1">
+                            <div className="profilePicArea1">
+                                <img src={userData.profilePic} />
+                            </div>
+                            <div className="userName1">
+                                {userData.name}
+                            </div>
+                            <img src={pin} className='pin' />
                         </div>
-                        <div>
-                            PROFILE
-                        </div>
-                    </div>
 
-                    <div className="tile selectedTile">
-                        <div className="tileWhite">
-                            <img src={watchedBlue} alt="" />
-                        </div>
-                        WATCHED
-                    </div>
-
-                    <div className="tile">
-                        <div className="tileWhite">
-                            <img src={watchlistBlue} alt="" />
-                        </div>
-                        WATCHLIST
-                    </div>
-
-                    <div className="tile">
-                        <div className="tileWhite">
-                            <img src={heartBlue} alt="" />
-                        </div>
-                        LIKED
-                    </div>
-
-                    <div className="tile">
-                        <div className="tileWhite">
-                            <img src={recsBlue} alt="" />
-                        </div>
-                        RECOMMENDED
-                    </div>
-            </div> */}
-            <div className="userPage white mons">
-
-                <div className="userInfoArea">
-                    <div className="userBackdropArea">
-                        <div id="outer">
-                            <img src={backdrop} alt="" />
-                            <div id="inner"></div>
+                        <div className="nameAndBio1">
+                            <div className="name1">
+                                {userData.username}
+                                <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
+                                    EDIT <img src={edit} alt="" />
+                                </button>
+                            </div>
+                            <div className="bio1">
+                                {userData.bio}
+                            </div>
                         </div>
                     </div>
 
+
+                    {userData.favourites.movies && <div className="favFilmsArea1 white mons">
+                        FAVOURITE FILMS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="images1">
+                            {userData.favourites.movies.map((el, index) => {
+                                return (
+                                    <div className="item1" onClick={() => navigate(`/movie/${el.id}`)} key={index}>
+                                        <img src={`https://image.tmdb.org/t/p/original${el.poster_path}`} alt="Image 1" />
+                                        <div className="overlay1">
+                                            {el.title}
+                                            <br/>
+                                            ({el.release_date.split("-")[0]})
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>}
+
+                    {userData.favourites.actors && <div className="favFilmsArea2 white mons">
+                        FAVOURITE ACTORS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="images1">
+                            {userData.favourites.actors.map((el, index) => {
+                                return (
+                                    <div className="item1" key={index}>
+                                        <img src={`https://image.tmdb.org/t/p/original${el.profile_path}`} alt="Image 1" />
+                                        <div className="overlay1">{el.name}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>}
+
+                    {userData.favourites.directors && <div className="favFilmsArea2 white mons">
+                        FAVOURITE DIRECTORS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="images1">
+                            {userData.favourites.directors.map((el, index) => {
+                                return (
+                                    <div className="item1" key={index}>
+                                        <img src={`https://image.tmdb.org/t/p/original${el.profile_path}`} alt="Image 1" />
+                                        <div className="overlay1">{el.name}</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>}
                 </div>
 
-                <div className="userProfilePic">
-                    {userData && userData.profilePic && <img src={ userData.profilePic} />}
-                    <div className="userProfileName">
-                        <h1>{userData && userData.name}</h1>
-                        <h3>{userData && userData.username}</h3>
-                    </div>
-                    <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
-                        <img src={edit} alt="" />
-                    </button>
-                </div>
 
-                <div className="selectBar">
-                    <div className={selectedTile === 0 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(0)}>
-                        PROFILE
-                    </div>
-                    <div className={selectedTile === 1 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(1)}>
-                        WATCHED
-                    </div>
-                    <div className={selectedTile === 2 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(2)}>
-                        WATCHLIST
-                    </div>
-                    <div className={selectedTile === 3 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(3)}>
-                        LIKED
-                    </div>
-                    <div className={selectedTile === 4 ? "selectBarTile selectedBarTile" : "selectBarTile"} onClick={() => selectTile(4)}>
-                        RECOMMENDED
-                    </div>
-                </div>
-
-                {selectedTile == 0 ? <div className="userProfileTile">
-
-                    <div className="userFavFilms">
-                        <h5>FAVOURITE FILMS</h5>
-                        <hr />
-                        <div className="fourFavs">
-                            <div className="imgArea">
-                                <img src={m1} alt="" />
-                                <div className="userImgGradient">
-                                    INTERSTELLAR
-                                    (2014)
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={m2} alt="" />
-                                <div className="userImgGradient">
-                                    GONE GIRL
-                                    (2014)
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={m3} alt="" />
-                                <div className="userImgGradient">
-                                    KISS KISS BANG BANG
-                                    (2005)
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={m4} alt="" />
-                                <div className="userImgGradient">
-                                    THE SOCIAL NETWROK
-                                    (2010)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="userFavFilms">
-                        <h5>FAVOURITE ACTORS</h5>
-                        <hr />
-                        <div className="fourFavs">
-                            <div className="imgArea">
-                                <img src={a1} alt="" />
-                                <div className="userImgGradient">
-                                    BRAD PITT
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={a2} alt="" />
-                                <div className="userImgGradient">
-                                    CHRISTIAN BALE
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={a3} alt="" />
-                                <div className="userImgGradient">
-                                    EMMA STONE
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={a4} alt="" />
-                                <div className="userImgGradient">
-                                    JENNIFER LAWRENCE
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="userFavFilms">
-                        <h5>FAVOURITE DIRECTORS</h5>
-                        <hr />
-                        <div className="fourFavs">
-                            <div className="imgArea">
-                                <img src={d1} alt="" />
-                                <div className="userImgGradient">
-                                    DAVID FINCHER
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={d2} alt="" />
-                                <div className="userImgGradient">
-                                    CHRISTOPHER NOLAN
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={d3} alt="" />
-                                <div className="userImgGradient">
-                                    DENIS VILLENUEVE
-                                </div>
-                            </div>
-                            <div className="imgArea">
-                                <img src={d4} alt="" />
-                                <div className="userImgGradient">
-                                    DAMIEN CHEZELLE
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> : ''}
-
-                {selectedTile == 1 ? <div className="userWatchedTile">
-                    {userData.watched && userData.watched.map(el => {
-                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
-                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
-                            <div className="overlay">
-                                {el.title}
-                                <br />
-                                ({el.release_date.split("-")[0]})
-                            </div>
-                        </div>
-                    })}
-                </div> : ''}
-
-                {selectedTile == 2 ? <div className="userWatchedTile">
-                {userData.watchlist && userData.watchlist.map(el => {
-                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
-                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
-                            <div className="overlay">
-                                {el.title}
-                                <br />
-                                ({el.release_date.split("-")[0]})
-                            </div>
-                        </div>
-                    })}
-                </div> : ''}
-
-                {selectedTile == 3 ? <div className="userWatchedTile">
-                {userData.liked && userData.liked.map(el => {
-                        return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
-                            <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
-                            <div className="overlay">
-                                {el.title}
-                                <br />
-                                ({el.release_date.split("-")[0]})
-                            </div>
-                        </div>
-                    })}
-                </div> : ''}
-
-                {selectedTile == 4 ? <div className="userRecommendedTile">
-                    recs
-                </div> : ''}
-
-            </div>
-
-        </div>
+            </div>}
+        </>
     )
 }
 

@@ -13,7 +13,8 @@ const userSchema = mongoose.Schema({
         movies : Array,
         actors : Array,
         directors : Array,
-    }
+    },
+    backdrop : Object
 })
 
 const userModel = mongoose.model("user",userSchema)

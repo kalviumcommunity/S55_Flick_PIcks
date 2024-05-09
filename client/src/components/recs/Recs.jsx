@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Recs.css'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
-import back from '../../assets/back.png'
-import r1 from '../../assets/r1.png'
-import r2 from '../../assets/r2.png'
-import r3 from '../../assets/r3.png'
+import Nav from '../nav/Nav'
 
 import animated from '../../assets/logos/animated.png'
 import action from '../../assets/logos/action.png'
@@ -113,6 +109,8 @@ function Recs() {
     }
 
     return (
+        <div>
+        <Nav/>
         <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
             {display && <div className="recsBackdrop">
                 {display && display[current] && <img src={`${IMAGE_LINK}${display[current].backdrop_path}`} className='recsBackdropImg' />}
@@ -202,6 +200,7 @@ function Recs() {
                 </div>
 
             </div>}
+        </div>
         </div>
     )
 }

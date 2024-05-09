@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import grey from '../../../assets/grey.png'
+import Nav from '../../nav/Nav'
 
 function Similar() {
 
@@ -53,13 +55,21 @@ function Similar() {
   }
 
   return (
-    <div className="black mons">
+    <div>
+    <Nav/>    
+    <div className="mons">
 
-      <div className="recsPageCenterMovie">
+<div className="castBackArea">
+
+<img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='movieCastBackdrop' />
+<div className="castGradient"></div>
+</div>
+
+      <div className="recsCenterMovie">
 
         <div className="flex-end" onClick={() => navigate(`/movie/${id}`)}>
           <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
-          <div className="title white">{data.original_title}</div>
+          <div className="title white">{data.original_title} ({data.release_date && data.release_date.split("-")[0]})</div>
         </div>
 
         <h1 className='white cast flex-center'>
@@ -70,20 +80,22 @@ function Similar() {
           {similar.results && similar.results.map((el, index) => {
             return (
               <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' />}
-                {el.backdrop_path && <div className="partialGrad white"></div>}
+                {el.backdrop_path ? <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' />
+                 : <img src={grey} className='recBackdrop' />}
+                {<div className="partialGrad white"></div>}
                 <div className="recDesc">
                   {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' />}
                   <div className="recTitle"></div>
                 </div>
                 <div className='mons white recT'>
-                  {el.title}
+                  {el.title} ({el.release_date && el.release_date.split("-")[0]})
                 </div>
               </div>
             )
           })}
         </div>
       </div>
+    </div>
     </div>
   )
 }

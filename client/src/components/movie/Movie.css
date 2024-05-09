@@ -8,11 +8,11 @@
 .gradient {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(0deg, #131416e9 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(0deg, #141414 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .black {
-    background-color: #131416e9;
+    background-color: #141414;
     width: 100vw;
     display: flex;
     align-items: center;
@@ -29,8 +29,8 @@
 }
 
 .poster {
-    width: 350px;
-    border-radius: 0px;
+    width: 400px;
+    border-radius: 4px;
 }
 
 .descArea {
@@ -129,8 +129,8 @@
 }
 
 .profile img {
-    width: 90%;
-    margin: 5%;
+    width: 95%;
+    margin: 2%;
     border-radius: 8px;
     /* border-top-left-radius: 8px;
     border-top-right-radius: 8px; */
@@ -470,7 +470,9 @@
 }
 
 .flex-end img {
-    height: 300px;
+    margin-left: 30px;
+    height: 350px;
+    border-radius: 4px;
 }
 
 .flex-end div {
@@ -480,6 +482,9 @@
 .recsPage {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px; /* Optional: adds a gap between grid items */
+    width: 80vw; /* Grid container is 80% of the viewport's width */
+    margin: 0 auto;
 }
 
 .recsPageCenterMovie {
@@ -497,6 +502,7 @@
     align-items: center;
     font-size: 30px;
     transition: opacity 0.5s;
+    z-index: 10000;
 }
 
 .show {
@@ -512,4 +518,135 @@
     flex-direction: column;
     position: fixed;
     top: 20px;
+}
+
+.noPhoto{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.noPhoto img{
+    width: 70%;
+}
+
+.movieCastBackdrop{
+    width: 100vw;
+    /* left: -50vw; */
+    position: fixed;
+    top: 0;
+}
+
+.castBackArea{
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.castGradient{
+    position: fixed;
+    background-color: #292929e6;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+}
+
+.castCenterMovie{
+    display: flex;
+    justify-content: center;
+    width: 80vw;
+    margin-left: 10vw;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 100px;
+}
+
+.recsCenterMovie{
+    width: 80vw;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 6.5vw;
+    margin-top: 100px;
+}
+
+.photoNA{
+    background-color: #EF4234;
+    height: 100%;
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30vh;
+}
+
+.photoNA img{
+    width: 50%;
+}
+
+.noPhotoProfile {
+    min-width: 240px;
+    margin: 20px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: #272727;
+    border-radius: 8px;
+    transition: background-color 0.5s;
+    min-height: 430px;
+}
+
+
+
+.noPhotoProfile img{
+    width: 70%;
+}
+
+.noPhotoProfile h2 {
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    overflow: hidden;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 12px 0px 5px 0px;
+    margin: 5px;
+}
+
+.noPhotoProfile h3 {
+    text-align: center;
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 500;
+    color: #b5b5b5;
+    margin: 5px;
+    margin-bottom: 5%;
+}
+
+.noPhotoArea{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.noPhotoText{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
