@@ -318,7 +318,7 @@ router.post('/removeFromFavDirectors/:username', async (req, res) => {
     return res.status(201).json({ "Status": "Actor removed" })
 })
 
-router.get('/recs',async(req,res) => {
+router.get('/recs', async (req, res) => {
     try {
         const results = await movieModel.findOne()
         if (results) {
@@ -331,18 +331,18 @@ router.get('/recs',async(req,res) => {
     }
 })
 
-router.put('/saveUserChanges/:username', async(req,res) => {
+router.put('/saveUserChanges/:username', async (req, res) => {
     const { username } = req.params
     const info = req.body
     const user = await userModel.findOne({ username })
-    try{
+    try {
         user.name = info.name
         user.bio = info.bio
         user.profilePic = info.profilePic
         await user.save()
         return res.status(201).json({ "Status": "Updated" })
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 })
@@ -351,7 +351,7 @@ router.post('/backdrop/:id', async (req, res) => {
     const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ "_id" : id })
+    const user = await userModel.findOne({ "_id": id })
     try {
         user.backdrop = movie
         await user.save()
@@ -365,11 +365,45 @@ router.post('/backdrop/:id', async (req, res) => {
 router.post('/rmBackdrop/:id', async (req, res) => {
     const { id } = req.params
 
-    const user = await userModel.findOne({ "_id" : id })
-    const newBackdrop = {} 
+    const user = await userModel.findOne({ "_id": id })
+    const newBackdrop = {}
     user.backdrop = newBackdrop
     await user.save()
     return res.status(201).json({ "Status": "Backdrop removed" })
+})
+
+router.post('/addToRec', async (req, res) => {
+    const movieDetail = req.body
+    try {
+        const user = await movieModel.findOne({ "user": "admin" })
+        const isExisting = user.random.some(item => item.id === movieDetail.id)
+
+        if (!isExisting) {
+            user.random.push(movieDetail)
+            await user.save()
+            res.status(200).json(req.body)
+        } else {
+            res.status(400).json({error: "Movie exists"})
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.delete('/delete/:id', async(req,res) => {
+    try{
+        const deletedUser = await userModel.findByIdAndDelete(req.params.id)
+        if(!deletedUser){
+            return res.status(400).json({"Message" : "User not found"})
+        }
+        return res.status(200).json({"message" : "User deleted succesfully"})
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({"message" : "Server error"})
+    }
 })
 
 module.exports = router

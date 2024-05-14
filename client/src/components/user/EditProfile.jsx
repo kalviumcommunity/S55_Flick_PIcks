@@ -124,9 +124,15 @@ function EditProfile() {
 
     }, [searchInput])
 
+    const [showTiles,setShowTiles] = useState(false)
+
     const handlePress = (event) => {
-        if (event.key == 'Enter') {
-            setSearchInput(event.target.value)
+        setSearchInput(event.target.value)
+        if(event.target.value == ""){
+            setShowTiles(false)
+        }
+        else{
+            setShowTiles(true)
         }
     }
 
@@ -135,36 +141,36 @@ function EditProfile() {
     }
 
     const pushToFav = async (data) => {
+        setMovieSearch(false)
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFav/${username}`, data)
             .then(res => {
-                setMovieSearch(false)
             })
             .catch(err => console.log(err))
         getData()
     }
 
     const pushToBackdrop = async (data) => {
+        setBackdropSearch(false)
         const res = await axios.post(`http://localhost:3000/backdrop/${userData._id}`, data)
             .then(res => {
-                setBackdropSearch(false)
             })
             .catch(err => console.log(err))
         getData()
     }
 
     const pushToFavActor = async (data) => {
+        setActorSearch(false)
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavActors/${username}`, data)
             .then(res => {
-                setActorSearch(false)
             })
             .catch(err => console.log(err))
         getData()
     }
 
     const pushToFavDirectors = async (data) => {
+        setDirectorSearch(false)
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavDirectors/${username}`, data)
             .then(res => {
-                setDirectorSearch(false)
             })
             .catch(err => console.log(err))
         getData()
@@ -251,7 +257,7 @@ function EditProfile() {
                                         <div className="editUserImgGradient">
                                             {userData.backdrop.title}
                                             <br />
-                                            ({userData.backdrop.release_date.split("-")[0]})
+                                            ({userData.backdrop.release_date && userData.backdrop.release_date.split("-")[0]})
                                         </div>
                                         <div className="movieDelete" onClick={() => removeBackdrop()}>
                                             <img src={close} alt="" />
@@ -281,7 +287,7 @@ function EditProfile() {
                                         <div className="editUserImgGradient">
                                             {userData.favourites.movies[index].title}
                                             <br />
-                                            ({userData.favourites.movies[index].release_date.split("-")[0]})
+                                            ({userData.favourites.movies[index].release_date && userData.favourites.movies[index].release_date.split("-")[0]})
                                         </div>
                                         <div className="movieDelete" onClick={() => removeFilm(userData.favourites.movies[index])}>
                                             <img src={close} alt="" />
@@ -289,7 +295,8 @@ function EditProfile() {
                                     </div>
                                 }
                                 else {
-                                    return <div className="extraFav" onClick={() => setMovieSearch(true)}>
+                                    return <div className="extraFav" onClick={() => {setMovieSearch(true) 
+                                    setSearchInput("noresultsfound")}}>
                                         <img src={add} alt="" />
                                     </div>
                                 }
@@ -364,43 +371,43 @@ function EditProfile() {
             {(actorSearch || movieSearch || directorSearch || backdropSearch) && <div className="addFavFilm white mons">
                 <div className="addFilmToFav">
                     <div className="searchAreaFav">
-                        <input type="text" onKeyDown={(event) => handlePress(event)} />
                         <div className="searchIconFav" onClick={handleClick}>
                             <img src={search} />
                         </div>
+                        <input type="text" onChange={(event) => handlePress(event)} />
                     </div>
 
                     {movieSearch && <div className="FavSearchResults">
                         <h3>MOVIES</h3>
                         <hr className='red' />
 
-                        {movieResults && movieResults.results && movieResults.results.map(el => {
+                        {movieResults && movieResults.results && movieResults.results.map((el,index) => {
                             return <div className='favMovieAddResult' key={index} onClick={() => pushToFav(el)}>
-                                <h3>{el.title} ({el.release_date.split("-")[0]})
+                                <h3>{el.title} ({el.release_date && el.release_date.split("-")[0]})
                                 </h3>
                             </div>
                         })}
 
                     </div>}
 
-                    {backdropSearch && <div className="FavSearchResults">
+                    {showTiles && backdropSearch && <div className="FavSearchResults">
                         <h3>MOVIES</h3>
                         <hr className='red' />
 
-                        {movieResults && movieResults.results && movieResults.results.map(el => {
+                        {movieResults && movieResults.results && movieResults.results.map((el,index) => {
                             return <div className='favMovieAddResult' key={index} onClick={() => pushToBackdrop(el)}>
-                                <h3>{el.title} ({el.release_date.split("-")[0]})
+                                <h3>{el.title} ({el.release_date && el.release_date.split("-")[0]})
                                 </h3>
                             </div>
                         })}
 
                     </div>}
 
-                    {actorSearch && <div className="FavSearchResults">
+                    {showTiles && actorSearch && <div className="FavSearchResults">
                         <h3>ACTOR</h3>
                         <hr className='red' />
 
-                        {castResults && castResults.results && castResults.results.map(el => {
+                        {castResults && castResults.results && castResults.results.map((el,index) => {
                             return <div className='favMovieAddResult' key={index} onClick={() => pushToFavActor(el)}>
                                 <h3>{el.name}</h3>
                             </div>
@@ -408,17 +415,19 @@ function EditProfile() {
 
                     </div>}
 
-                    {directorSearch && <div className="FavSearchResults">
+                    {showTiles && directorSearch && <div className="FavSearchResults">
                         <h3>DIRECTOR</h3>
                         <hr className='red' />
 
-                        {castResults && castResults.results && castResults.results.map(el => {
+                        {castResults && castResults.results && castResults.results.map((el,index) => {
                             return <div className='favMovieAddResult' key={index} onClick={() => pushToFavDirectors(el)}>
                                 <h3>{el.name}</h3>
                             </div>
                         })}
 
                     </div>}
+
+
                     <img src={close} alt="" className="AddFavClose" onClick={() => {
                         setMovieSearch(false)
                         setActorSearch(false)

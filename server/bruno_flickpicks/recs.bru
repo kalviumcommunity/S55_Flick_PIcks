@@ -1,0 +1,17 @@
+meta {
+  name: recs
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/addToRec
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name" : "Shaaz"
+  }
+}

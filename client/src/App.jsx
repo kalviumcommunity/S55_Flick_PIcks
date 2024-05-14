@@ -17,9 +17,12 @@ import UserProfile from './components/user/UserProfile'
 import EditProfile from './components/user/EditProfile'
 import FinalRecs from './components/recs/Recs'
 
+import ScrollToTop from './ScrollToTop'
+
 function App() {
   return (
     <>
+      <ScrollToTop/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>

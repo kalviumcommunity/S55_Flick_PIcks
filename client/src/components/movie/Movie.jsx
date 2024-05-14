@@ -24,6 +24,8 @@ import likedOutLogo from '../../assets/liked out.png'
 import watchedIn from '../../assets/watchedIn.png'
 import watchedOut from '../../assets/watchedOut.png'
 
+import recommended from '../../assets/recommendedTile.png'
+
 
 function Movie() {
 
@@ -211,6 +213,12 @@ function Movie() {
     }
   }
 
+  async function addToRecommended(){
+    const res = await axios.post('http://localhost:3000/addToRec',data)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }
+
   return (
     <>
       <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
@@ -289,6 +297,10 @@ function Movie() {
                   <button className='addToWatchlist bg-black' onClick={() => addToList("Liked")}>
                     <img src={inLiked ? likedInLogo : likedOutLogo} className='watchlist' loading="lazy" />
                   </button>
+
+                  <button className='addToWatchlist bg-black' onClick={() => addToRecommended()}>
+                    <img src={recommended} className='watchlist' loading="lazy" />
+                  </button> 
                 </div>
               </div>
             </div>

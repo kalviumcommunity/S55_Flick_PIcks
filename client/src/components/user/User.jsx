@@ -3,30 +3,16 @@ import './User.css'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import edit from '../../assets/edit.png'
-
-import backdrop from '../../assets/backdrop.jpg'
-import profilePic from '../../assets/profile.png'
-import m1 from '../../assets/m1.jpg'
-import m2 from '../../assets/m2.jpg'
-import m3 from '../../assets/m3.jpg'
-import m4 from '../../assets/m4.jpeg'
-import a1 from '../../assets/a1.jpg'
-import a2 from '../../assets/a2.jpg'
-import a3 from '../../assets/a3.jpg'
-import a4 from '../../assets/a4.jpg'
-import d1 from '../../assets/d1.jpg'
-import d2 from '../../assets/d2.webp'
-import d3 from '../../assets/d3.jpg'
-import d4 from '../../assets/d4.jpg'
-import userProfile from '../../assets/userProfileBlue.png'
-import watchlistBlue from '../../assets/watchlistBlue.png'
-import heartBlue from '../../assets/heartBlue.png'
-import recsBlue from '../../assets/recsBlue.png'
-import watchedBlue from '../../assets/watchedBlue.png'
-import luka from '../../assets/luka.png'
 import axios from 'axios'
 import pin from '../../assets/pin.png'
-import backdropIMG from '../../assets/backdrop.png'
+
+import userTile from '../../assets/userTile.png'
+import watchlistTile from '../../assets/watchlistTile.png'
+import likedTile from '../../assets/likedTile.png'
+import watchedTile from '../../assets/watchedTile.png'
+import recommendedTile from '../../assets/recommendedTile.png'
+import listTile from '../../assets/listTile.png'
+import del from '../../assets/delete.png'
 
 function User() {
 
@@ -37,6 +23,8 @@ function User() {
     const { username } = useParams()
     const navigate = useNavigate()
     const [userData, setUserData] = useState()
+    const [genre, setGenre] = useState("profile")
+    const [mouseEnter, setMouseEnter] = useState(false)
 
     const getUserData = async () => {
         const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
@@ -55,6 +43,17 @@ function User() {
     const selectTile = (index) => {
         setSelectedTile(index);
     };
+
+    async function delAccount(){
+        const res = await axios.delete(`http://localhost:3000/delete/${userData._id}`)
+        .then(res => {
+            if(res.status == 200){
+                alert("User Deleted Succesfully")
+                navigate('/recs')
+            }
+        })
+        .catch(err => console.log(err))
+    }
 
     return (
         <>
@@ -80,8 +79,9 @@ function User() {
                             <div className="name1">
                                 {userData.username}
                                 <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
-                                    EDIT <img src={edit} alt="" />
+                                    EDIT <img src={edit}/>
                                 </button>
+                                <button className="delProfile"><img src={del} onClick={() => delAccount()}/></button>
                             </div>
                             <div className="bio1">
                                 {userData.bio}
@@ -89,8 +89,7 @@ function User() {
                         </div>
                     </div>
 
-
-                    {userData.favourites.movies && <div className="favFilmsArea1 white mons">
+                    {genre == "profile" && userData.favourites.movies && <div className="favFilmsArea1 white mons">
                         FAVOURITE FILMS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -102,7 +101,7 @@ function User() {
                                         <img src={`https://image.tmdb.org/t/p/original${el.poster_path}`} alt="Image 1" />
                                         <div className="overlay1">
                                             {el.title}
-                                            <br/>
+                                            <br />
                                             ({el.release_date.split("-")[0]})
                                         </div>
                                     </div>
@@ -111,7 +110,7 @@ function User() {
                         </div>
                     </div>}
 
-                    {userData.favourites.actors && <div className="favFilmsArea2 white mons">
+                    {genre == "profile" && userData.favourites.actors && <div className="favFilmsArea2 white mons">
                         FAVOURITE ACTORS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -119,7 +118,7 @@ function User() {
                         <div className="images1">
                             {userData.favourites.actors.map((el, index) => {
                                 return (
-                                    <div className="item1" key={index}>
+                                    <div className="item1" key={index} onClick={() => navigate(`/person/${el.id}`)}>
                                         <img src={`https://image.tmdb.org/t/p/original${el.profile_path}`} alt="Image 1" />
                                         <div className="overlay1">{el.name}</div>
                                     </div>
@@ -128,7 +127,7 @@ function User() {
                         </div>
                     </div>}
 
-                    {userData.favourites.directors && <div className="favFilmsArea2 white mons">
+                    {genre == "profile" && userData.favourites.directors && <div className="favFilmsArea2 white mons">
                         FAVOURITE DIRECTORS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -136,7 +135,7 @@ function User() {
                         <div className="images1">
                             {userData.favourites.directors.map((el, index) => {
                                 return (
-                                    <div className="item1" key={index}>
+                                    <div className="item1" key={index} onClick={() => navigate(`/person/${el.id}`)}>
                                         <img src={`https://image.tmdb.org/t/p/original${el.profile_path}`} alt="Image 1" />
                                         <div className="overlay1">{el.name}</div>
                                     </div>
@@ -144,6 +143,117 @@ function User() {
                             })}
                         </div>
                     </div>}
+
+                    {genre == "watchlist" ? <div className='favFilmsArea1'>
+                        WATCHLIST
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="userWatchedTile">
+
+                            {userData.watchlist && userData.watchlist.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.title}
+                                        <br />
+                                        ({el.release_date.split("-")[0]})
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+
+                        {userData.watchlist.length == 0 && <div className='center'>NO FILMS IN WATCHLIST</div>}
+
+                    </div> : ""}
+
+                    {genre == "watched" ? <div className='favFilmsArea1'>
+                        WATCHED
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="userWatchedTile">
+
+                            {userData.watched && userData.watched.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.title}
+                                        <br />
+                                        ({el.release_date.split("-")[0]})
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+
+                        {userData.watched.length == 0 && <div className='center'>NO WATCHED FILMS</div>}
+
+                    </div> : ""}
+
+                    {genre == "liked" ? <div className='favFilmsArea1'>
+                        LIKED
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="userWatchedTile">
+
+                            {userData.liked && userData.liked.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.title}
+                                        <br />
+                                        ({el.release_date.split("-")[0]})
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+
+                        {userData.liked.length == 0 && <div className='center'>NO LIKED FILMS</div>}
+
+
+                    </div> : ""}
+
+                </div>
+
+                <div className={mouseEnter ? "genreBigArea1 hoverBlackBG1" : "genreBigArea1"} onMouseEnter={() => setMouseEnter(true)} onMouseLeave={() => setMouseEnter(false)}>
+
+                    <div className="genreLogos1 white mons">
+                        <div className={genre == "profile" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("profile")} >
+                            <img src={userTile} />
+                            <span>
+                                PROFILE
+                            </span>
+                        </div>
+                        <div className={genre == "watchlist" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("watchlist")} >
+                            <img src={watchlistTile} />
+                            <span>
+                                WATCHLIST
+                            </span>
+                        </div>
+                        <div className={genre == "watched" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("watched")} >
+                            <img src={watchedTile} />
+                            <span>
+                                WATCHED
+                            </span>
+                        </div>
+                        <div className={genre == "liked" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("liked")} >
+                            <img src={likedTile} />
+                            <span>
+                                LIKED
+                            </span>
+                        </div>
+                        <div className={genre == "list" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("list")} >
+                            <img src={listTile} />
+                            <span>
+                                LISTS
+                            </span>
+                        </div>
+                        <div className={genre == "recommended" ? "genreBlocks1 activeGenre1" : "genreBlocks1"} onClick={() => setGenre("recommended")} >
+                            <img src={recommendedTile} />
+                            <span>
+                                RECOMMENDED
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
 
 

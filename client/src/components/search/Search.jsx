@@ -3,20 +3,27 @@ import './Search.css'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import search from '../../assets/search.png'
+import user from '../../assets/user.png'
 
 function Search() {
 
   const navigate = useNavigate()
 
-  const [searchInput, setSearchInput] = useState([])
+  const [searchInput, setSearchInput] = useState("")
 
-  const [onMovie,setOnMovie] = useState(true)
+  const [onMovie,setOnMovie] = useState("movie")
 
   const [movieResults,setMovieResults] = useState()
   const [castResults,setCastResults] = useState()
+  const [popularCastResults,setPopularCastResults] = useState()
+  const [popularMovieResults,setPopularMovieResults] = useState()
+
+  const [showPopular,setShowPopular] = useState(true)
 
   const MOVIE_URL = `https://api.themoviedb.org/3/search/movie?query=${searchInput}&include_adult=false&language=en-US&page=1`
   const CAST_URL = `https://api.themoviedb.org/3/search/person?query=${searchInput}&include_adult=false&language=en-US&page=1`
+  const POPULARCAST_URL = `https://api.themoviedb.org/3/person/popular?language=en-US&page=1`
+  const POPULARMOVIE_URL = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`
 
   const API_METHOD = (passed_url) => {
     return {
@@ -44,62 +51,147 @@ function Search() {
 
     axios_request(MOVIE_URL, setMovieResults)
     axios_request(CAST_URL, setCastResults)
-
-    console.log(searchInput)
+    axios_request(POPULARCAST_URL, setPopularCastResults)
+    axios_request(POPULARMOVIE_URL, setPopularMovieResults)
 
   }, [searchInput])
 
-  const handlePress = (event) => {
-    if(event.key == 'Enter'){
-      setSearchInput(event.target.value)
+  useEffect(()=>{
+    if(searchInput == ""){
+      setShowPopular(true)
     }
+    else{
+      setShowPopular(false)
+    }
+  },[searchInput])
+
+  const handlePress = (event) => {
+      setSearchInput(event.target.value)
   }
 
   const handleClick = () => {
       setSearchInput(event.target.value)
   }
 
+  const filterUsers = () => {
+    return users.filter(user =>
+      user.username.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  };
+
+  const [users,setUsers] = useState([])
+
+  async function getData(){
+    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
+    .then(res => setUsers(res.data))
+    .catch(err => console.log(err))
+  }
+
+  useEffect(()=>{
+    getData()
+  },[])
+
   return (
     <div className='search mons'>
       <div className="bgBlack"></div>
       <div className="searchArea">
-
-      <input type="text" onKeyDown={(event) => handlePress(event)} />
       <div className="searchIcon" onClick={handleClick}>
         <img src={search}/>
       </div>
+
+      <input type="text" onChange={(event) => handlePress(event)}/>
       </div>
 
       <div className="movieButtonsArea">
-        <button className={onMovie ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie(!onMovie)}>MOVIE</button>
-        <button className={!onMovie ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie(!onMovie)}>CAST & CREW</button>
+        <button className={onMovie == "movie" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("movie")}>MOVIE</button>
+        <button className={onMovie == "cast" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("cast")}>CAST & CREW</button>
+        <button className={onMovie == "users" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("users")}>USERS</button>
       </div>
 
-      {onMovie && <div className="result">
-        {movieResults && movieResults.results.map((el, index) => {
+      {!showPopular && onMovie == "movie" && <div className="result">
+        {movieResults && onMovie == "movie" && movieResults.results && movieResults.results.map((el, index) => {
             return <div className="searchResults white" onClick={() => navigate(`/movie/${el.id}`)}>
                       <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`}/>
                       <div className="searchRow">
-
-                      <div className="searchTitle">{el.title}<span>({el.release_date.split("-")[0]})</span></div>
+                      <div className='searchYear'>
+                        <div className="searchTitle">{el.title}</div><span>({el.release_date.split("-")[0]})</span>
+                      </div>
                       <div className="searchDesc scrollbar">{el.overview}</div>
                       </div>
                     </div>
         })}
       </div>}
-      {!onMovie && <div className="castResult">
-        {console.log("CR",castResults)}
-        {castResults && castResults.results.map((el, index) => {
+      {showPopular && onMovie == "movie" && <div className="result">
+        {popularMovieResults && onMovie == "movie" && popularMovieResults.results && popularMovieResults.results.map((el, index) => {
+            return <div className="searchResults white" onClick={() => navigate(`/movie/${el.id}`)}>
+                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`}/>
+                      <div className="searchRow">
+                      <div className='searchYear'>
+                        <div className="searchTitle">{el.title}</div><span>({el.release_date.split("-")[0]})</span>
+                      </div>
+                      <div className="searchDesc scrollbar">{el.overview}</div>
+                      </div>
+                    </div>
+        })}
+      </div>}
+      {!showPopular && onMovie == "cast" && <div className="castResult">
+        {castResults && onMovie == "cast" && castResults.results && castResults.results.map((el, index) => {
             return <div className="castSearchResults white" onClick={() => navigate(`/person/${el.id}`)}>
-                      <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`}/>
+                      {el.profile_path ? <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`}/>
+                                       : <div className='castNotFound'><img src={user}/>
+                                       </div>}
                       <div className="searchRow">
 
-                      <div className="searchTitle">{el.name}</div>
+                      <div className="searchTitleCast">{el.name}</div>
                       <div className="castKnownFor"><span>Known for - </span>{el.known_for_department}</div>
-                      {/* <div className="castKnownFor"><span>Famous works - </span>{el.known_for.map(ell => {
-                        return <div>{ell.title}<br/></div>
-                      })}
-                      </div> */}
+                      </div>
+                    </div>
+        })}
+      </div>}
+      {showPopular && onMovie == "cast" && <div className="castResult">
+        {console.log(popularCastResults)}
+        {popularCastResults && onMovie == "cast" && popularCastResults.results && popularCastResults.results.map((el, index) => {
+            return <div className="castSearchResults white" onClick={() => navigate(`/person/${el.id}`)}>
+                      {el.profile_path ? <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`}/>
+                                       : <div className='castNotFound'><img src={user}/>
+                                       </div>}
+                      <div className="searchRow">
+
+                      <div className="searchTitleCast">{el.name}</div>
+                      <div className="castKnownFor"><span>Known for - </span>{el.known_for_department}</div>
+                      </div>
+                    </div>
+        })}
+      </div>}
+      {showPopular && onMovie == "users" && <div className="castResult">
+        {console.log(popularCastResults)}
+        {users && onMovie == "users" && users.map((el, index) => {
+            return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
+                      {el.profilePic ? <img src={el.profilePic}/>
+                                       : <div className='userNotFound'><img src={user}/>
+                                       </div>}
+                      <div className="searchRow">
+
+                      <div className="searchTitleCast">{el.username}</div>
+                      <div className="userUsername">{el.name}</div>
+                      {/* <div className="castKnownFor"><span>Known for - </span>{el.known_for_department}</div> */}
+                      </div>
+                    </div>
+        })}
+      </div>}
+
+      {!showPopular && onMovie == "users" && <div className="castResult">
+        {console.log(popularCastResults)}
+        {users && onMovie == "users" && filterUsers().map((el, index) => {
+            return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
+                      {el.profilePic ? <img src={el.profilePic}/>
+                                       : <div className='userNotFound'><img src={user}/>
+                                       </div>}
+                      <div className="searchRow">
+
+                      <div className="searchTitleCast">{el.username}</div>
+                      <div className="userUsername">{el.name}</div>
+                      {/* <div className="castKnownFor"><span>Known for - </span>{el.known_for_department}</div> */}
                       </div>
                     </div>
         })}
