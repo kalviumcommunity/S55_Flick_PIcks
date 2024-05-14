@@ -378,6 +378,8 @@ router.post('/addToRec', async (req, res) => {
         const user = await movieModel.findOne({ "user": "admin" })
         const isExisting = user.random.some(item => item.id === movieDetail.id)
 
+        // random array already exists in the backend
+
         if (!isExisting) {
             user.random.push(movieDetail)
             await user.save()
@@ -393,6 +395,9 @@ router.post('/addToRec', async (req, res) => {
 });
 
 router.delete('/delete/:id', async(req,res) => {
+    // user will only be able to delete if he can click on teh button 
+    // button will only be visible when user is on his own userpage
+
     try{
         const deletedUser = await userModel.findByIdAndDelete(req.params.id)
         if(!deletedUser){
@@ -402,7 +407,7 @@ router.delete('/delete/:id', async(req,res) => {
     }
     catch(err){
         console.log(err)
-        return res.status(500).json({"message" : "Server error"})
+        return res.status(500).json(err)
     }
 })
 
