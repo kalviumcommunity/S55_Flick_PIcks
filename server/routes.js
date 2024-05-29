@@ -6,6 +6,8 @@ router.use(express.json())
 const userModel = require('./userSchema')
 const movieModel = require('./moviesSchema')
 
+const jwt = require('jsonwebtoken')
+
 router.get('/users', async (req, res) => {
     try {
         const test = await userModel.find({})
@@ -408,6 +410,17 @@ router.delete('/delete/:id', async(req,res) => {
     catch(err){
         console.log(err)
         return res.status(500).json(err)
+    }
+})
+
+router.post('/auth' , (req,res) => {
+    try{
+        const accessToken = jwt.sign(req.body,process.env.ACCESS_TOKEN_SECRET)
+        res.status(200).json({"AT": accessToken})
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).json({"Message" : "Internal Server Error"})
     }
 })
 

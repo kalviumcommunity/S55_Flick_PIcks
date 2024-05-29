@@ -43,6 +43,7 @@ function EditProfile() {
         read.readAsDataURL(e.target.files[0])
         read.onload = () => {
             setImage(read.result)
+            console.log(read.result)
             setUserData((prevData) => ({
                 ...prevData,
                 profilePic: read.result
