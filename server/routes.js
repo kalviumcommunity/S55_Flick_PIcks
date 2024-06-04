@@ -5,6 +5,7 @@ router.use(express.json())
 
 const userModel = require('./userSchema')
 const movieModel = require('./moviesSchema')
+const showModel = require('./showSchema')
 
 const jwt = require('jsonwebtoken')
 
@@ -268,6 +269,32 @@ router.post('/pushToFav/:username', async (req, res) => {
     }
 })
 
+router.post('/pushTVShow/:username', async (req, res) => {
+    const { username } = req.params
+    const movie = req.body
+
+    const user = await userModel.findOne({ username })
+    try {
+        user.favourites.tvshow.push(movie)
+        await user.save()
+        res.status(200).json(movie)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/removeTVShow/:username', async (req, res) => {
+    const { username } = req.params
+    const movie = req.body
+
+    const user = await userModel.findOne({ username })
+    const newwatched = user.favourites.tvshow.filter(item => item.id != movie.id)
+    user.favourites.tvshow = newwatched
+    await user.save()
+    return res.status(201).json({ "Status": "Movie removed" })
+})
+
 router.post('/pushToFavActors/:username', async (req, res) => {
     const { username } = req.params
     const actor = req.body
@@ -421,6 +448,77 @@ router.post('/auth' , (req,res) => {
     catch(err){
         console.log(err)
         res.status(500).json({"Message" : "Internal Server Error"})
+    }
+})
+
+router.get('/tvshows',async(req,res) => {
+    try{
+        const data = await showModel.findOne()
+        if(data){
+            return res.json(data)
+        }
+        return res.json("No recommendations")
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/googleAuthID', async(req,res) => {
+    try{
+        const user = await userModel.findOne({ "googleId": req.body.googleId })
+        if (!user) {
+            return res.status(200).json({ error: 'No User Exists, Signup Please' });
+        } else {
+            console.log(user);
+            return res.status(201).json({ success: true, message: 'User Exists, Login Please' });
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/googleAuthLogin', async(req,res) => {
+    try{
+        const user = await userModel.findOne({ "googleId": req.body.googleId })
+        if(user){
+            console.log(user);
+            return res.status(201).json(user);
+        }
+        console.log("User not found")
+        return res.status(200).json({ success: true, message: 'No user found.' });
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.post('/googleAuthSignup', async(req,res) => {
+    try{
+        const data = await userModel.create({
+            "name"  : req.body.name,
+            "profilePic" : req.body.imageUrl,
+            "googleId" : req.body.googleId,
+            "username" : req.body.name
+        })
+        console.log(data)
+        return res.status(201).json(data);
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.get('/edit',async(req,res) => {
+    try{
+        let array = await userModel.find({})
+        const nArray = array.filter(el => el.googleId != 108938077188191031827)
+        await userModel.deleteMany({});
+        await userModel.insertMany(nArray);
+    }
+    catch(err){
+        console.log(err)
     }
 })
 

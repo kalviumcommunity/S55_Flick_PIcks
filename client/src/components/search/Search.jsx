@@ -15,15 +15,24 @@ function Search() {
 
   const [movieResults,setMovieResults] = useState()
   const [castResults,setCastResults] = useState()
+  const [showResults,setShowResults] = useState()
+
   const [popularCastResults,setPopularCastResults] = useState()
   const [popularMovieResults,setPopularMovieResults] = useState()
+  const [popularShowResults,setPopularShowResults] = useState()
+
+  const [TvShow,setTvShow] = useState()
 
   const [showPopular,setShowPopular] = useState(true)
 
   const MOVIE_URL = `https://api.themoviedb.org/3/search/movie?query=${searchInput}&include_adult=false&language=en-US&page=1`
   const CAST_URL = `https://api.themoviedb.org/3/search/person?query=${searchInput}&include_adult=false&language=en-US&page=1`
+  const SHOW_URL = `https://api.themoviedb.org/3/search/tv?query=${searchInput}&include_adult=false&language=en-US&page=1`
+
   const POPULARCAST_URL = `https://api.themoviedb.org/3/person/popular?language=en-US&page=1`
   const POPULARMOVIE_URL = `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`
+  const POPULARSHOW_URL = `https://api.themoviedb.org/3/trending/tv/day?language=en-US`
+
 
   const API_METHOD = (passed_url) => {
     return {
@@ -39,7 +48,7 @@ function Search() {
   const axios_request = (URL, location) => {
     axios.request(API_METHOD(URL))
       .then(function (response) {
-        console.log(response.data)
+        // console.log(response.data)
         location(response.data)
       })
       .catch(function (error) {
@@ -51,10 +60,15 @@ function Search() {
 
     axios_request(MOVIE_URL, setMovieResults)
     axios_request(CAST_URL, setCastResults)
+    axios_request(SHOW_URL, setShowResults)
+
     axios_request(POPULARCAST_URL, setPopularCastResults)
     axios_request(POPULARMOVIE_URL, setPopularMovieResults)
+    axios_request(POPULARSHOW_URL, setPopularShowResults)
 
   }, [searchInput])
+
+
 
   useEffect(()=>{
     if(searchInput == ""){
@@ -104,6 +118,7 @@ function Search() {
 
       <div className="movieButtonsArea">
         <button className={onMovie == "movie" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("movie")}>MOVIE</button>
+        <button className={onMovie == "tvshow" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("tvshow")}>TV SHOW</button>
         <button className={onMovie == "cast" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("cast")}>CAST & CREW</button>
         <button className={onMovie == "users" ? "selectedMovieButton" : "MovieButton"} onClick={() => setOnMovie("users")}>USERS</button>
       </div>
@@ -134,6 +149,39 @@ function Search() {
                     </div>
         })}
       </div>}
+
+
+      {!showPopular && onMovie == "tvshow" && <div className="result">
+        {showResults && onMovie == "tvshow" && showResults.results && showResults.results.map((el, index) => {
+            return <div className="searchResults white" onClick={() => navigate(`/`)}>
+                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`}/>
+                      <div className="searchRow">
+                      <div className='searchYear'>
+                        <div className="searchTitle">{el.name}</div>
+                        {/* <span>({el.release_date.split("-")[0]})</span> */}
+                      </div>
+                      <div className="searchDesc scrollbar">{el.overview}</div>
+                      </div>
+                    </div>
+        })}
+      </div>}
+      {showPopular && onMovie == "tvshow" && <div className="result">
+        {popularShowResults && onMovie == "tvshow" && popularShowResults.results && popularShowResults.results.map((el, index) => {
+            return <div className="searchResults white" onClick={() => navigate(`/`)}>
+                      <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`}/>
+                      <div className="searchRow">
+                      <div className='searchYear'>
+                        <div className="searchTitle">{el.name}</div>
+                        {/* <span>({el.release_date.split("-")[0]})</span> */}
+                      </div>
+                      <div className="searchDesc scrollbar">{el.overview}</div>
+                      </div>
+                    </div>
+        })}
+      </div>}
+
+
+
       {!showPopular && onMovie == "cast" && <div className="castResult">
         {castResults && onMovie == "cast" && castResults.results && castResults.results.map((el, index) => {
             return <div className="castSearchResults white" onClick={() => navigate(`/person/${el.id}`)}>
@@ -149,7 +197,6 @@ function Search() {
         })}
       </div>}
       {showPopular && onMovie == "cast" && <div className="castResult">
-        {console.log(popularCastResults)}
         {popularCastResults && onMovie == "cast" && popularCastResults.results && popularCastResults.results.map((el, index) => {
             return <div className="castSearchResults white" onClick={() => navigate(`/person/${el.id}`)}>
                       {el.profile_path ? <img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`}/>
@@ -163,8 +210,10 @@ function Search() {
                     </div>
         })}
       </div>}
+
+
+
       {showPopular && onMovie == "users" && <div className="castResult">
-        {console.log(popularCastResults)}
         {users && onMovie == "users" && users.map((el, index) => {
             return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
                       {el.profilePic ? <img src={el.profilePic}/>
@@ -179,9 +228,7 @@ function Search() {
                     </div>
         })}
       </div>}
-
       {!showPopular && onMovie == "users" && <div className="castResult">
-        {console.log(popularCastResults)}
         {users && onMovie == "users" && filterUsers().map((el, index) => {
             return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
                       {el.profilePic ? <img src={el.profilePic}/>

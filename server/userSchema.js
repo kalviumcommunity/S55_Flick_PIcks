@@ -13,8 +13,10 @@ const userSchema = mongoose.Schema({
         movies : Array,
         actors : Array,
         directors : Array,
+        tvshow : Array
     },
-    backdrop : Object
+    backdrop : Object,
+    googleId : String
 })
 
 const userModel = mongoose.model("user",userSchema)

@@ -39,7 +39,6 @@ function Recs() {
 
     useEffect(() => {
         getRecs()
-        console.log("blank use effect 44")
     }, [])
 
     function setGenre(passedGenre) {

@@ -23,6 +23,7 @@ function EditProfile() {
     const [actorSearch, setActorSearch] = useState(false)
     const [directorSearch, setDirectorSearch] = useState(false)
     const [backdropSearch, setBackdropSearch] = useState(false)
+    const [tvShowSearch, setTVShowSearch] = useState(false)
 
     const { username } = useParams()
 
@@ -69,6 +70,13 @@ function EditProfile() {
         getData()
     }
 
+    const removeTVShow = async (data) => {
+        const res = await axios.post(`http://localhost:3000/removeTVShow/${username}`, data)
+            .then()
+            .catch(err => console.log(err))
+        getData()
+    }
+
     const removeBackdrop = async () => {
         const res = await axios.post(`http://localhost:3000/rmBackdrop/${userData._id}`, {})
             .then()
@@ -93,9 +101,11 @@ function EditProfile() {
     const [movieResults, setMovieResults] = useState()
     const [castResults, setCastResults] = useState()
     const [searchInput, setSearchInput] = useState()
+    const [tvShowResults, setTVShowResults] = useState()
 
     const MOVIE_URL = `https://api.themoviedb.org/3/search/movie?query=${searchInput}&include_adult=false&language=en-US&page=1`
     const CAST_URL = `https://api.themoviedb.org/3/search/person?query=${searchInput}&include_adult=false&language=en-US&page=1`
+    const SHOW_URL = `https://api.themoviedb.org/3/search/tv?query=${searchInput}&include_adult=false&language=en-US&page=1`
 
     const API_METHOD = (passed_url) => {
         return {
@@ -122,6 +132,7 @@ function EditProfile() {
 
         axios_request(MOVIE_URL, setMovieResults)
         axios_request(CAST_URL, setCastResults)
+        axios_request(SHOW_URL, setTVShowResults)
 
     }, [searchInput])
 
@@ -144,6 +155,15 @@ function EditProfile() {
     const pushToFav = async (data) => {
         setMovieSearch(false)
         const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFav/${username}`, data)
+            .then(res => {
+            })
+            .catch(err => console.log(err))
+        getData()
+    }
+
+    const pushToTVShow = async (data) => {
+        setTVShowSearch(false)
+        const res = await axios.post(`http://localhost:3000/pushTVShow/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -307,6 +327,37 @@ function EditProfile() {
 
                     <div className="editFavFilmsArea">
                         <label className='fontColor'>
+                            FAVORITE TV SHOWS
+                        </label>
+                        <hr />
+
+                        <div className="fourFavs">
+                            {userData && userData.favourites && dummyArray.map((el, index) => {
+                                if (userData.favourites.tvshow[index]) {
+                                    return <div className="editFavs" key={index}>
+                                        <img src={`https://image.tmdb.org/t/p/original/${userData.favourites.tvshow[index].poster_path}`} alt="" />
+                                        <div className="editUserImgGradient">
+                                            {userData.favourites.tvshow[index].name}
+                                        </div>
+                                        <div className="movieDelete" onClick={() => removeTVShow(userData.favourites.tvshow[index])}>
+                                            <img src={close} alt="" />
+                                        </div>
+                                    </div>
+                                }
+                                else {
+                                    return <div className="extraFav" onClick={() => {
+                                        setTVShowSearch(true) 
+                                        setSearchInput("noresultsfound")
+                                    }}>
+                                        <img src={add} alt="" />
+                                    </div>
+                                }
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="editFavFilmsArea">
+                        <label className='fontColor'>
                             FAVORITE ACTORS
                         </label>
                         <hr />
@@ -369,7 +420,7 @@ function EditProfile() {
                 </div>
             </div>}
 
-            {(actorSearch || movieSearch || directorSearch || backdropSearch) && <div className="addFavFilm white mons">
+            {(actorSearch || movieSearch || directorSearch || backdropSearch || tvShowSearch) && <div className="addFavFilm white mons">
                 <div className="addFilmToFav">
                     <div className="searchAreaFav">
                         <div className="searchIconFav" onClick={handleClick}>
@@ -398,6 +449,19 @@ function EditProfile() {
                         {movieResults && movieResults.results && movieResults.results.map((el,index) => {
                             return <div className='favMovieAddResult' key={index} onClick={() => pushToBackdrop(el)}>
                                 <h3>{el.title} ({el.release_date && el.release_date.split("-")[0]})
+                                </h3>
+                            </div>
+                        })}
+
+                    </div>}
+
+                    {showTiles && tvShowSearch && <div className="FavSearchResults">
+                        <h3>TV SHOWS</h3>
+                        <hr className='red' />
+
+                        {tvShowResults && tvShowResults.results && tvShowResults.results.map((el,index) => {
+                            return <div className='favMovieAddResult' key={index} onClick={() => pushToTVShow(el)}>
+                                <h3>{el.name} 
                                 </h3>
                             </div>
                         })}
@@ -433,6 +497,7 @@ function EditProfile() {
                         setMovieSearch(false)
                         setActorSearch(false)
                         setDirectorSearch(false)
+                        setTVShowSearch(false)
                     }} />
                 </div>
             </div>}

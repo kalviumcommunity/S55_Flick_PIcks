@@ -110,6 +110,25 @@ function User() {
                         </div>
                     </div>}
 
+                    {genre == "profile" && userData.favourites.tvshow && <div className="favFilmsArea2 white mons">
+                        FAVOURITE TV SHOWS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                        <div className="images1">
+                            {userData.favourites.tvshow.map((el, index) => {
+                                    return (
+                                        <div className="item1" onClick={() => navigate(`/`)} key={index}>
+                                            <img src={`https://image.tmdb.org/t/p/original${el.poster_path}`} alt="Image 1" />
+                                            <div className="overlay1">
+                                                {el.name}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                        </div>
+                    </div>}
+
                     {genre == "profile" && userData.favourites.actors && <div className="favFilmsArea2 white mons">
                         FAVOURITE ACTORS
 
@@ -143,6 +162,8 @@ function User() {
                             })}
                         </div>
                     </div>}
+
+                    
 
                     {genre == "watchlist" ? <div className='favFilmsArea1'>
                         WATCHLIST
