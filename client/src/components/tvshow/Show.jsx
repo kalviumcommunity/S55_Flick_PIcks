@@ -214,7 +214,7 @@ function Show() {
   }
 
   async function addToRecommended() {
-    const res = await axios.post('http://localhost:3000/addToRec', data)
+    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }

@@ -71,14 +71,14 @@ function EditProfile() {
     }
 
     const removeTVShow = async (data) => {
-        const res = await axios.post(`http://localhost:3000/removeTVShow/${username}`, data)
+        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeTVShow/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeBackdrop = async () => {
-        const res = await axios.post(`http://localhost:3000/rmBackdrop/${userData._id}`, {})
+        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/rmBackdrop/${userData._id}`, {})
             .then()
             .catch(err => console.log(err))
         getData()
@@ -163,7 +163,7 @@ function EditProfile() {
 
     const pushToTVShow = async (data) => {
         setTVShowSearch(false)
-        const res = await axios.post(`http://localhost:3000/pushTVShow/${username}`, data)
+        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushTVShow/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -172,7 +172,7 @@ function EditProfile() {
 
     const pushToBackdrop = async (data) => {
         setBackdropSearch(false)
-        const res = await axios.post(`http://localhost:3000/backdrop/${userData._id}`, data)
+        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/backdrop/${userData._id}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))

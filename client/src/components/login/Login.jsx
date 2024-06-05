@@ -42,7 +42,7 @@ function loginPage() {
 
   async function createUser(data){
     console.log("Create User Working")
-    const response = await axios.post('http://localhost:3000/googleAuthSignup', data)
+    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup', data)
     .then(response => {
       console.log(response)
       if(response.status === 201){
@@ -56,7 +56,7 @@ function loginPage() {
 
   async function loginUser(data){
     console.log("Login User Working")
-    const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
+    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthLogin', data)
       .then(response => {
         console.log(response)
         if(response.status === 201){
@@ -71,7 +71,7 @@ function loginPage() {
   async function onSuccess(res) {
     console.log("Login Success, Current user -> ", res.profileObj)
 
-    const data = await axios.post('http://localhost:3000/googleAuthID', res.profileObj)
+    const data = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthID', res.profileObj)
     .then(data => {
       if(data.status === 200){
         createUser(res.profileObj)

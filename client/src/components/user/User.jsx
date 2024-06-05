@@ -45,7 +45,7 @@ function User() {
     };
 
     async function delAccount(){
-        const res = await axios.delete(`http://localhost:3000/delete/${userData._id}`)
+        const res = await axios.delete(`https://s55-shaaz-capstone-flickpicks.onrender.com/delete/${userData._id}`)
         .then(res => {
             if(res.status == 200){
                 alert("User Deleted Succesfully")
