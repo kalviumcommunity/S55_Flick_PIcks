@@ -286,13 +286,13 @@ router.post('/pushTVShow/:username', async (req, res) => {
 
 router.post('/removeTVShow/:username', async (req, res) => {
     const { username } = req.params
-    const movie = req.body
+    const show = req.body
 
     const user = await userModel.findOne({ username })
-    const newwatched = user.favourites.tvshow.filter(item => item.id != movie.id)
+    const newwatched = user.favourites.tvshow.filter(item => item.id != show.id)
     user.favourites.tvshow = newwatched
     await user.save()
-    return res.status(201).json({ "Status": "Movie removed" })
+    return res.status(201).json({ "Status": "Show removed" })
 })
 
 router.post('/pushToFavActors/:username', async (req, res) => {
@@ -496,14 +496,20 @@ router.post('/googleAuthLogin', async(req,res) => {
 
 router.post('/googleAuthSignup', async(req,res) => {
     try{
-        const data = await userModel.create({
-            "name"  : req.body.name,
-            "profilePic" : req.body.imageUrl,
-            "googleId" : req.body.googleId,
-            "username" : req.body.name
-        })
-        console.log(data)
-        return res.status(201).json(data);
+        console.log(req.body)
+        if(req.body.name && req.body.imageUrl && req.body.googleId){
+            const data = await userModel.create({
+                "name"  : req.body.name,
+                "profilePic" : req.body.imageUrl,
+                "googleId" : req.body.googleId,
+                "username" : req.body.name
+            })
+            if(data){
+                console.log(data)
+                return res.status(201).json(data);
+            }
+            return res.status(200).send("Internal Error")
+        }
     }
     catch(err){
         console.log(err)
