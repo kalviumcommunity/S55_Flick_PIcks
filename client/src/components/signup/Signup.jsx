@@ -17,7 +17,7 @@ function loginPage() {
 
   const navigate = useNavigate()
 
-  const [click, setClick] = useState(true)
+  const [googleUserData,setGoogleUserData] = useState({})
 
   const onSubmit = async (values) => {
     if (values.password != values.confirmPassword) {
@@ -55,30 +55,51 @@ function loginPage() {
     }
   }
 
-  const clientID = "934760259390-idpvnt9md5ov9pr4lnoufcb0obh56eue.apps.googleusercontent.com"
+  const [click, setClick] = useState(true)
 
-  async function createUser(data){
-    console.log("Create User Working")
-    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup', data)
-    .then(response => {
-      console.log(response)
-      if(response.status === 201){
-        localStorage.setItem("useInfo",response.data)
-        localStorage.setItem("user",true)
-      }
-      navigate('/recs')
-    })
+  async function createUserSignup() {
+    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+      .then(response => {
+        console.log("RES",response)
+        localStorage.setItem("useInfo", response.data)
+        localStorage.setItem("user", true)
+        navigate('/recs')
+      })
       .catch(err => console.log(err))
   }
 
-  async function loginUser(data){
+  async function handleUsername() {
+    const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', { "username": username })
+      .then(test => {
+        console.log("TEST", test)
+        if (test.status == 200) {
+          createUserSignup()
+        }
+        else {
+          alert("Username Not Available")
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  const [showUsername, setShowUsername] = useState(true)
+
+  const clientID = "934760259390-idpvnt9md5ov9pr4lnoufcb0obh56eue.apps.googleusercontent.com"
+
+  async function createUser(data) {
+    console.log("Create User Working")
+    setGoogleUserData(data)
+    setShowUsername(false)
+  }
+
+  async function loginUser(data) {
     console.log("Login User Working")
     const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthLogin', data)
       .then(response => {
         console.log(response)
-        if(response.status === 201){
-          localStorage.setItem("useInfo",response.data)
-          localStorage.setItem("user",true)
+        if (response.status === 201) {
+          localStorage.setItem("useInfo", response.data)
+          localStorage.setItem("user", true)
         }
         navigate('/recs')
       })
@@ -119,10 +140,16 @@ function loginPage() {
     gapi.load('client:auth2', start)
 }, [])
 
+const [username, setUsername] = useState('')
+
+  const handleChange = (event) => {
+    setUsername(event.target.value)
+  }
+
   return (
     <div className='areaCenterLogin mons'>
 
-      <form className="signupRectangle" onSubmit={handleSubmit(onSubmit)}>
+      {showUsername && <form className="signupRectangle" onSubmit={handleSubmit(onSubmit)}>
         <h2>SIGNUP</h2>
 
         <div className="inputLoginArea">
@@ -195,7 +222,23 @@ function loginPage() {
         <button type='submit' value='submit' className='signupButton'>
           SIGNUP
         </button>
-      </form>
+      </form>}
+
+      {!showUsername && <div className="signupRectangle">
+        <h2>LOGIN</h2>
+
+        <div className="inputLoginArea inputLoginArea2">
+          <label htmlFor="username">
+            Username
+          </label>
+          <input value={username} onChange={handleChange} placeholder="Enter your username" />
+          <img src={person} className='userPlaceholder' />
+        </div>
+
+        <button className='submitUsername' onClick={() => handleUsername()}>
+          SUBMIT
+        </button>
+      </div>}
 
 
       <img src={signup} alt="" className='loginPageImg' />

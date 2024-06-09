@@ -85,7 +85,7 @@ function Show() {
   const [showAllReviews, setShowAllReviews] = useState(false)
 
   const handleMovieClick = (movie_id) => {
-    navigate(`/movie/${movie_id}`)
+    navigate(`/tvshow/${movie_id}`)
   }
 
   const findDirector = cast.crew && cast.crew.find(el => {
@@ -98,68 +98,55 @@ function Show() {
   }
 
   const redirectClass = () => {
-    navigate(`/movie/${id}/cast`)
+    navigate(`/tvshow/${id}/cast`)
   }
 
   const redirectRecs = () => {
-    navigate(`/movie/${id}/recs`)
+    navigate(`/tvshow/${id}/recs`)
   }
 
   const redirectSimilar = () => {
-    navigate(`/movie/${id}/similar`)
+    navigate(`/tvshow/${id}/similar`)
   }
 
   const addToList = async (listName) => {
-    const username = sessionStorage.getItem("username")
-    try {
-      const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/addTo${listName}/${username}`, data)
-      if (listName == "Watchlist") {
-        if (response.status == 200) {
-          setWatchlistAdded(true)
-          setTimeout(() => {
-            setWatchlistAdded(false)
-          }, 3000)
+    const ID = localStorage.getItem("userID")
+    if (ID) {
+      if (listName == "Watched") {
+        try {
+          const response = await axios.put(`http://localhost:3000/addToTVWatched/${ID}`, data)
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
         }
-        else if (response.status == 201) {
-          setWatchlistRemoved(true)
-          setTimeout(() => {
-            setWatchlistRemoved(false)
-          }, 3000)
+        catch (err) {
+          console.log(err)
+        }
+      }
+      else if (listName == "Watchlist") {
+        try {
+          const response = await axios.put(`http://localhost:3000/addToTVWatchlist/${ID}`, data)
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
+        }
+        catch (err) {
+          console.log(err)
         }
       }
       else if (listName == "Liked") {
-        if (response.status == 200) {
-          setLikedAdded(true)
-          setTimeout(() => {
-            setLikedAdded(false)
-          }, 3000)
+        try {
+          const response = await axios.put(`http://localhost:3000/addToTVLiked/${ID}`, data)
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
         }
-        else if (response.status == 201) {
-          setLikedRemoved(true)
-          setTimeout(() => {
-            setLikedRemoved(false)
-          }, 3000)
-        }
-      }
-      else if (listName == "Watched") {
-        if (response.status == 200) {
-          setWatchedAdded(true)
-          setTimeout(() => {
-            setWatchedAdded(false)
-          }, 3000)
-        }
-        else if (response.status == 201) {
-          setWatchedRemoved(true)
-          setTimeout(() => {
-            setWatchedRemoved(false)
-          }, 3000)
+        catch (err) {
+          console.log(err)
         }
       }
     }
-    catch (err) {
-      alert("Unable to add movie. Try sigining in!")
-      console.log(err)
+    else {
+      alert('Login Please')
     }
+
     handle()
   }
 
@@ -184,37 +171,39 @@ function Show() {
 
   const handle = async () => {
 
-    const username = sessionStorage.getItem("username")
+    const ID = localStorage.getItem("userID")
 
-    console.log("handle is working")
+    if (ID) {
 
-    const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatchlist/${username}`, data)
-    if (res1.status == 200) {
-      setInWachlist(true)
-    }
-    else {
-      setInWachlist(false)
-    }
+      const res1 = await axios.post(`http://localhost:3000/isInTVWatchlist/${ID}`, data)
+      if (res1.status == 200) {
+        setInWachlist(true)
+      }
+      else {
+        setInWachlist(false)
+      }
 
-    const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInLiked/${username}`, data)
-    if (res2.status == 200) {
-      setInLiked(true)
-    }
-    else {
-      setInLiked(false)
-    }
+      const res2 = await axios.post(`http://localhost:3000/isInTVLiked/${ID}`, data)
+      if (res2.status == 200) {
+        setInLiked(true)
+      }
+      else {
+        setInLiked(false)
+      }
 
-    const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatched/${username}`, data)
-    if (res3.status == 200) {
-      setInWatched(true)
-    }
-    else {
-      setInWatched(false)
+      const res3 = await axios.post(`http://localhost:3000/isInTVWatched/${ID}`, data)
+      if (res3.status == 200) {
+        setInWatched(true)
+      }
+      else {
+        setInWatched(false)
+      }
+
     }
   }
 
   async function addToRecommended() {
-    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToRec', data)
+    const res = await axios.post('http://localhost:3000/addToTVRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }
@@ -355,12 +344,12 @@ function Show() {
 
             {/* {RECCOMENDATIONS AREA} */}
 
-            <h1 className="cast white flex-center">
+            {recommendations && <h1 className="cast white flex-center">
               Recommendations
               <img src={next} alt="" className='' loading="lazy" />
-            </h1>
+            </h1>}
 
-            <div className='profileArea scrollbar'>
+            {recommendations && <div className='profileArea scrollbar'>
               {recommendations.results && recommendations.results.map((el, index) => {
                 if (index < 10) {
                   return (
@@ -384,7 +373,7 @@ function Show() {
                 <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
 
               </div>
-            </div>
+            </div>}
 
             {/* {RECCOMENDATIONS AREA OVER} */}
 

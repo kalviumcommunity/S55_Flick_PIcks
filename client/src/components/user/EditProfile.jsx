@@ -207,8 +207,8 @@ function EditProfile() {
 
     return (
         <div>
-            {userData && <div className="editProfilePage white mons">
-                <div className="EditArea">
+            {userData && <div className="editProfilePage white mons ">
+                <div className="EditArea ">
                     {/* <div className="editImgArea">
                         <img src={image ? image : userData.profilePic} alt="" className='editProfileImg' />
                         <div className="editImgGradient">

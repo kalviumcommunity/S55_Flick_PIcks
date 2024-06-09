@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.css'
 import login from '../../assets/login.png'
 import { Link } from 'react-router-dom'
@@ -17,15 +17,17 @@ function loginPage() {
 
   const navigate = useNavigate()
 
+  const [googleUserData,setGoogleUserData] = useState({})
+
   const onSubmit = (values) => {
     try {
-      const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/login', values)
+      const res = axios.post('http://localhost:3000/login', values)
         .then((res) => {
-
+          console.log(res)
           if (res.status == 200) {
-            sessionStorage.setItem('username', values.username)
+            localStorage.setItem("userID",res.data._id)
+            localStorage.setItem("user",true)
             navigate('/recs')
-            console.log("Login Successfull")
           }
           else {
             alert("Invalid Credentials")
@@ -38,30 +40,49 @@ function loginPage() {
     }
   }
 
-  const clientID = "934760259390-idpvnt9md5ov9pr4lnoufcb0obh56eue.apps.googleusercontent.com"
-
-  async function createUser(data){
-    console.log("Create User Working")
-    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup', data)
-    .then(response => {
-      console.log(response)
-      if(response.status === 201){
-        localStorage.setItem("useInfo",response.data)
-        localStorage.setItem("user",true)
-      }
-      navigate('/recs')
-    })
+  async function createUserSignup() {
+    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+      .then(response => {
+        localStorage.setItem("userInfo", response.data)
+        localStorage.setItem("user", true)
+        console.log("LOCAL STORAGE",localStorage.getItem("userInfo"))
+        navigate('/recs')
+      })
       .catch(err => console.log(err))
   }
 
-  async function loginUser(data){
+  async function handleUsername() {
+    const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', { "username": username })
+      .then(test => {
+        console.log("TEST", test)
+        if (test.status == 200) {
+          createUserSignup()
+        }
+        else {
+          alert("Username Not Available")
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  const [showUsername, setShowUsername] = useState(true)
+
+  const clientID = "934760259390-idpvnt9md5ov9pr4lnoufcb0obh56eue.apps.googleusercontent.com"
+
+  async function createUser(data) {
+    setGoogleUserData(data)
+    setShowUsername(false)
+  }
+
+  async function loginUser(data) {
     console.log("Login User Working")
     const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthLogin', data)
       .then(response => {
         console.log(response)
-        if(response.status === 201){
-          localStorage.setItem("useInfo",response.data)
-          localStorage.setItem("user",true)
+        if (response.status === 201) {
+          localStorage.setItem("userID", response.data._id)
+          localStorage.setItem("user", true)
+          console.log("LOCAL STORAGE",localStorage.getItem("userID"))
         }
         navigate('/recs')
       })
@@ -69,18 +90,16 @@ function loginPage() {
   }
 
   async function onSuccess(res) {
-    console.log("Login Success, Current user -> ", res.profileObj)
-
     const data = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthID', res.profileObj)
-    .then(data => {
-      if(data.status === 200){
-        createUser(res.profileObj)
-      }
-      else if(data.status === 201){
-        loginUser(res.profileObj)
-      }
-    })
-    .catch(err => console.log(err))
+      .then(data => {
+        if (data.status === 200) {
+          createUser(res.profileObj)
+        }
+        else if (data.status === 201) {
+          loginUser(res.profileObj)
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   function onFailure(res) {
@@ -89,24 +108,30 @@ function loginPage() {
 
   useEffect(() => {
     function start() {
-        gapi.client.init({
-            clientId: clientID,
-            scope: "email"
-        }).then(() => {
-            console.log('Google API client initialized')
-        }, (error) => {
-            console.error('Error initializing Google API client:', error)
-        })
+      gapi.client.init({
+        clientId: clientID,
+        scope: "email"
+      }).then(() => {
+        console.log('Google API client initialized')
+      }, (error) => {
+        console.error('Error initializing Google API client:', error)
+      })
     }
 
     gapi.load('client:auth2', start)
-}, [])
+  }, [])
+
+  const [username, setUsername] = useState('')
+
+  const handleChange = (event) => {
+    setUsername(event.target.value)
+  }
 
   return (
     <div className='areaCenterLogin mons'>
       <img src={login} alt="" className='loginPageImg' />
 
-      <form className="loginRectangle" onSubmit={handleSubmit(onSubmit)}>
+      {showUsername && <form className="loginRectangle" onSubmit={handleSubmit(onSubmit)}>
         <h2>LOGIN</h2>
 
         <div className="inputLoginArea">
@@ -153,14 +178,30 @@ function loginPage() {
 
 
         <h4 onClick={() => navigate('/signup')}>Not a User? <span className='underline'> SIGNUP HERE
-          </span>
+        </span>
         </h4>
 
 
         <button type='submit' value='submit' className='signupButton' >
           LOGIN
         </button>
-      </form>
+      </form>}
+
+      {!showUsername && <div className="loginRectangle">
+        <h2>LOGIN</h2>
+
+        <div className="inputLoginArea inputLoginArea2">
+          <label htmlFor="username">
+            Username
+          </label>
+          <input value={username} onChange={handleChange} placeholder="Enter your username" />
+          <img src={person} className='userPlaceholder' />
+        </div>
+
+        <button className='submitUsername' onClick={() => handleUsername()}>
+          SUBMIT
+        </button>
+      </div>}
     </div>
   )
 }

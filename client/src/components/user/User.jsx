@@ -25,11 +25,18 @@ function User() {
     const [userData, setUserData] = useState()
     const [genre, setGenre] = useState("profile")
     const [mouseEnter, setMouseEnter] = useState(false)
+    const [currUserID,setCurrUserID] = useState(false)
+
+    
+    const ID = localStorage.getItem("userID")
 
     const getUserData = async () => {
         const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
             .then(res => {
                 setUserData(res.data)
+                if(res.data._id == ID){
+                    setCurrUserID(true)
+                }
             })
             .catch(err => console.log(err))
     }
@@ -78,10 +85,10 @@ function User() {
                         <div className="nameAndBio1">
                             <div className="name1">
                                 {userData.username}
-                                <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
+                                {currUserID && <button className="editProfile" onClick={() => navigate(`/editProfile/${username}`)}>
                                     EDIT <img src={edit}/>
-                                </button>
-                                <button className="delProfile"><img src={del} onClick={() => delAccount()}/></button>
+                                </button>}
+                                {currUserID && <button className="delProfile"><img src={del} onClick={() => delAccount()}/></button>}
                             </div>
                             <div className="bio1">
                                 {userData.bio}
@@ -93,7 +100,7 @@ function User() {
                         FAVOURITE FILMS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
-
+                        {userData.favourites.movies.length == 0 && <div className='marginCenter'>NO FAVOURITE FILMS</div>}
                         <div className="images1">
                             {userData.favourites.movies.map((el, index) => {
                                 return (
@@ -114,7 +121,8 @@ function User() {
                         FAVOURITE TV SHOWS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
-
+                        
+                        {userData.favourites.tvshow.length == 0 && <div className='marginCenter'>NO FAVOURITE TV SHOWS</div>}
                         <div className="images1">
                             {userData.favourites.tvshow.map((el, index) => {
                                     return (
@@ -133,7 +141,8 @@ function User() {
                         FAVOURITE ACTORS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
-
+                        
+                        {userData.favourites.actors.length == 0 && <div className='marginCenter'>NO FAVOURITE ACTORS</div>}
                         <div className="images1">
                             {userData.favourites.actors.map((el, index) => {
                                 return (
@@ -151,6 +160,7 @@ function User() {
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
+                        {userData.favourites.directors.length == 0 && <div className='marginCenter'>NO FAVOURITE DIRECTORS</div>}
                         <div className="images1">
                             {userData.favourites.directors.map((el, index) => {
                                 return (
@@ -168,6 +178,10 @@ function User() {
                     {genre == "watchlist" ? <div className='favFilmsArea1'>
                         WATCHLIST
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+
+                            <div className="optionBoxArea">
+                                <div className="optionBox">MOVIES</div>
+                            </div>
 
                         <div className="userWatchedTile">
 

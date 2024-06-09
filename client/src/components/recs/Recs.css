@@ -162,3 +162,85 @@
 .r1:hover,.r2:hover,.r3:hover{
     cursor: pointer;
 }
+
+.switchTab{
+    position: absolute;
+    bottom: 7%;
+    right: 3%;
+    z-index: 100;
+    border: 3px solid rgb(255, 255, 255);
+    height: 60px;
+    display: flex;
+    opacity: 0.75;
+    border-radius: 2px;
+}
+
+.switchTab:hover{
+    cursor: pointer;
+}
+
+.switchTab img{
+    width: 30px;
+    height: 30px;
+    opacity: 0.9;
+}
+
+.movieArea1{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
+    border-right: 3px solid rgb(255, 255, 255);
+    /* background-color: rgba(255, 255, 255, 0.311); */
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.movieArea1 img{
+    margin-right: 10px;
+}
+
+.showArea1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* background-color: rgba(255, 255, 255, 0.311); */
+}
+
+.blackText{
+    color: rgb(255, 255, 255);
+}
+
+.switchTab img{
+    width: 30px;
+    height: 30px;
+    opacity: 0.9;
+}
+
+.showArea2{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
+    /* background-color: rgba(255, 255, 255, 0.311); */
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.showArea2:hover{
+    opacity: 1;
+}
+
+.showArea2 img{
+    margin-right: 10px;
+}
+
+.movieArea2{
+    display: flex;
+    border-right: 3px solid rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* background-color: rgba(255, 255, 255, 0.311); */
+}

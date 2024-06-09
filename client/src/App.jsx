@@ -18,6 +18,9 @@ import Show from './components/tvshow/Show'
 import Login from './components/login/Login'
 import SignupPage from './components/signup/Signup'
 import Logout from './components/login/Logout'
+import TVCast from './components/tvshow/info/Cast'
+import TVRecs from './components/tvshow/info/Recs'
+import TVSimilar from './components/tvshow/info/Similar'
 
 import ScrollToTop from './ScrollToTop'
 
@@ -34,6 +37,9 @@ function App() {
         <Route path='/movie/:id/similar' element={<Similar/>}/>
         
         <Route path='/tvshow/:id' element={<Show/>}/>
+        <Route path='/tvshow/:id/cast' element={<TVCast/>}/>
+        <Route path='/tvshow/:id/recs' element={<TVRecs/>}/>
+        <Route path='/tvshow/:id/similar' element={<TVSimilar/>}/>
 
         <Route path='/person/:id' element={<Person/>}/>
         <Route path='/search' element={<Search/>}/>

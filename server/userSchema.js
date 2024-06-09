@@ -16,7 +16,12 @@ const userSchema = mongoose.Schema({
         tvshow : Array
     },
     backdrop : Object,
-    googleId : String
+    googleId : String,
+    tv : {
+        watchlist : Array,
+        watched : Array,
+        liked : Array,
+    }
 })
 
 const userModel = mongoose.model("user",userSchema)

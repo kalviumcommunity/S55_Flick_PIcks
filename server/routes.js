@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({ error: 'Invalid username or password' });
         } else {
-            return res.status(200).json({ success: true, message: 'Login successful' });
+            return res.status(200).json(user);
         }
     }
     catch (err) {
@@ -407,14 +407,12 @@ router.post('/addToRec', async (req, res) => {
         const user = await movieModel.findOne({ "user": "admin" })
         const isExisting = user.random.some(item => item.id === movieDetail.id)
 
-        // random array already exists in the backend
-
         if (!isExisting) {
             user.random.push(movieDetail)
             await user.save()
             res.status(200).json(req.body)
         } else {
-            res.status(400).json({error: "Movie exists"})
+            res.status(400).json({ error: "Movie exists" })
         }
     }
     catch (err) {
@@ -423,49 +421,38 @@ router.post('/addToRec', async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', async(req,res) => {
+router.delete('/delete/:id', async (req, res) => {
     // user will only be able to delete if he can click on teh button 
     // button will only be visible when user is on his own userpage
 
-    try{
+    try {
         const deletedUser = await userModel.findByIdAndDelete(req.params.id)
-        if(!deletedUser){
-            return res.status(400).json({"Message" : "User not found"})
+        if (!deletedUser) {
+            return res.status(400).json({ "Message": "User not found" })
         }
-        return res.status(200).json({"message" : "User deleted succesfully"})
+        return res.status(200).json({ "message": "User deleted succesfully" })
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         return res.status(500).json(err)
     }
 })
 
-router.post('/auth' , (req,res) => {
-    try{
-        const accessToken = jwt.sign(req.body,process.env.ACCESS_TOKEN_SECRET)
-        res.status(200).json({"AT": accessToken})
-    }
-    catch(err){
-        console.log(err)
-        res.status(500).json({"Message" : "Internal Server Error"})
-    }
-})
-
-router.get('/tvshows',async(req,res) => {
-    try{
+router.get('/tvshows', async (req, res) => {
+    try {
         const data = await showModel.findOne()
-        if(data){
+        if (data) {
             return res.json(data)
         }
         return res.json("No recommendations")
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 })
 
-router.post('/googleAuthID', async(req,res) => {
-    try{
+router.post('/googleAuthID', async (req, res) => {
+    try {
         const user = await userModel.findOne({ "googleId": req.body.googleId })
         if (!user) {
             return res.status(200).json({ error: 'No User Exists, Signup Please' });
@@ -474,57 +461,227 @@ router.post('/googleAuthID', async(req,res) => {
             return res.status(201).json({ success: true, message: 'User Exists, Login Please' });
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 })
 
-router.post('/googleAuthLogin', async(req,res) => {
-    try{
+router.post('/googleAuthLogin', async (req, res) => {
+    try {
         const user = await userModel.findOne({ "googleId": req.body.googleId })
-        if(user){
+        if (user) {
             console.log(user);
             return res.status(201).json(user);
         }
         console.log("User not found")
         return res.status(200).json({ success: true, message: 'No user found.' });
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 })
 
-router.post('/googleAuthSignup', async(req,res) => {
-    try{
+router.post('/googleAuthSignup', async (req, res) => {
+    try {
         console.log(req.body)
-        if(req.body.name && req.body.imageUrl && req.body.googleId){
+        if (req.body.name && req.body.imageUrl && req.body.googleId) {
             const data = await userModel.create({
-                "name"  : req.body.name,
-                "profilePic" : req.body.imageUrl,
-                "googleId" : req.body.googleId,
-                "username" : req.body.name
+                "name": req.body.name,
+                "profilePic": req.body.imageUrl,
+                "googleId": req.body.googleId,
+                "username": req.body.name
             })
-            if(data){
+            if (data) {
                 console.log(data)
                 return res.status(201).json(data);
             }
             return res.status(200).send("Internal Error")
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
 })
 
-router.get('/edit',async(req,res) => {
-    try{
+router.get('/edit', async (req, res) => {
+    try {
         let array = await userModel.find({})
         const nArray = array.filter(el => el.googleId != 108938077188191031827)
         await userModel.deleteMany({});
         await userModel.insertMany(nArray);
     }
-    catch(err){
+    catch (err) {
         console.log(err)
+    }
+})
+
+router.post('/googleAuthSignup/:username', async (req, res) => {
+    try {
+        console.log(req.body)
+        if (req.body.name && req.body.imageUrl && req.body.googleId) {
+            const data = await userModel.create({
+                "name": req.body.name,
+                "profilePic": req.body.imageUrl,
+                "googleId": req.body.googleId,
+                "username": req.params.username
+            })
+            if (data) {
+                console.log(data)
+                return res.status(201).json(data);
+            }
+            return res.status(200).send("Internal Error")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/addToTVWatchlist/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id: id })
+    const isPresent = user.tv.watchlist.find(item => item.id == show.id)
+    if (isPresent) {
+        const newWatchlist = user.tv.watchlist.filter(item => item.id != show.id)
+        user.tv.watchlist = newWatchlist
+        await user.save()
+        return res.status(201).json({ "Status": "Show removed" })
+    }
+    else {
+        try {
+            user.tv.watchlist.push(show)
+            await user.save()
+            res.status(200).json(show)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+})
+
+router.put('/addToTVLiked/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id: id })
+    const isPresent = user.tv.liked.find(item => item.id == show.id)
+    if (isPresent) {
+        const newWatchlist = user.tv.liked.filter(item => item.id != show.id)
+        user.tv.liked = newWatchlist
+        await user.save()
+        return res.status(201).json({ "Status": "Show removed" })
+    }
+    else {
+        try {
+            user.tv.liked.push(show)
+            await user.save()
+            res.status(200).json(show)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+})
+
+router.put('/addToTVWatched/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id: id })
+    const isPresent = user.tv.watched.find(item => item.id == show.id)
+    if (isPresent) {
+        const newWatchlist = user.tv.watched.filter(item => item.id != show.id)
+        user.tv.watched = newWatchlist
+        await user.save()
+        return res.status(201).json({ "Status": "Show removed" })
+    }
+    else {
+        try {
+            user.tv.watched.push(show)
+            await user.save()
+            res.status(200).json(show)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+})
+
+router.post('/isInTVWatchlist/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id : id })
+    const isPresent = user.tv.watchlist.find(item => item.id === show.id)
+
+    if (isPresent) {
+        return res.status(200).json("Show is in Watchlist")
+    }
+    else {
+        return res.status(201).json("Show is not in Watchlist")
+    }
+})
+
+router.post('/isInTVLiked/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id : id })
+    const isPresent = user.tv.liked.find(item => item.id === show.id)
+
+    if (isPresent) {
+        return res.status(200).json("Show is in Liked")
+    }
+    else {
+        return res.status(201).json("Show is not in Liked")
+    }
+})
+
+router.post('/isInTVWatched/:id', async (req, res) => {
+    const { id } = req.params
+    const show = req.body
+
+    const user = await userModel.findOne({ _id : id })
+    const isPresent = user.tv.watched.find(item => item.id === show.id)
+
+    if (isPresent) {
+        return res.status(200).json("Show is in Watched")
+    }
+    else {
+        return res.status(201).json("Show is not in Watched")
+    }
+})
+
+router.post('/addToTVRec', async (req, res) => {
+    const show = req.body
+    try {
+        const user = await showModel.findOne({ "user": "admin" })
+        const isExisting = user.random.some(item => item.id === show.id)
+
+        if (!isExisting) {
+            user.random.push(show)
+            await user.save()
+            res.status(200).json(req.body)
+        } else {
+            res.status(400).json({ error: "Show exists" })
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.post('/auth', (req, res) => {
+    try {
+        const accessToken = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET)
+        res.status(200).json({ "AT": accessToken })
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({ "Message": "Internal Server Error" })
     }
 })
 

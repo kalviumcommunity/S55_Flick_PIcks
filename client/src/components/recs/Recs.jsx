@@ -16,6 +16,9 @@ import scifi from '../../assets/logos/scifi.png'
 import random from '../../assets/logos/random.png'
 
 
+import movie from '../../assets/movieWhite.png'
+import tvShow from '../../assets/showWhite.png'
+
 function Recs() {
 
     const navigate = useNavigate()
@@ -196,6 +199,15 @@ function Recs() {
                     </div>
                 </div>
 
+
+                </div>
+                <div className="switchTab">
+                    <div className="movieArea1 blackText">
+                        <img src={movie}/> MOVIES
+                    </div>
+                    <div className="showArea1" onClick={() => navigate('/tvrecs')}>
+                        <img src={tvShow}/>
+                    </div>
                 </div>
 
             </div>}

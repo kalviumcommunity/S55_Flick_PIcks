@@ -9,10 +9,12 @@ import action from '../../assets/logos/action.png'
 import comedy from '../../assets/logos/comedy.png'
 import horror from '../../assets/logos/horror.png'
 import drama from '../../assets/drama.png'
-import thriller from '../../assets/logos/thriller.png'
 import sitcom from '../../assets/sitcom.png'
 import scifi from '../../assets/logos/scifi.png'
 import random from '../../assets/logos/random.png'
+
+import movie from '../../assets/movieWhite.png'
+import tvShow from '../../assets/showWhite.png'
 
 function TvRecs() {
 
@@ -179,6 +181,15 @@ function TvRecs() {
                         </div>
 
                     </div>
+
+                    <div className="switchTab">
+                    <div className="movieArea2 blackText"  onClick={() => navigate('/recs')}>
+                        <img src={movie}/>
+                    </div>
+                    <div className="showArea2">
+                        <img src={tvShow}/> TV SHOWS
+                    </div>
+                </div>
 
                 </div>}
             </div>

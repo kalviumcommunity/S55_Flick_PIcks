@@ -216,7 +216,7 @@ function Search() {
       {showPopular && onMovie == "users" && <div className="castResult">
         {users && onMovie == "users" && users.map((el, index) => {
             return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
-                      {el.profilePic ? <img src={el.profilePic}/>
+                      {el.profilePic ? <div className='centerMid'><img src={el.profilePic}/></div>
                                        : <div className='userNotFound'><img src={user}/>
                                        </div>}
                       <div className="searchRow">
