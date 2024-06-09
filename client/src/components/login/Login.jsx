@@ -21,7 +21,7 @@ function loginPage() {
 
   const onSubmit = (values) => {
     try {
-      const res = axios.post('http://localhost:3000/login', values)
+      const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/login', values)
         .then((res) => {
           console.log(res)
           if (res.status == 200) {
@@ -41,7 +41,7 @@ function loginPage() {
   }
 
   async function createUserSignup() {
-    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         localStorage.setItem("userInfo", response.data)
         localStorage.setItem("user", true)

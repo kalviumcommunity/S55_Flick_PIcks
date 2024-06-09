@@ -114,7 +114,7 @@ function Show() {
     if (ID) {
       if (listName == "Watched") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVWatched/${ID}`, data)
+          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVWatched/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -124,7 +124,7 @@ function Show() {
       }
       else if (listName == "Watchlist") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVWatchlist/${ID}`, data)
+          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVWatchlist/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -134,7 +134,7 @@ function Show() {
       }
       else if (listName == "Liked") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVLiked/${ID}`, data)
+          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVLiked/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -175,7 +175,7 @@ function Show() {
 
     if (ID) {
 
-      const res1 = await axios.post(`http://localhost:3000/isInTVWatchlist/${ID}`, data)
+      const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVWatchlist/${ID}`, data)
       if (res1.status == 200) {
         setInWachlist(true)
       }
@@ -183,7 +183,7 @@ function Show() {
         setInWachlist(false)
       }
 
-      const res2 = await axios.post(`http://localhost:3000/isInTVLiked/${ID}`, data)
+      const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVLiked/${ID}`, data)
       if (res2.status == 200) {
         setInLiked(true)
       }
@@ -191,7 +191,7 @@ function Show() {
         setInLiked(false)
       }
 
-      const res3 = await axios.post(`http://localhost:3000/isInTVWatched/${ID}`, data)
+      const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVWatched/${ID}`, data)
       if (res3.status == 200) {
         setInWatched(true)
       }
@@ -203,7 +203,7 @@ function Show() {
   }
 
   async function addToRecommended() {
-    const res = await axios.post('http://localhost:3000/addToTVRec', data)
+    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }

@@ -58,7 +58,7 @@ function loginPage() {
   const [click, setClick] = useState(true)
 
   async function createUserSignup() {
-    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         console.log("RES",response)
         localStorage.setItem("useInfo", response.data)

@@ -544,10 +544,15 @@ router.put('/addToTVWatchlist/:id', async (req, res) => {
     const user = await userModel.findOne({ _id: id })
     const isPresent = user.tv.watchlist.find(item => item.id == show.id)
     if (isPresent) {
-        const newWatchlist = user.tv.watchlist.filter(item => item.id != show.id)
-        user.tv.watchlist = newWatchlist
-        await user.save()
-        return res.status(201).json({ "Status": "Show removed" })
+        try{
+            const newWatchlist = user.tv.watchlist.filter(item => item.id != show.id)
+            user.tv.watchlist = newWatchlist
+            await user.save()
+            return res.status(201).json({ "Status": "Show removed" })
+        }
+        catch(err){
+            console.log(err)
+        }
     }
     else {
         try {
