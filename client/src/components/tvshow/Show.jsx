@@ -206,7 +206,7 @@ function Show() {
 
   async function addToRecommended() {
     console.log("Data that is passed in addToTvRecs",data)
-    const res = await axios.post('http://localhost:3000/addToTVRec', data)
+    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
@@ -218,7 +218,7 @@ function Show() {
   const [userData, setUserData] = useState({})
 
   async function getData() {
-    const res = await axios.get(`http://localhost:3000/users`)
+    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
       .then(res => {
         setUsers(res.data)
       })
@@ -246,7 +246,7 @@ function Show() {
   };
 
   async function postMovie(el) {
-    const res = await axios.put(`http://localhost:3000/userTvRec/${el._id}`, {
+    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userTvRec/${el._id}`, {
       from: {
         "name": userData.name,
         "username": userData.username,
@@ -259,7 +259,7 @@ function Show() {
   }
 
   async function postOwnMovie(el) {
-    const res = await axios.put(`http://localhost:3000/userTvOwnRec/${userData._id}`, {
+    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userTvOwnRec/${userData._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
@@ -273,7 +273,7 @@ function Show() {
 
   async function getUserData(el) {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setUserData(res.data)

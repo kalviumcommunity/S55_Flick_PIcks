@@ -671,7 +671,7 @@ router.post('/addToTVRec', async (req, res) => {
             await user.save()
             res.status(200).json(req.body)
         } else {
-            res.status(201).json({ error: "Show exists" })
+            res.status(409).json({ error: "Show exists" })
         }
     }
     catch (err) {
@@ -702,6 +702,7 @@ router.get('/userByID/:id', async(req,res) => {
     }
     catch(err){
         console.log(err)
+        return res.status(500).send("Internal Server Error")
     }
 })
 
@@ -720,6 +721,7 @@ router.put('/userMovieRec/:id',async(req,res) => {
     }
     catch(err){
         console.log(err)
+        return res.status(500).send("Internal Server Error")
     }
 })
 
@@ -737,8 +739,8 @@ router.put('/userMovieOwnRec/:id',async(req,res) => {
         }
     }
     catch(err){
-        res.send(err)
         console.log(err)
+        return res.status(500).send("Internal Server Error")
     }
 })
 
@@ -775,7 +777,7 @@ router.put('/userTvOwnRec/:id',async(req,res) => {
         }
     }
     catch(err){
-        res.send(err)
+        // removed sending a respomnse to the user
         console.log(err)
         res.status(400).send("Server error")
     }

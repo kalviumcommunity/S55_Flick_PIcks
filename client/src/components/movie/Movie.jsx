@@ -227,7 +227,7 @@ function Movie() {
   const [userData, setUserData] = useState({})
 
   async function getData() {
-    const res = await axios.get(`http://localhost:3000/users`)
+    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
       .then(res => {
         setUsers(res.data)
       })
@@ -255,7 +255,7 @@ function Movie() {
   };
 
   async function postMovie(el) {
-    const res = await axios.put(`http://localhost:3000/userMovieRec/${el._id}`, {
+    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userMovieRec/${el._id}`, {
       from: {
         "name": userData.name,
         "username": userData.username,
@@ -268,7 +268,7 @@ function Movie() {
   }
 
   async function postOwnMovie(el) {
-    const res = await axios.put(`http://localhost:3000/userMovieOwnRec/${userData._id}`, {
+    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userMovieOwnRec/${userData._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
@@ -282,7 +282,7 @@ function Movie() {
 
   async function getUserData(el) {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setUserData(res.data)
