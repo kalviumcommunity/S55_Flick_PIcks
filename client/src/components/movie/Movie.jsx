@@ -12,6 +12,8 @@ import profile from '../../assets/profile.png'
 import heart from '../../assets/heart.png'
 import Nav from '../nav/Nav'
 import user from '../../assets/user.png'
+import search from '../../assets/search.png'
+import close from '../../assets/close.png'
 
 import Alert from '@mui/material/Alert';
 
@@ -89,7 +91,6 @@ function Movie() {
   }
 
   const findDirector = cast.crew && cast.crew.find(el => {
-    console.log("el is", el)
     return el.job == "Director"
   })
 
@@ -186,38 +187,121 @@ function Movie() {
 
     const username = sessionStorage.getItem("username")
 
-    console.log("handle is working")
+    // console.log("handle is working")
 
-    const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatchlist/${username}`, data)
-    if (res1.status == 200) {
-      setInWachlist(true)
+    // const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatchlist/${username}`, data)
+    // if (res1.status == 200) {
+    //   setInWachlist(true)
+    // }
+    // else {
+    //   setInWachlist(false)
+    // }
+
+    // const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInLiked/${username}`, data)
+    // if (res2.status == 200) {
+    //   setInLiked(true)
+    // }
+    // else {
+    //   setInLiked(false)
+    // }
+
+    // const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatched/${username}`, data)
+    // if (res3.status == 200) {
+    //   setInWatched(true)
+    // }
+    // else {
+    //   setInWatched(false)
+    // }
+  }
+
+  async function addToRecommended() {
+    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToRec', data)
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+    setShowRecommendedArea(false)
+  }
+
+  const [users, setUsers] = useState([])
+  const [searchInput, setSearchInput] = useState([])
+  const [showAll, setShowAll] = useState(true)
+  const [userData, setUserData] = useState({})
+
+  async function getData() {
+    const res = await axios.get(`http://localhost:3000/users`)
+      .then(res => {
+        setUsers(res.data)
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  function handleSearch() {
+    setSearchInput(event.target.value)
+    if (event.target.value == "") {
+      setShowAll(true)
     }
     else {
-      setInWachlist(false)
-    }
-
-    const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInLiked/${username}`, data)
-    if (res2.status == 200) {
-      setInLiked(true)
-    }
-    else {
-      setInLiked(false)
-    }
-
-    const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatched/${username}`, data)
-    if (res3.status == 200) {
-      setInWatched(true)
-    }
-    else {
-      setInWatched(false)
+      setShowAll(false)
     }
   }
 
-  async function addToRecommended(){
-    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToRec',data)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+  const filterUsers = () => {
+    return users.filter(user =>
+      user.username.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  };
+
+  async function postMovie(el) {
+    const res = await axios.put(`http://localhost:3000/userMovieRec/${el._id}`, {
+      from: {
+        "name": userData.name,
+        "username": userData.username,
+        "profilePic": userData.profilePic,
+      },
+      data: data
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   }
+
+  async function postOwnMovie(el) {
+    const res = await axios.put(`http://localhost:3000/userMovieOwnRec/${userData._id}`, {
+      to: {
+        "name": el.name,
+        "username": el.username,
+        "profilePic": el.profilePic,
+      },
+      data: data
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
+
+  async function getUserData(el) {
+    const ID = localStorage.getItem("userID")
+    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+      .then(res => {
+        console.log("User who is logged in", res.data)
+        setUserData(res.data)
+        // .then(el => {
+        postMovie(el)
+        postOwnMovie(el)
+        setShowRecommendedArea(false)
+        // })
+      })
+      .catch(err => console.log(err))
+  }
+
+  function handleUserClick(el) {
+    console.log("Handle user click working")
+    getUserData(el)
+  }
+
+  const [showPersonal, setShowPersonal] = useState(true)
+  const [showRecommendedArea, setShowRecommendedArea] = useState(false)
 
   return (
     <>
@@ -258,6 +342,7 @@ function Movie() {
           </h2>
         </Alert>}
       </div>
+
       {data && <div>
 
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
@@ -275,7 +360,7 @@ function Movie() {
                   {
                     data.genres && data.genres.map((el, index) => {
                       if (index < 3) {
-                        return <span>{el.name}</span>
+                        return <span key={index}>{el.name}</span>
                       }
                     })
                   }
@@ -298,9 +383,9 @@ function Movie() {
                     <img src={inLiked ? likedInLogo : likedOutLogo} className='watchlist' loading="lazy" />
                   </button>
 
-                  <button className='addToWatchlist bg-black' onClick={() => addToRecommended()}>
+                  <button className='addToWatchlist bg-black' onClick={() => setShowRecommendedArea(true)}>
                     <img src={recommended} className='watchlist' loading="lazy" />
-                  </button> 
+                  </button>
                 </div>
               </div>
             </div>
@@ -320,8 +405,8 @@ function Movie() {
             <div className='profileArea scrollbar'>
               {cast.cast && cast.cast.map((el, index) => {
                 if (index < 10) {
-                  if(el.profile_path){
-                    return(
+                  if (el.profile_path) {
+                    return (
                       <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
                         {<img src={`https://image.tmdb.org/t/p/original/${el.profile_path}`} alt="profile" loading="lazy" />}
                         <h2>{el.name}</h2>
@@ -329,16 +414,16 @@ function Movie() {
                       </div>
                     )
                   }
-                  else{
-                    return(
+                  else {
+                    return (
                       <div className='noPhotoProfile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
-                          <div className='noPhotoArea'>{<img src={user} alt="profile" loading="lazy" />}
-                            </div>
-                            <div>
+                        <div className='noPhotoArea'>{<img src={user} alt="profile" loading="lazy" />}
+                        </div>
+                        <div>
                           <h2 className='noPhotoText'>{el.name}</h2>
                           <h3>{el.character}</h3>
-                            </div>
                         </div>
+                      </div>
                     )
                   }
                 }
@@ -451,7 +536,7 @@ function Movie() {
                     </div>
                     <div className="movieDetailField genreField">
                       {data.genres && data.genres.map((el, index) => {
-                        return (<div className='genreKey'>{el.name}</div>)
+                        return (<div className='genreKey' key={index}>{el.name}</div>)
                       })}
                     </div>
                   </div>
@@ -578,7 +663,7 @@ function Movie() {
               <div className="reviewGrid">
                 {review && !showAllReviews && review.results && review.results.map((el, index) => {
                   if (index < 4) {
-                    return (<div className='review white'>
+                    return (<div className='review white' key={index}>
                       <div className="reviewTop">
                         {el.author_details.avatar_path ? <img src={`https://image.tmdb.org/t/p/original/${el.author_details.avatar_path}`} alt="" loading="lazy" />
                           : <div className='imgNA'> <img src={user} /></div>}
@@ -628,6 +713,63 @@ function Movie() {
 
 
         </div>
+      </div>}
+
+      {showRecommendedArea && <div className='RecommendMovie white mons'>
+        <div className={showPersonal ? "addFilmToFav2" : "addFilmToFav3"}>
+
+          <div className="blockArea">
+            <div className={showPersonal ? "block" : "blockNS1"} onClick={() => setShowPersonal(true)}>PERSONAL</div>
+            <div className={!showPersonal ? "block" : "blockNS"} onClick={() => setShowPersonal(false)}>PUBLIC</div>
+          </div>
+
+          {showPersonal && <div className="searchAreaFav">
+            <div className="searchIconFav">
+              <img src={search} />
+            </div>
+            <input type="text" onChange={() => handleSearch()} />
+          </div>}
+
+          {showPersonal && <div className="FavSearchResults">
+            <h3>USERS</h3>
+            <hr className='red' />
+
+            {showAll && users && users.filter((el) => {
+              return el._id !== localStorage.getItem("userID");
+            }).map((el, index) => (
+              <div className='favMovieAddResult' key={index} onClick={() => handleUserClick(el)}>
+                <h3>{el.name}</h3>
+              </div>
+            ))}
+
+            {!showAll && users &&
+              (filterUsers().filter((el) => el._id !== localStorage.getItem("userID")).length > 0 ?
+                filterUsers().filter((el) => el._id !== localStorage.getItem("userID")).map((el, index) => (
+                  <div className='favMovieAddResult' key={index} onClick={() => handleUserClick(el)}>
+                    <h3>{el.name}</h3>
+                  </div>
+                )) :
+                <div className='centerMid'>
+                  <h3>No results found</h3>
+                </div>
+              )
+            }
+
+          </div>}
+
+          {!showPersonal && <div className='showPublic'>
+            Are you sure you want to recommend this movie to everyone?
+
+            <div className="publicButtons">
+              <div className="publicButton pbNo" onClick={() => setShowRecommendedArea(false)}>NO</div>
+              <div className="publicButton pbYes" onClick={() => addToRecommended()}>YES</div>
+            </div>
+
+          </div>}
+
+          <img src={close} alt="" className="AddFavClose" onClick={() => setShowRecommendedArea(false)} />
+        </div>
+
       </div>}
     </>
   )

@@ -27,6 +27,7 @@ function User() {
     const [mouseEnter, setMouseEnter] = useState(false)
     const [currUserID,setCurrUserID] = useState(false)
 
+    const [showMovie,setShowMovie] = useState(true)
     
     const ID = localStorage.getItem("userID")
 
@@ -180,11 +181,11 @@ function User() {
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
                             <div className="optionBoxArea">
-                                <div className="optionBox">MOVIES</div>
+                                <div className={showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(true)}>MOVIES</div>
+                                <div className={!showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(false)}>TV SHOWS</div>
                             </div>
 
-                        <div className="userWatchedTile">
-
+                        {showMovie && <div className="userWatchedTile">
                             {userData.watchlist && userData.watchlist.map((el, index) => {
                                 return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
                                     <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
@@ -195,9 +196,21 @@ function User() {
                                     </div>
                                 </div>
                             })}
-                        </div>
+                        </div>}
 
-                        {userData.watchlist.length == 0 && <div className='center'>NO FILMS IN WATCHLIST</div>}
+                       {!showMovie && <div className="userWatchedTile">
+                            {userData.tv.watchlist && userData.tv.watchlist.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/tvshow/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.name}
+                                    </div>
+                                </div>
+                            })}
+                        </div>}
+
+                        {showMovie && userData.watchlist.length == 0 && <div className='center'>NO FILMS IN WATCHLIST</div>}
+                        {!showMovie && userData.tv.watchlist.length == 0 && <div className='center'>NO TV SHOWS IN WATCHLIST</div>}
 
                     </div> : ""}
 
@@ -205,8 +218,12 @@ function User() {
                         WATCHED
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
-                        <div className="userWatchedTile">
+                        <div className="optionBoxArea">
+                                <div className={showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(true)}>MOVIES</div>
+                                <div className={!showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(false)}>TV SHOWS</div>
+                            </div>
 
+                        {showMovie && <div className="userWatchedTile">
                             {userData.watched && userData.watched.map((el, index) => {
                                 return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
                                     <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
@@ -217,9 +234,21 @@ function User() {
                                     </div>
                                 </div>
                             })}
-                        </div>
+                        </div>}
 
-                        {userData.watched.length == 0 && <div className='center'>NO WATCHED FILMS</div>}
+                        {!showMovie && <div className="userWatchedTile">
+                            {userData.tv.watched && userData.tv.watched.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/tvshow/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.name}
+                                    </div>
+                                </div>
+                            })}
+                        </div>}
+
+                        {userData.watched.length == 0 && <div className='center'>NO FILMS WATCHED</div>}
+                        {!showMovie && userData.tv.watched.length == 0 && <div className='center'>NO TV SHOWS WATCHED</div>}
 
                     </div> : ""}
 
@@ -227,8 +256,12 @@ function User() {
                         LIKED
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
-                        <div className="userWatchedTile">
+                        <div className="optionBoxArea">
+                                <div className={showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(true)}>MOVIES</div>
+                                <div className={!showMovie ? "optionBoxSelected" : "optionBox"} onClick={() => setShowMovie(false)}>TV SHOWS</div>
+                            </div>
 
+                        {showMovie && <div className="userWatchedTile">
                             {userData.liked && userData.liked.map((el, index) => {
                                 return <div className="container" onClick={() => navigate(`/movie/${el.id}`)}>
                                     <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
@@ -239,9 +272,21 @@ function User() {
                                     </div>
                                 </div>
                             })}
-                        </div>
+                        </div>}
+
+                        {!showMovie && <div className="userWatchedTile">
+                            {userData.tv.liked && userData.tv.liked.map((el, index) => {
+                                return <div className="container" onClick={() => navigate(`/tvshow/${el.id}`)}>
+                                    <img src={`${IMAGE_PATH}${el.poster_path}`} className='image' />
+                                    <div className="overlay">
+                                        {el.name}
+                                    </div>
+                                </div>
+                            })}
+                        </div>}
 
                         {userData.liked.length == 0 && <div className='center'>NO LIKED FILMS</div>}
+                        {!showMovie && userData.tv.liked.length == 0 && <div className='center'>NO LIKED TV SHOWS</div>}
 
 
                     </div> : ""}

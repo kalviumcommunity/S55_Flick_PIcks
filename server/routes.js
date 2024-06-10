@@ -661,8 +661,9 @@ router.post('/isInTVWatched/:id', async (req, res) => {
 
 router.post('/addToTVRec', async (req, res) => {
     const show = req.body
+
     try {
-        const user = await showModel.findOne({ "user": "admin" })
+        const user = await showModel.findOne()
         const isExisting = user.random.some(item => item.id === show.id)
 
         if (!isExisting) {
@@ -670,7 +671,7 @@ router.post('/addToTVRec', async (req, res) => {
             await user.save()
             res.status(200).json(req.body)
         } else {
-            res.status(400).json({ error: "Show exists" })
+            res.status(201).json({ error: "Show exists" })
         }
     }
     catch (err) {
@@ -687,6 +688,96 @@ router.post('/auth', (req, res) => {
     catch (err) {
         console.log(err)
         res.status(500).json({ "Message": "Internal Server Error" })
+    }
+})
+
+router.get('/userByID/:id', async(req,res) => {
+    const { id } = req.params
+    try{
+        const user = await userModel.findById(id)
+        if(user){
+            return res.json(user)
+        }
+        return res.send("User not found")
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.put('/userMovieRec/:id',async(req,res) => {
+    const { id } = req.params
+    try{
+        const user = await userModel.findById(id)
+        if(!user){
+            res.status(400).send("User not found")
+        }
+        else{
+            user.recs.incoming.push(req.body)
+            await user.save()
+            res.status(200).send(req.body)
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
+router.put('/userMovieOwnRec/:id',async(req,res) => {
+    const { id } = req.params
+    try{
+        const user = await userModel.findById(id)
+        if(!user){
+            res.status(400).send("User not found")
+        }
+        else{
+            user.recs.outgoing.push(req.body)
+            await user.save()
+            res.status(200).send(req.body)
+        }
+    }
+    catch(err){
+        res.send(err)
+        console.log(err)
+    }
+})
+
+router.put('/userTvRec/:id',async(req,res) => {
+    const { id } = req.params
+    try{
+        const user = await userModel.findById(id)
+        if(!user){
+            res.status(400).send("User not found")
+        }
+        else{
+            user.tvrecs.incoming.push(req.body)
+            await user.save()
+            res.status(200).send(req.body)
+        }
+    }
+    catch(err){
+        console.log(err)
+        res.status(400).send("Server error")
+    }
+})
+
+router.put('/userTvOwnRec/:id',async(req,res) => {
+    const { id } = req.params
+    try{
+        const user = await userModel.findById(id)
+        if(!user){
+            res.status(400).send("User not found")
+        }
+        else{
+            user.tvrecs.outgoing.push(req.body)
+            await user.save()
+            res.status(200).send(req.body)
+        }
+    }
+    catch(err){
+        res.send(err)
+        console.log(err)
+        res.status(400).send("Server error")
     }
 })
 

@@ -21,6 +21,34 @@ const userSchema = mongoose.Schema({
         watchlist : Array,
         watched : Array,
         liked : Array,
+    },
+    recs : {
+        incoming : [
+            {
+                from : Object,
+                data : Object
+            }
+        ],
+        outgoing : [
+            {
+                to : Object,
+                data : Object
+            }
+        ]
+    },
+    tvrecs : {
+        incoming : [
+            {
+                from : Object,
+                data : Object
+            }
+        ],
+        outgoing : [
+            {
+                to : Object,
+                data : Object
+            }
+        ]
     }
 })
 
