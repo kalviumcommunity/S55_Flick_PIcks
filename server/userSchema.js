@@ -26,13 +26,15 @@ const userSchema = mongoose.Schema({
         incoming : [
             {
                 from : Object,
-                data : Object
+                data : Object,
+                message : String
             }
         ],
         outgoing : [
             {
                 to : Object,
-                data : Object
+                data : Object,
+                message : String
             }
         ]
     },
@@ -40,15 +42,54 @@ const userSchema = mongoose.Schema({
         incoming : [
             {
                 from : Object,
-                data : Object
+                data : Object,  
+                message : String
             }
         ],
         outgoing : [
             {
                 to : Object,
-                data : Object
+                data : Object,
+                message : String
             }
         ]
+    },
+    followers : Array,
+    following : Array,
+    lists : {
+        movies : [{
+            createdBy : {
+                name  :String,
+                username : String,
+                id : String,
+                profilePic : String
+            },
+            content : Array,
+            title : String,
+            description : String
+        }],
+        tvshows : [{
+            createdBy : {
+                name  :String,
+                username : String,
+                id : String,
+                profilePic : String
+            },
+            content : Array,
+            title : String,
+            description : String
+        }],
+        cast  : [{
+            createdBy : {
+                name  :String,
+                username : String,
+                id : String,
+                profilePic : String
+            },
+            content : Array,
+            title : String,
+            description : String
+        }]
     }
 })
 

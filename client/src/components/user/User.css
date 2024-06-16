@@ -589,10 +589,12 @@ hr {
     position: absolute;
     top: 20px;
     right: 20px;
+    opacity: 0.8;
 }
 
 .AddFavClose:hover {
     cursor: pointer;
+    opacity: 1;
 }
 
 .hoverCursor:hover {
@@ -1015,4 +1017,402 @@ hr {
 
 .optionBoxSelected:hover{
     cursor: pointer;
+}
+
+.deletedArea{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: #262626d2;
+    top: 0;
+    z-index: 300;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addFilmToFav4 {
+    width: 40vw;
+    height: 40vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    border: 3px solid rgba(104, 104, 104, 0.616);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    backdrop-filter: blur(100px);
+    text-align: center;
+
+    font-size: 23px;
+    color: rgb(226, 226, 226);
+}
+
+.addFilmToFav4 input {
+    width: 27vw;
+    height: 50px;
+    outline: none;
+    border: none;
+    font-size: 23px;
+    padding: 20px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.addFilmToFav4 h4{
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.deleteInputArea{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.deleteInputArea label{
+    margin-bottom: 10px;
+}
+
+.deleteInputArea input{
+    width: 80%;
+}
+
+.deleteInputArea input::placeholder{
+    font-size: 22px;
+}
+
+.incomingBlock{
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid rgba(128, 128, 128, 0.553);
+    border-radius: 4px;
+    background-color: hsla(0, 0%, 0%, 0.15);
+    /* background-color: #1f1f1f; */
+    backdrop-filter: blur(8px);
+}
+
+.incomingBlockTitle{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.flex-end-incoming{
+    padding: 25px;
+    border-radius: 4px;
+    background-color: #1f1f1f;
+    /* border: 1px solid rgba(128, 128, 128, 0.553); */
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-end-incoming:hover{
+    cursor: pointer;
+}
+
+.flex-end-incoming-2{
+    padding: 25px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #1f1f1f;
+    border: 1px solid rgba(128, 128, 128, 0.553);
+    display: flex;
+    justify-content: space-between;
+    border: none;
+}
+
+.flex-end-incoming-2:hover{
+    cursor: pointer;
+}
+
+.incomingCenter{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 60px 0;
+}
+
+.incomingTileArea{
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    row-gap: 15px;
+    column-gap: 10px;
+}
+
+.incomingTile{
+    width: 100%;
+    background-color: #272727;
+    padding: 20px;
+    border-radius: 2px;
+    border: 0.1px solid rgba(211, 211, 211, 0.229);
+    display: flex;
+}
+
+.incomingPoster{
+    height: 225px;
+}
+
+.incomingDesc{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 20px;
+    color: #ececec;
+    height: 100%;
+}
+
+.incomingMovieTitle{
+    font-size: 24px;
+    font-size: 400;
+}
+
+.incomingFrom,.incomingMessage{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    color: #a3a3a3;
+}
+
+.incomingFrom{
+    margin: 20px 0 0 0;
+}
+
+.incomingFrom,.incomingDesc{
+    cursor: pointer;
+}
+
+.incomingFrom img{
+    width: 18px;
+    height: 18px;
+    border-radius: 20px;
+    margin: 6px;
+}
+
+
+.minus{
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.incomingPoster:hover{
+    cursor: pointer;
+}
+
+.hoverWhite:hover{
+    color: #ececec;
+}
+
+.hoverWhite2{
+    margin-left: 6px;
+}
+
+.hoverWhite:hover{
+    color: #ececec;
+}
+
+.peopleArea{
+    /* background-color: #000000; */
+    /* height: 50px; */
+    margin-top: 50px;
+    width: 62%;
+}
+
+.selectPeople{
+    display: flex;
+}
+
+.peopleBlocksSelected{
+    width: 50%;
+    border-bottom: 4px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    padding: 25px;
+}
+
+.peopleBlocks{
+    width: 50%;
+    border-bottom: 4px solid rgba(255, 255, 255, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    padding: 25px;
+}
+
+.peopleBlocks:hover,.peopleBlocksSelected:hover{
+    cursor: pointer;
+}
+
+.userFollowing{
+    display: grid;
+    grid-template-columns: repeat(2,48%);
+    row-gap: 30px;
+    column-gap: 4%;
+    margin-top: 50px;       
+    /* background-color: #2B4162; */
+}
+
+.userSearchResults2{
+    /* width: 10               0%; */
+    display: flex;
+    background-color: #2e2e2e;
+    padding:40px 20px;
+    border-radius: 4px;
+    /* min-height: 330px; */
+    overflow: hidden;
+}
+
+.userSearchResults2:hover{
+    cursor: pointer;
+}
+
+.followProfileImg{
+    min-width: 180px;
+    max-width: 180px;
+    min-height: 180px;
+    max-height: 180px;
+
+    object-fit: cover;
+    border-radius: 4px;
+    /* border: 10px solid rgb(222, 222, 222); */
+}
+
+.noUser{
+    /* height: 100%;
+    /* width: 100%; */
+    display: flex;
+    /* width: 50%; */
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    /* border: 10px solid rgb(222, 222, 222); */
+    background-color: rgba(93, 93, 93, 0.687);
+    border-radius: 4px; 
+}
+
+.noUser img{
+    /* width: 45%; */
+    height: 70%;
+    width: 70%;
+    border: none;
+}
+
+.followImg{
+    width: 80px;
+}
+
+.centerFollowers{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    font-size: 20px;
+}
+
+.displayListArea{
+    margin-top: 50px;
+}
+
+.createNewList{
+    background-color: #272727;
+    padding: 15px;
+}
+
+.createNewList:hover{
+    cursor: pointer;
+}
+
+.newListDialogBox {
+    width: 40vw;
+    /* height: 40vh; */
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    border: 3px solid rgba(104, 104, 104, 0.616);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    backdrop-filter: blur(100px);
+    text-align: center;
+
+    font-size: 23px;
+    color: rgb(226, 226, 226);
+}
+
+.newListDialogBox input {
+    width: 16vw;
+    height: 43px;
+    outline: none;
+    border: none;
+    font-size: 23px;
+    padding: 15px;
+}
+
+.newListDialogBox textarea {
+    min-width: 16vw;
+    max-width: 16vw;
+    min-height: 43px;
+    outline: none;
+    border: none;
+    font-size: 23px;
+    padding: 20px;
+}
+
+.listInput{
+    margin-bottom: 30px;
+} 
+
+.listInput label{
+    margin-right: 15px;
+}
+
+.listInput input{
+    border-radius: 0;
+}
+
+.listInput select{
+    width: 16vw;
+    height: 43px;
+    font-size: 23px;
+    padding-left: 13px;
+}
+
+.listInput select:focus{
+    outline: none;
+}
+
+.newListDialogBox h4{
+    font-size: 27px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+.centerIt{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.topIt{
+    display: flex;
+    align-items: start;
+}
+
+.topIt label{
+    margin-top: 3px;
 }

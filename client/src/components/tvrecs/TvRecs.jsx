@@ -117,7 +117,7 @@ function TvRecs() {
                             <div className="recsDesc">
                                 {display && display[current] && display[current].overview}
                             </div>
-                            <div className="recsSeeMore" onClick={() => navigate(`/`)}>
+                            <div className="recsSeeMore" onClick={() => navigate(`/tvshow/${display[current].id}`)}>
                                 See More
                             </div>
                         </div>

@@ -346,8 +346,12 @@
 }
 
 .movieDetailField,
-.movieDetailKey {
-    font-size: 23px;
+.movieDetailKey,.genreField {
+    color: rgb(234, 234, 234);
+    font-size: 21.5px;
+}
+
+.movieDetailField{
 }
 
 .movieDetailField:hover{
@@ -375,7 +379,10 @@
 }
 
 .genreField {
-    display: flex;
+    /* display: flex; */
+    font-weight: 600;
+    /* font-size: 23px; */
+    /* flex-direction: column; */
 }
 
 .reviewArea {
@@ -829,4 +836,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.sendMessage{
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px;
+}
+
+
+.sendMessage textarea{
+    margin-top: 30px;
+    width: 27vw;
+    /* height: 50px; */
+    outline: none;
+    border: none;
+    font-size: 23px;
+    padding: 20px;
+    /* min-height: 63px; */
 }

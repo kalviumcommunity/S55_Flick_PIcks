@@ -1,0 +1,138 @@
+.seasonsArea{
+    width: 100%;
+}
+
+.seasonBlock{
+    /* background-color: #272727; */
+    margin: 20px;
+    /* padding: 20px; */
+    font-size: 18px;
+    border-radius: 4px;
+    border: 3px solid #272727;
+}
+
+.seasonsP1{ 
+    width: 100%;
+}
+
+.seasonsHeadingArea{
+    margin-top: 50px;
+}
+
+.seasonsP2{
+    /* width: 65%; */
+    /* background-color: #1a1a1a; */
+    margin: 20px;
+    /* margin-left: 0; */
+    border-radius: 4px;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    row-gap: 40px;
+    column-gap: 30px;
+    overflow: scroll;
+    /* opacity: 0.9; */
+    color: black;
+}
+
+.episodeTile{
+    /* background-color: rgb(255, 255, 255); */
+    border-radius: 2px;
+    background-color: #272727;
+    /* color: black; */
+}
+
+.episodeTile img{
+    width: 100%;
+    margin-bottom: 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    /* opacity: 1; */
+}
+
+.episodeTitle{
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.episodeDesc{
+    margin: 16px;
+}
+
+.episodeOverview{
+    font-size: 16px;
+    color: rgb(174, 174, 174);
+    max-height: 230px;
+    overflow: scroll;
+    opacity: 0.9;
+    /* text-align: right; */
+}
+
+.seasonHead{
+    width: 100%;
+    padding: 20px 40px;
+    border-radius: 4px;
+    background-color: #272727;
+    display: flex;
+    align-items: space-between;
+    justify-content: space-between;
+}
+
+.seasonHead:hover{
+    cursor: pointer;
+}
+
+.seasonHeadSelected{
+    width: 100%;
+    padding: 30px 40px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #272727;
+}
+
+.seasonHeadSelected:hover
+{
+    cursor: pointer;
+}
+.seasonOverview{
+    margin: 20px 0;
+}
+
+.seasonGray{
+    color: rgb(174, 174, 174);
+
+}
+
+.seasonFlex{
+    display: flex;
+    padding: 30px 0;
+    padding-left: 40px;
+
+    background-color: #272727;
+}
+
+.addButton{
+    width: 30px;
+    height: 30px;
+    opacity: 0.8;
+}
+
+.addButton:hover{
+    opacity: 1;
+}
+
+.flex-end-season{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 3px;
+}
+
+.flex-end-season img{
+    width: 27px;
+    height: 27px;
+    opacity: 0.8;
+}

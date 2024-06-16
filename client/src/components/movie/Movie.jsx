@@ -254,54 +254,105 @@ function Movie() {
     );
   };
 
-  async function postMovie(el) {
-    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userMovieRec/${el._id}`, {
+  async function postMovie(el,second) {
+    const res = await axios.put(`http://localhost:3000/userMovieRec/${el._id}`, {
       from: {
-        "name": userData.name,
-        "username": userData.username,
-        "profilePic": userData.profilePic,
+        "name": second.name,
+        "username": second.username,                
+        "profilePic": second.profilePic,
+        "id" : second._id
       },
-      data: data
+      data: data,
+      message : message
     })
       .then(res => console.log(res))
       .catch(err => console.log(err))
-  }
+  }           
 
-  async function postOwnMovie(el) {
-    const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/userMovieOwnRec/${userData._id}`, {
+  async function postOwnMovie(el,second) {
+    const res = await axios.put(`http://localhost:3000/userMovieOwnRec/${second._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
         "profilePic": el.profilePic,
+        "id" : el._id
       },
-      data: data
+      data: data,
+      message : message
     })
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }
 
-  async function getUserData(el) {
+  async function getUserData() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setUserData(res.data)
-        // .then(el => {
-        postMovie(el)
-        postOwnMovie(el)
+        postMovie(to,res.data)
+        postOwnMovie(to,res.data)
         setShowRecommendedArea(false)
-        // })
       })
       .catch(err => console.log(err))
   }
 
   function handleUserClick(el) {
     console.log("Handle user click working")
-    getUserData(el)
+    setShowRecommendedArea(false)
+    setShowMessage(true)
+    setTo(el)
+  }
+
+  async function sendMovieEveryone(dt){
+    const res = await axios.put(`http://localhost:3000/recMovieEveryone/${dt._id}`,{
+      from: {
+        "name": dt.name,
+        "username": dt.username,                
+        "profilePic": dt.profilePic,
+        "id" : dt._id
+      },
+      data: data,
+      message : everyoneMessage
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+  }
+
+  async function sendMovieOwn(dt) {
+    const res = await axios.put(`http://localhost:3000/userMovieOwnRec/${dt._id}`, {
+      to: {
+        "name": "Everyone"
+      },
+      data: data,
+      message : everyoneMessage
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
+
+  async function handleRecommendEveryone(){
+    const ID = localStorage.getItem("userID")
+    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+    .then(res => {
+      console.log(res)
+      sendMovieEveryone(res.data)
+      sendMovieOwn(res.data)
+    })
+    .catch(err => console.log(err))
   }
 
   const [showPersonal, setShowPersonal] = useState(true)
   const [showRecommendedArea, setShowRecommendedArea] = useState(false)
+
+  const [showMessage,setShowMessage] = useState(false)
+  const [message,setMessage] = useState('')
+  const [to,setTo] = useState({})
+
+  const [showEveryoneMessage,setShowEveryoneMessage] = useState(false)
+  const [everyoneMessage,setEveryoneMessage] = useState('')
+
+
 
   return (
     <>
@@ -397,7 +448,7 @@ function Movie() {
 
             {/* {CAST AREA} */}
 
-            <h1 className='white cast flex-center'>
+             <h1 className='white cast flex-center'>
               Cast and Crew
               <img src={next} alt="" className='' loading="lazy" />
             </h1>
@@ -437,76 +488,6 @@ function Movie() {
 
             {/* {CAST AREA OVER} */}
 
-            {/* {RECCOMENDATIONS AREA} */}
-
-            <h1 className="cast white flex-center">
-              Recommendations
-              <img src={next} alt="" className='' loading="lazy" />
-            </h1>
-
-            <div className='profileArea scrollbar'>
-              {recommendations.results && recommendations.results.map((el, index) => {
-                if (index < 10) {
-                  return (
-                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
-                      <div className="partialGrad white"></div>
-                      <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' loading="lazy" />}
-                        <div className="recTitle"></div>
-                      </div>
-                      <div className='mons white recT'>
-                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
-                      </div>
-                    </div>
-                  )
-                }
-              })}
-
-              <div className="more white" onClick={redirectRecs}>
-                <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
-
-              </div>
-            </div>
-
-            {/* {RECCOMENDATIONS AREA OVER} */}
-
-            {/* {SIMILAR AREA} */}
-
-            <h1 className="cast white flex-center">
-              Similar
-              <img src={next} alt="" className='' loading="lazy" />
-            </h1>
-
-            <div className='profileArea scrollbar'>
-              {similar.results && similar.results.map((el, index) => {
-                if (index < 10 && index > 0) {
-                  return (
-                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
-                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
-                      <div className="partialGrad white"></div>
-                      <div className="recDesc">
-                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' loading="lazy" />}
-                        <div className="recTitle"></div>
-                      </div>
-                      <div className='mons white recT'>
-                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
-                      </div>
-                    </div>
-                  )
-                }
-              })}
-
-              <div className="more white" onClick={redirectSimilar}>
-                <div>SEE MORE</div>
-                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
-
-              </div>
-            </div>
-
-            {/* {SIMILAR AREA OVER} */}
-
             <div className="generalInfo">
 
 
@@ -525,76 +506,70 @@ function Movie() {
                       Directed by:
                     </div>
                     <div className="movieDetailField" onClick={() => navigate(`/person/${findDirector.id}`)}>
-
                       {findDirector && `${findDirector.name}`}
                     </div>
                   </div>
 
-                  <div className="flex">
-                    <div className="movieDetailKey">
-                      Genre:
-                    </div>
-                    <div className="movieDetailField genreField">
-                      {data.genres && data.genres.map((el, index) => {
-                        return (<div className='genreKey' key={index}>{el.name}</div>)
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="flex">
+                  {data.release_date && <div className="flex">
                     <div className="movieDetailKey">
                       Release Year:
                     </div>
                     <div className="movieDetailField">
                       {data.release_date && data.release_date.split("-")[0]}
                     </div>
-                  </div>
+                  </div>}
 
-                  <div className="flex">
-                    <div className="movieDetailKey">
-                      Budget:
-                    </div>
-                    <div className="movieDetailField">
-                      {data.budget && `$${addCommas(data.budget)}`}
-                    </div>
-                  </div>
-
-                  <div className="flex">
-                    <div className="movieDetailKey">
-                      Collection:
-                    </div>
-                    <div className="movieDetailField">
-                      {data.revenue && `$${addCommas(data.revenue)}`}
-                    </div>
-                  </div>
-
-                  <div className="flex">
-                    <div className="movieDetailKey">
-                      Original Language:
-                    </div>
-                    <div className="movieDetailField">
-                      {data.original_language && data.original_language.toUpperCase()}
-                    </div>
-                  </div>
-
-                  <div className="flex">
-                    <div className="movieDetailKey">
-                      Runtime:
-                    </div>
-                    <div className="movieDetailField">
-                      {`${data.runtime} Minutes`}
-                    </div>
-                  </div>
-
-                  <div className="flex">
+                  {data.vote_average && <div className="flex">
                     <div className="movieDetailKey">
                       Rating:
                     </div>
                     <div className="movieDetailField">
                       {`${data.vote_average && String(data.vote_average * 10).slice(0, 2)}%`}
                     </div>
-                  </div>
+                  </div>}
 
+                  {data.original_language && <div className="flex">
+                    <div className="movieDetailKey">
+                      Original Language:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.original_language && data.original_language.toUpperCase()}
+                    </div>
+                  </div>}
+
+                  {data.budget && <div className="flex">
+                    <div className="movieDetailKey">
+                      Budget:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.budget && `$${addCommas(data.budget)}`}
+                    </div>
+                  </div>}
+
+                  {data.revenue && <div className="flex">
+                    <div className="movieDetailKey">
+                      Collection:
+                    </div>
+                    <div className="movieDetailField">
+                      {data.revenue && `$${addCommas(data.revenue)}`}
+                    </div>
+                  </div>}
+
+                  {data.genres && <div className="flex">
+                    <div className="movieDetailKey">
+                      Genre:
+                    </div>
+                    <div className="genreField">
+                      {data.genres && data.genres.map((el, index) => {
+                        if (data.genres.length - 1 == index) {
+                          return (<span key={index}> {el.name}</span>)
+                        }
+                        else {
+                          return (<span key={index}> {el.name} |</span>)
+                        }
+                      })}
+                    </div>
+                  </div>}
 
                 </div>
               </div>}
@@ -652,9 +627,80 @@ function Movie() {
 
             </div>
 
+            {/* {RECCOMENDATIONS AREA} */}
+
+            {recommendations && recommendations.results && recommendations.results.length && <h1 className="cast white flex-center">
+              Recommendations
+              <img src={next} alt="" className='' loading="lazy" />
+            </h1>}
+
+            <div className='profileArea scrollbar'>
+              {recommendations.results && recommendations.results.map((el, index) => {
+                if (index < 10 && el.backdrop_path && el.poster_path) {
+                  return (
+                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
+                      <div className="partialGrad white"></div>
+                      <div className="recDesc">
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} className='recPoster' loading="lazy" />}
+                        <div className="recTitle"></div>
+                      </div>
+                      <div className='mons white recT'>
+                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
+                      </div>
+                    </div>
+                  )
+                }
+              })}
+
+              <div className="more white" onClick={redirectRecs}>
+                <div>SEE MORE</div>
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
+
+              </div>
+            </div>
+
+            {/* {RECCOMENDATIONS AREA OVER} */}
+
+            {/* {SIMILAR AREA} */}
+
+            {similar && similar.results && similar.results.length && <h1 className="cast white flex-center">
+              Similar
+              <img src={next} alt="" className='' loading="lazy" />
+            </h1>}
+
+            <div className='profileArea scrollbar'>
+              {similar.results && similar.results.map((el, index) => {
+                if (index < 10  && el.backdrop_path && el.poster_path) {
+                  return (
+                    <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
+                      {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
+                      <div className="partialGrad white"></div>
+                      <div className="recDesc">
+                        {el.poster_path && <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="poster" className='recPoster' loading="lazy" />}
+                        <div className="recTitle"></div>
+                      </div>
+                      <div className='mons white recT'>
+                        {el.title} ({el.release_date && el.release_date.split("-")[0]})
+                      </div>
+                    </div>
+                  )
+                }
+              })}
+
+              <div className="more white" onClick={redirectSimilar}>
+                <div>SEE MORE</div>
+                <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
+
+              </div>
+            </div>
+
+            {/* {SIMILAR AREA OVER} */}
+
+
             {/* REVIEW AREA */}
 
-            {review && <div className="reviewArea">
+            {review && review.results && <div className="reviewArea">
               <h1 className="cast white flex-center">
                 Reviews
                 <img src={next} alt="" className='' loading="lazy" />
@@ -709,6 +755,8 @@ function Movie() {
 
             {/* REVIEW AREA OVER*/}
 
+            
+
           </div>
 
 
@@ -762,7 +810,10 @@ function Movie() {
 
             <div className="publicButtons">
               <div className="publicButton pbNo" onClick={() => setShowRecommendedArea(false)}>NO</div>
-              <div className="publicButton pbYes" onClick={() => addToRecommended()}>YES</div>
+              <div className="publicButton pbYes" onClick={() => {
+                setShowEveryoneMessage(true)
+                setShowRecommendedArea(false)
+                }}>YES</div>
             </div>
 
           </div>}
@@ -771,6 +822,50 @@ function Movie() {
         </div>
 
       </div>}
+
+      {showMessage && <div className='RecommendMovie white mons'>
+        <div className= "addFilmToFav3">
+          <div className='sendMessage'>
+            Enter a message you want to send them 
+            <textarea name="" placeholder='Enter a message' onChange={() => setMessage(event.target.value)}/>
+
+            <div className="publicButtons">
+              <div className="publicButton pbNo" onClick={() => {
+                setShowMessage(false)
+                setShowRecommendedArea(true)
+              }}>BACK</div>
+              <div className="publicButton pbYes" onClick={() => {
+                setShowMessage(false)
+                getUserData()
+              }}>SEND</div>
+            </div>
+          </div>
+          <img src={close} alt="" className="AddFavClose" onClick={() => setShowMessage(false)} />
+
+        </div>
+        </div>}
+
+      {showEveryoneMessage && <div className='RecommendMovie white mons'>
+        <div className= "addFilmToFav3">
+          <div className='sendMessage'>
+            Enter a message you want to send them 
+            <textarea name="" placeholder='Enter a message' onChange={() => setEveryoneMessage(event.target.value)}/>
+
+            <div className="publicButtons">
+              <div className="publicButton pbNo" onClick={() => {
+                setShowEveryoneMessage(false)
+                setShowRecommendedArea(true)
+              }}>BACK</div>
+              <div className="publicButton pbYes" onClick={() => {
+                setShowEveryoneMessage(false)
+                handleRecommendEveryone()
+              }}>SEND</div>
+            </div>
+          </div>
+          <img src={close} alt="" className="AddFavClose" onClick={() => setShowEveryoneMessage(false)} />
+
+        </div>
+        </div>}
     </>
   )
 }

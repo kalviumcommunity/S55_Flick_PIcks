@@ -153,7 +153,7 @@ function Search() {
 
       {!showPopular && onMovie == "tvshow" && <div className="result">
         {showResults && onMovie == "tvshow" && showResults.results && showResults.results.map((el, index) => {
-          return <div className="searchResults white" onClick={() => navigate(`/`)}>
+          return <div className="searchResults white" onClick={() => navigate(`/tvshow/${el.id}`)}>
             <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} />
             <div className="searchRow">
               <div className='searchYear'>
@@ -167,7 +167,7 @@ function Search() {
       </div>}
       {showPopular && onMovie == "tvshow" && <div className="result">
         {popularShowResults && onMovie == "tvshow" && popularShowResults.results && popularShowResults.results.map((el, index) => {
-          return <div className="searchResults white" onClick={() => navigate(`/`)}>
+          return <div className="searchResults white" onClick={() => navigate(`/tvshow/${el.id}`)}>
             <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} />
             <div className="searchRow">
               <div className='searchYear'>

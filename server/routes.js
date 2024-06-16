@@ -544,13 +544,13 @@ router.put('/addToTVWatchlist/:id', async (req, res) => {
     const user = await userModel.findOne({ _id: id })
     const isPresent = user.tv.watchlist.find(item => item.id == show.id)
     if (isPresent) {
-        try{
+        try {
             const newWatchlist = user.tv.watchlist.filter(item => item.id != show.id)
             user.tv.watchlist = newWatchlist
             await user.save()
             return res.status(201).json({ "Status": "Show removed" })
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
@@ -618,7 +618,7 @@ router.post('/isInTVWatchlist/:id', async (req, res) => {
     const { id } = req.params
     const show = req.body
 
-    const user = await userModel.findOne({ _id : id })
+    const user = await userModel.findOne({ _id: id })
     const isPresent = user.tv.watchlist.find(item => item.id === show.id)
 
     if (isPresent) {
@@ -633,7 +633,7 @@ router.post('/isInTVLiked/:id', async (req, res) => {
     const { id } = req.params
     const show = req.body
 
-    const user = await userModel.findOne({ _id : id })
+    const user = await userModel.findOne({ _id: id })
     const isPresent = user.tv.liked.find(item => item.id === show.id)
 
     if (isPresent) {
@@ -648,7 +648,7 @@ router.post('/isInTVWatched/:id', async (req, res) => {
     const { id } = req.params
     const show = req.body
 
-    const user = await userModel.findOne({ _id : id })
+    const user = await userModel.findOne({ _id: id })
     const isPresent = user.tv.watched.find(item => item.id === show.id)
 
     if (isPresent) {
@@ -691,95 +691,279 @@ router.post('/auth', (req, res) => {
     }
 })
 
-router.get('/userByID/:id', async(req,res) => {
+router.get('/userByID/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const user = await userModel.findById(id)
-        if(user){
+        if (user) {
             return res.json(user)
         }
         return res.send("User not found")
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         return res.status(500).send("Internal Server Error")
     }
 })
 
-router.put('/userMovieRec/:id',async(req,res) => {
+router.put('/userMovieRec/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const user = await userModel.findById(id)
-        if(!user){
+        if (!user) {
             res.status(400).send("User not found")
         }
-        else{
+        else {
             user.recs.incoming.push(req.body)
             await user.save()
             res.status(200).send(req.body)
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         return res.status(500).send("Internal Server Error")
     }
 })
 
-router.put('/userMovieOwnRec/:id',async(req,res) => {
+router.put('/userMovieOwnRec/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const user = await userModel.findById(id)
-        if(!user){
+        if (!user) {
             res.status(400).send("User not found")
         }
-        else{
+        else {
             user.recs.outgoing.push(req.body)
             await user.save()
             res.status(200).send(req.body)
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         return res.status(500).send("Internal Server Error")
     }
 })
 
-router.put('/userTvRec/:id',async(req,res) => {
+router.put('/userTvRec/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const user = await userModel.findById(id)
-        if(!user){
+        if (!user) {
             res.status(400).send("User not found")
         }
-        else{
+        else {
             user.tvrecs.incoming.push(req.body)
             await user.save()
             res.status(200).send(req.body)
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
         res.status(400).send("Server error")
     }
 })
 
-router.put('/userTvOwnRec/:id',async(req,res) => {
+router.put('/userTvOwnRec/:id', async (req, res) => {
     const { id } = req.params
-    try{
+    try {
         const user = await userModel.findById(id)
-        if(!user){
+        if (!user) {
             res.status(400).send("User not found")
         }
-        else{
+        else {
             user.tvrecs.outgoing.push(req.body)
             await user.save()
             res.status(200).send(req.body)
         }
     }
-    catch(err){
+    catch (err) {
         // removed sending a respomnse to the user
         console.log(err)
         res.status(400).send("Server error")
+    }
+})
+
+router.put('/recMovieEveryone/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const users = await userModel.find()
+        const updatePromises = users.map(async (user) => {
+            if (user._id != id) {
+                user.recs.incoming.push(req.body)
+                return user.save()
+            }
+        })
+
+        await Promise.all(updatePromises)
+        return res.send(users)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/recTvEveryone/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const users = await userModel.find()
+        const updatePromises = users.map(async (user) => {
+            if (user._id != id) {
+                user.tvrecs.incoming.push(req.body)
+                return user.save()
+            }
+        })
+
+        await Promise.all(updatePromises)
+        return res.send(users)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/addToFollower/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (user && !user.followers.some(item => item._id == id)) {
+            user.followers.push(req.body)
+            await user.save()
+            return res.status(200).send(user)
+        }
+        else {
+            return res.status(201).send("User not found")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/addToFollowing/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (user && !user.following.some(item => item._id == id)) {
+            user.following.push(req.body)
+            await user.save()
+            return res.status(200).send(user)
+        }
+        else {
+            return res.status(201).send("User not found")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/removeFollower/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (user && !user.followers.some(item => item._id == id)) {
+            console.log(req.body)
+            const arr = user.followers.filter(item => item.id != req.body.id)
+            user.followers = arr
+            console.log(user.followers.length)
+            await user.save()
+            return res.status(200).send(user)
+        }
+        else {
+            return res.status(201).send("User not found")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/removeFollowing/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (user && !user.following.some(item => item._id == id)) {
+            console.log(req.body)
+            const arr = user.following.filter(item => item.id != req.body.id)
+            user.following = arr
+            console.log(user.following.length)
+            await user.save()
+            return res.status(200).send(user)
+        }
+        else {
+            return res.status(201).send("User not found")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.post('/createNewList/:id', async (req, res) => {
+    const { id } = req.params
+    const data = req.body
+    const field = data.listDetails.category
+    console.log(data)
+    try {
+        let user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User Not Found")
+        }
+        const newList = {
+            "createdBy": data.userDetails,
+            "content": [],
+            "title": data.listDetails.title,
+            "description": data.listDetails.description
+        }
+        if (field == 'movies') {
+            if (!user.lists) {
+                user.lists = {}
+            }
+            if (!Array.isArray(user.lists.movies)) {
+                user.lists.movies = []
+            }
+            user.lists.movies.push(newList)
+        }
+        else if (field == 'tvshows') {
+            if (!user.lists) {
+                user.lists = {}
+            }
+            if (!Array.isArray(user.lists.tvshows)) {
+                user.lists.tvshows = []
+            }
+            user.lists.tvshows.push(newList)
+        }
+        else if (field == 'cast') {
+            if (!user.lists) {
+                user.lists = {}
+            }
+            if (!Array.isArray(user.lists.cast)) {
+                user.lists.cast = []
+            }
+            user.lists.cast.push(newList)
+        }
+        await user.save()
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+})
+
+router.get('/getList/:id/:category/:listid', async (req, res) => {
+    const { id } = req.params
+    const { category } = req.params
+    const { listid } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+        const item = user.lists[category].find(element => element._id == listid);
+        return res.json(item)
+    }
+    catch (err) {
+        console.log(err)
     }
 })
 
