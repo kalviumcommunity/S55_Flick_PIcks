@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import grey from '../../../assets/grey.png'
 import Nav from '../../nav/Nav'
+import studio from '../../../assets/studio.png'
+import search2 from '../../../assets/image.png'
 
 function Similar() {
 
@@ -56,8 +58,21 @@ function Similar() {
 
   return (
     <div>
-    <Nav/>    
+      
     <div className="mons">
+
+    <nav className='white mons pta'>
+        <div className="nav55">
+          <img src={studio} alt="" className="logoImg" />
+          <div className="navList">
+            <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+            <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+            <div className="navLIS">USERS</div>
+            {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
+            <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+          </div>
+        </div>
+      </nav>
 
 <div className="castBackArea">
 

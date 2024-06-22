@@ -22,7 +22,7 @@ import user from '../../assets/user.png'
 
 function User() {
 
-    const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
+    const RENDER_LINK = "http://localhost:3000/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
 
@@ -42,8 +42,9 @@ function User() {
     const ID = localStorage.getItem("userID")
 
     const getUserData = async () => {
-        const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
+        const res = await axios.get(`http://localhost:3000/user/${username}`)
             .then(res => {
+                console.log(res)
                 setUserData(res.data)
                 if (res.data._id == ID) {
                     setCurrUserID(true)
@@ -64,7 +65,7 @@ function User() {
 
     async function checkPassword() {
         if ('CONFIRM' == password) {
-            const res = await axios.delete(`https://s55-shaaz-capstone-flickpicks.onrender.com/delete/${userData._id}`)
+            const res = await axios.delete(`http://localhost:3000/delete/${userData._id}`)
                 .then(res => {
                     if (res.status == 200) {
                         alert("User Deleted Succesfully. Sorry to see you go :(")
@@ -110,7 +111,7 @@ function User() {
 
     async function addToFollower() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
+        const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
             .then(res => {
                 console.log("User who is logged in", res.data)
                 follow(res.data)
@@ -123,7 +124,6 @@ function User() {
     function doesFollow() {
         const ID = localStorage.getItem("userID")
         if (userData.followers && userData.followers.length > 0) {
-            console.log(userData.followers.some(item => item.id == ID))
             return userData.followers.some(item => item.id == ID)
         }
         else {
@@ -155,7 +155,7 @@ function User() {
 
     async function remove() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
+        const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
             .then(res => {
                 console.log("User who is logged in", res.data)
                 removeFollower(res.data)
@@ -171,37 +171,41 @@ function User() {
     const [formData, setFormData] = useState({
         title: '',
         category: 'movies',
-        description : ''
-      });
-    
-      const handleChange = (e) => {
+        description: ''
+    });
+
+    const handleChange = (e) => {
         const { name, value } = e.target
         setFormData({
-          ...formData,
-          [name]: value
+            ...formData,
+            [name]: value
         })
-      }
-    
-      async function handleSubmit(){
-        if(title == ''){
+    }
+
+    async function handleSubmit() {
+        if (title == '') {
             alert('Enter a title for your list')
-            return 
+            return
         }
-        const res = await axios.post(`http://localhost:3000/createNewList/${userData._id}`,{
-            userDetails : {
-                "name" : userData.name,
-                "username" : userData.username,
-                "profilePic" : userData.profilePic,
-                "id" : userData._id
+        const res = await axios.post(`http://localhost:3000/createNewList/${userData._id}`, {
+            userDetails: {
+                "name": userData.name,
+                "username": userData.username,
+                "profilePic": userData.profilePic,
+                "id": userData._id
             },
-            listDetails : formData
+            listDetails: formData
         })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-      }
+            .then(res => {
+                console.log(res.data)
+                navigate(`/user/${username}/lists/${formData.category}/${res.data._id}`)
+            })
+            .catch(err => console.log(err))
+    }
 
     return (
         <>
+        {console.log(userData)}
             {userData && <div className="MainUser">
                 <div className="backdrop1">
                     {userData.backdrop && <img src={`https://image.tmdb.org/t/p/original${userData.backdrop.backdrop_path}`} alt="" />}
@@ -237,7 +241,7 @@ function User() {
                         </div>
                     </div>
 
-                    {genre == "profile" && userData.favourites.movies && <div className="favFilmsArea1 white mons">
+                    {genre == "profile" && userData.favourites && userData.favourites.movies && <div className="favFilmsArea1 white mons">
                         FAVOURITE FILMS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -258,7 +262,7 @@ function User() {
                         </div>
                     </div>}
 
-                    {genre == "profile" && userData.favourites.tvshow && <div className="favFilmsArea2 white mons">
+                    {genre == "profile" && userData.favourites && userData.favourites.tvshow && <div className="favFilmsArea2 white mons">
                         FAVOURITE TV SHOWS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -278,7 +282,7 @@ function User() {
                         </div>
                     </div>}
 
-                    {genre == "profile" && userData.favourites.actors && <div className="favFilmsArea2 white mons">
+                    {genre == "profile" && userData.favourites && userData.favourites.actors && <div className="favFilmsArea2 white mons">
                         FAVOURITE ACTORS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -296,7 +300,7 @@ function User() {
                         </div>
                     </div>}
 
-                    {genre == "profile" && userData.favourites.directors && <div className="favFilmsArea2 white mons">
+                    {genre == "profile" && userData.favourites && userData.favourites.directors && <div className="favFilmsArea2 white mons">
                         FAVOURITE DIRECTORS
 
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
@@ -387,7 +391,7 @@ function User() {
                             })}
                         </div>}
 
-                        {userData.watched.length == 0 && <div className='center'>NO FILMS WATCHED</div>}
+                        {showMovie && userData.watched.length == 0 && <div className='center'>NO FILMS WATCHED</div>}
                         {!showMovie && userData.tv.watched.length == 0 && <div className='center'>NO TV SHOWS WATCHED</div>}
 
                     </div> : ""}
@@ -425,7 +429,7 @@ function User() {
                             })}
                         </div>}
 
-                        {userData.liked.length == 0 && <div className='center'>NO LIKED FILMS</div>}
+                        {showMovie && userData.liked.length == 0 && <div className='center'>NO LIKED FILMS</div>}
                         {!showMovie && userData.tv.liked.length == 0 && <div className='center'>NO LIKED TV SHOWS</div>}
 
 
@@ -435,16 +439,85 @@ function User() {
                         LISTS
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
-                        <div className="optionBoxArea">
-                            <div className={listGenre == 'movies' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('movies')}>MOVIES</div>
-                            <div className={listGenre == 'tvshows' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('tvshows')}>TV SHOWS</div>
-                            <div className={listGenre == 'cast' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('cast')}>CAST & CREW</div>
+                        <div className="optionBoxArea2">
+                            <div className="opBox">
+                                <div className={listGenre == 'movies' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('movies')}>MOVIES</div>
+                                <div className={listGenre == 'tvshows' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('tvshows')}>TV SHOWS</div>
+                                <div className={listGenre == 'cast' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('cast')}>CAST & CREW</div>
+                            </div>
+                            <div className="opBox2" onClick={() => setShowNewList(true)}>
+                                CREATE A NEW LIST
+                            </div>
                         </div>
 
                         <div className="displayListArea">
-                            <div className="createNewList" onClick={() => setShowNewList(true)}>
-                                Create a new List
-                            </div>
+
+                            {listGenre == 'movies' && userData.lists && userData.lists.movies.length == 0 && <div className='center'>NO LISTS</div>}
+                            {listGenre == 'tvshows' && userData.lists && userData.lists.tvshows.length == 0 && <div className='center'>NO LISTS</div>}
+                            {listGenre == 'cast' && userData.lists && userData.lists.cast.length == 0 && <div className='center'>NO LISTS</div>}
+
+                            {listGenre == 'movies' && userData.lists.movies.map((el,index) => {
+                                return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/movies/${el._id}`)}>
+                                    <div className="imgDisplayArea">
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3'/>
+                                                                     : <div className='extraListItem2'>? </div>}                                        
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2'/>
+                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1'/>
+                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                    </div>
+                                    <div className="displayListTitle">
+                                        <div>
+                                        {el.title}
+                                        </div>
+                                        <div className="dc">
+                                        {el.description}
+                                        </div>
+                                    </div>
+                                </div>
+                            })}
+
+                            {listGenre == 'tvshows' && userData.lists.tvshows.map((el,index) => {
+                                return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/tvshows/${el._id}`)}>
+                                    <div className="imgDisplayArea">
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3'/>
+                                                                     : <div className='extraListItem2'>? </div>}                                        
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2'/>
+                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1'/>
+                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                    </div>
+                                    <div className="displayListTitle">
+                                        <div>
+                                        {el.title}
+                                        </div>
+                                        <div className="dc">
+                                        {el.description}
+                                        </div>
+                                    </div>
+                                </div>
+                            })}
+
+                            {listGenre == 'cast' && userData.lists.cast.map((el,index) => {
+                                return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/cast/${el._id}`)}>
+                                    <div className="imgDisplayArea">
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].profile_path}`} alt="" className='z3'/>
+                                                                     : <div className='extraListItem2'>? </div>}                                        
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].profile_path}`} alt="" className='mlMinus z2'/>
+                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].profile_path}`} alt="" className='mlMinus z1'/>
+                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                    </div>
+                                    <div className="displayListTitle">
+                                        <div>
+                                        {el.title}
+                                        </div>
+                                        <div className="dc">
+                                        {el.description}
+                                        </div>
+                                    </div>
+                                </div>
+                            })}
                         </div>
 
                     </div> : ""}
@@ -637,7 +710,10 @@ function User() {
 
                         {showFollowers && <div className="userFollowing">
                             {userData && userData.followers && userData.followers.map((el, index) => {
-                                return <div className="userSearchResults2 white" onClick={() => navigate(`/user/${el.username}`)}>
+                                return <div className="userSearchResults2 white" onClick={() => {
+                                    setGenre('profile')
+                                    navigate(`/user/${el.username}`)}
+                            }>
                                     {el.profilePic ? <div className='centerMid'><img src={el.profilePic} className='followProfileImg' /></div>
                                         : <div className='noUser'><img src={user} className='followImg' />
                                         </div>}
@@ -651,13 +727,16 @@ function User() {
                             })}
                         </div>}
 
-                        {showFollowers && userData && userData.followers && userData.followers.length == 0 && <div className='centerFollowers'>SORRY NO ONE FOLLOWS YOU</div>}
-                        {!showFollowers && userData && userData.following && userData.following.length == 0 && <div className='centerFollowers'>YOU DO NOT FOLLOW ANYONE</div>}
+                        {showFollowers && userData && userData.followers && userData.followers.length == 0 && <div className='centerFollowers'>NO FOLLOWERS</div>}
+                        {!showFollowers && userData && userData.following && userData.following.length == 0 && <div className='centerFollowers'>NO FOLLOWING</div>}
 
 
                         {!showFollowers && <div className="userFollowing">
                             {userData && userData.following && userData.following.map((el, index) => {
-                                return <div className="userSearchResults2 white" onClick={() => navigate(`/user/${el.username}`)}>
+                                return <div className="userSearchResults2 white"  onClick={() => {
+                                    setGenre('profile')
+                                    navigate(`/user/${el.username}`)}
+                            }>
                                     {el.profilePic ? <div className='centerMid'><img src={el.profilePic} className='followProfileImg' /></div>
                                         : <div className='noUser'><img src={user} className='followImg' />
                                         </div>}
@@ -767,42 +846,42 @@ function User() {
                         <h4>Create a new List</h4>
                         <div className='centerIt'>
 
-                        <div className='listInput'>
-                            <label htmlFor="title">Title:</label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                value={formData.title}
-                                onChange={handleChange}
-                                placeholder='Enter a Title'
-                            />
-                        </div>
-                        <div className='listInput'>
-                            <label htmlFor="category">Category:</label>
-                            <select
-                                id="category"
-                                name="category"
-                                value={formData.category}
-                                onChange={handleChange}
+                            <div className='listInput'>
+                                <label htmlFor="title">Title:</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                    placeholder='Enter a Title'
+                                />
+                            </div>
+                            <div className='listInput'>
+                                <label htmlFor="category">Category:</label>
+                                <select
+                                    id="category"
+                                    name="category"
+                                    value={formData.category}
+                                    onChange={handleChange}
                                 >
-                                <option value="movies">Movies</option>
-                                <option value="tvshows">TV Shows</option>
-                                <option value="cast">Cast</option>
-                            </select>
-                        </div>
-                        <div className='listInput topIt'>
-                            <label htmlFor="description">Description:</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                placeholder='Enter a Description'
+                                    <option value="movies">Movies</option>
+                                    <option value="tvshows">TV Shows</option>
+                                    <option value="cast">Cast</option>
+                                </select>
+                            </div>
+                            <div className='listInput topIt'>
+                                <label htmlFor="description">Description:</label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    placeholder='Enter a Description'
                                 >
-                            </textarea>
+                                </textarea>
+                            </div>
                         </div>
-                                </div>
                         <button className='publicButton pbYes' onClick={() => handleSubmit()}>CREATE</button>
                     </div>
                     <img src={close} alt="" className="AddFavClose" onClick={() => setShowNewList(false)} />

@@ -22,6 +22,7 @@ import TVCast from './components/tvshow/info/Cast'
 import TVRecs from './components/tvshow/info/Recs'
 import TVSimilar from './components/tvshow/info/Similar'
 import List from './components/list/List'
+import EditList from './components/list/EditList'
 
 import ScrollToTop from './ScrollToTop'
 
@@ -47,7 +48,8 @@ function App() {
 
         <Route path='/user/:username' element={<User/>}/>
         <Route path='/editProfile/:username' element={<EditProfile/>}/>
-        <Route path='/user/:username/lists/:category/:listid/' element={<List/>}/>
+        <Route path='/user/:username/lists/:category/:listid' element={<List/>}/>
+        <Route path='/user/:username/lists/:category/:listid/edit' element={<EditList/>}/>
 
         <Route path='/userProfile' element={<UserProfile/>}/>
 

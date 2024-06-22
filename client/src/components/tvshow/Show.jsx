@@ -33,7 +33,7 @@ import minus from '../../assets/minus.png'
 
 function Show() {
 
-  const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
+  const RENDER_LINK = "http://localhost:3000/"
 
   const navigate = useNavigate()
 
@@ -154,7 +154,7 @@ function Show() {
     if (ID) {
       if (listName == "Watched") {
         try {
-          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVWatched/${ID}`, data)
+          const response = await axios.put(`http://localhost:3000/addToTVWatched/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -164,7 +164,7 @@ function Show() {
       }
       else if (listName == "Watchlist") {
         try {
-          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVWatchlist/${ID}`, data)
+          const response = await axios.put(`http://localhost:3000/addToTVWatchlist/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -174,7 +174,7 @@ function Show() {
       }
       else if (listName == "Liked") {
         try {
-          const response = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVLiked/${ID}`, data)
+          const response = await axios.put(`http://localhost:3000/addToTVLiked/${ID}`, data)
             .then(response => console.log(response))
             .catch(err => console.log(err))
         }
@@ -215,7 +215,7 @@ function Show() {
 
     if (ID) {
 
-      const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVWatchlist/${ID}`, data)
+      const res1 = await axios.post(`http://localhost:3000/isInTVWatchlist/${ID}`, data)
       if (res1.status == 200) {
         setInWachlist(true)
       }
@@ -223,7 +223,7 @@ function Show() {
         setInWachlist(false)
       }
 
-      const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVLiked/${ID}`, data)
+      const res2 = await axios.post(`http://localhost:3000/isInTVLiked/${ID}`, data)
       if (res2.status == 200) {
         setInLiked(true)
       }
@@ -231,7 +231,7 @@ function Show() {
         setInLiked(false)
       }
 
-      const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInTVWatched/${ID}`, data)
+      const res3 = await axios.post(`http://localhost:3000/isInTVWatched/${ID}`, data)
       if (res3.status == 200) {
         setInWatched(true)
       }
@@ -244,7 +244,7 @@ function Show() {
 
   async function addToRecommended() {
     console.log("Data that is passed in addToTvRecs", data)
-    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToTVRec', data)
+    const res = await axios.post('http://localhost:3000/addToTVRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
@@ -256,7 +256,7 @@ function Show() {
   const [userData, setUserData] = useState({})
 
   async function getData() {
-    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
+    const res = await axios.get(`http://localhost:3000/users`)
       .then(res => {
         setUsers(res.data)
       })
@@ -315,7 +315,7 @@ function Show() {
 
   async function getUserData(el) {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
+    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setUserData(res.data)
@@ -422,6 +422,10 @@ function Show() {
 
   const [showEveryoneMessage,setShowEveryoneMessage] = useState(false)
   const [everyoneMessage,setEveryoneMessage] = useState('')
+
+  useEffect(() => {
+    document.title = `${data.name}`
+}, [data])
 
 
   return (

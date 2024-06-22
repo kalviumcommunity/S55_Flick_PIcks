@@ -1320,10 +1320,7 @@ hr {
     justify-content: center;
     margin-top: 50px;
     font-size: 20px;
-}
-
-.displayListArea{
-    margin-top: 50px;
+    font-weight: 500;
 }
 
 .createNewList{
@@ -1415,4 +1412,110 @@ hr {
 
 .topIt label{
     margin-top: 3px;
+}
+
+.opBox{
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* width: 100%; */
+}
+
+.optionBoxArea2{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.opBox2{
+    padding: 13px;
+    background-color: rgb(230, 230, 230);
+    color: rgb(18, 18, 18);
+    margin-right: 0px;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.opBox2:hover{
+    cursor: pointer;
+}
+
+.displayListArea{
+    margin-top: 50px;
+    width: 100%;
+}
+
+.listDisplay{
+    width: 100%;
+    padding: 17px ;
+    background-color: #272727;
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border: 1px solid hsla(0, 0%, 36%, 0.486);
+    border-radius: 4px;
+}
+
+.listDisplay:hover{
+    cursor: pointer;
+}
+
+.imgDisplayArea{
+    display: flex;
+}
+
+.imgDisplayArea img{
+    width: 140px;
+    border-radius: 4px;
+    border: 2px solid rgb(29, 29, 29);
+    border: 2px solid hsla(0, 0%, 23%, 0.486);
+}
+
+.mlMinus{
+    margin-left: -70px;
+}
+
+.z3{
+    z-index: 3;
+    position: relative;
+}
+
+.z2{
+    z-index: 2;
+    position: relative;
+}
+
+.z1{
+    z-index: 1;
+    position: relative;
+}
+
+.displayListTitle{
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.displayListDesc{
+
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.extraListItem2{
+    background-color: #1f1f1f;
+    width: 140px;
+    font-size: 120px;
+    color: #b2b2b2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dc{
+    font-size: 18px;
+    color: gray;
+    max-height: 85px;
+    overflow: scroll;
+    margin-top: 10px;
 }

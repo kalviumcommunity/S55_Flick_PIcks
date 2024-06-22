@@ -28,7 +28,7 @@ function EditProfile() {
     const { username } = useParams()
 
     const getData = async () => {
-        const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/user/${username}`)
+        const res = await axios.get(`http://localhost:3000/user/${username}`)
             .then(res => {
                 setUserData(res.data)
             })
@@ -64,35 +64,35 @@ function EditProfile() {
     }
 
     const removeFilm = async (data) => {
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavMovies/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/removeFromFavMovies/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeTVShow = async (data) => {
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeTVShow/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/removeTVShow/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeBackdrop = async () => {
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/rmBackdrop/${userData._id}`, {})
+        const res = await axios.post(`http://localhost:3000/rmBackdrop/${userData._id}`, {})
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeActors = async (data) => {
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavActors/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/removeFromFavActors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeDirectors = async (data) => {
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/removeFromFavDirectors/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/removeFromFavDirectors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
@@ -154,7 +154,7 @@ function EditProfile() {
 
     const pushToFav = async (data) => {
         setMovieSearch(false)
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFav/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/pushToFav/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -163,7 +163,7 @@ function EditProfile() {
 
     const pushToTVShow = async (data) => {
         setTVShowSearch(false)
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushTVShow/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/pushTVShow/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -172,7 +172,7 @@ function EditProfile() {
 
     const pushToBackdrop = async (data) => {
         setBackdropSearch(false)
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/backdrop/${userData._id}`, data)
+        const res = await axios.post(`http://localhost:3000/backdrop/${userData._id}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -181,7 +181,7 @@ function EditProfile() {
 
     const pushToFavActor = async (data) => {
         setActorSearch(false)
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavActors/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/pushToFavActors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -190,7 +190,7 @@ function EditProfile() {
 
     const pushToFavDirectors = async (data) => {
         setDirectorSearch(false)
-        const res = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/pushToFavDirectors/${username}`, data)
+        const res = await axios.post(`http://localhost:3000/pushToFavDirectors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -198,7 +198,7 @@ function EditProfile() {
     }
 
     const saveChanges = async () => {
-        const res = await axios.put(`https://s55-shaaz-capstone-flickpicks.onrender.com/saveUserChanges/${username}`, userData)
+        const res = await axios.put(`http://localhost:3000/saveUserChanges/${username}`, userData)
             .then(res => {
                 navigate(`/user/${username}`)
             })

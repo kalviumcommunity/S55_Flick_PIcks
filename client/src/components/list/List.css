@@ -2,7 +2,8 @@
     display: flex;
     align-items: start;
     justify-content: center;
-    height: 100vh;
+    /* height: ; */
+    min-height: 100vh;
     width: 100vw;
     background-color: #151515;
     padding: 100px;
@@ -13,6 +14,7 @@
     flex-direction: column;
     align-items: start;
     width: 55vw;
+    margin-top: 30px;
     /* background-color: black; */
 }
 
@@ -26,9 +28,17 @@
 
 }
 
-.mainListTitle img{
-    height: 30px;
+.editList{
+    width: 30px;
+    margin-left: 25px;
+    /* opacity: 0.9; */
+}
+
+.delList{
+    height: 34px;
+    margin-top: 2px;
     margin-left: 20px;
+    opacity: 0.75;
 }
 
 .mainListTitle img:hover{
@@ -72,4 +82,117 @@
     color: rgb(90, 90, 90);
     align-items: center;
     margin: 30px 1px;
+}
+
+.centerList{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 500;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.container:hover .movieDelete {
+    opacity: 1;
+}
+
+.extraListBlock{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(57, 57, 57);
+    border-radius: 4px;
+    border: 0.5px solid rgb(79, 79, 79);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 14vw;
+}
+
+.extraListBlock:hover{
+    cursor: pointer;
+}
+
+.extraListBlock:hover img{
+    opacity: 1;
+    cursor: pointer;
+}
+
+.extraListBlock img{
+    width: 40%;
+    opacity: 0.7;
+}
+
+.mainListTitleEdit,.mainListGrayEdit{
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    color: rgb(187, 187, 187);
+    font-weight: 600;
+}
+
+.mainListTitleEdit input{
+    width: 100%;
+    height: 55px;
+    font-size: 26px;
+    padding: 15px;
+    margin: 5px 0 20px 0;
+}
+
+.mainListTitleEdit input:focus{
+    outline: none;
+}
+
+.mainListGrayEdit textarea{
+    width: 55vw;
+    max-width: 55vw;
+    height: 130px;
+    font-size: 22px;
+    padding: 15px;
+    margin-top: 5px;
+    /* font-family: 'Montserrat'; */
+}
+
+.mainListGrayEdit textarea:focus{
+    outline: none;
+}
+
+.saveListButtonArea{
+    width: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.saveListButton{
+    padding: 15px;
+    background-color: rgb(22, 168, 6);
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.saveListButton:hover{
+    cursor: pointer;
+}
+
+.rankBox{
+    background-color: rgba(230, 230, 230, 0.875);
+    border: 2px solid black;
+    border-top: none;
+    position: absolute;
+    width: 27%;
+    top: 0;
+    left: 5%;
+    height: 22%;
+    border-bottom-right-radius: 50px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: 30px;
+    font-weight: 500;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }

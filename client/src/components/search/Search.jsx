@@ -96,7 +96,7 @@ function Search() {
   const [users, setUsers] = useState([])
 
   async function getData() {
-    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
+    const res = await axios.get(`http://localhost:3000/users`)
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
   }

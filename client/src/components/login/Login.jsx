@@ -21,7 +21,7 @@ function loginPage() {
 
   const onSubmit = (values) => {
     try {
-      const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/login', values)
+      const res = axios.post('http://localhost:3000/login', values)
         .then((res) => {
           console.log(res)
           if (res.status == 200) {
@@ -41,7 +41,7 @@ function loginPage() {
   }
 
   async function createUserSignup() {
-    const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         localStorage.setItem("userInfo", response.data)
         localStorage.setItem("user", true)
@@ -52,7 +52,7 @@ function loginPage() {
   }
 
   async function handleUsername() {
-    const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', { "username": username })
+    const test = await axios.post('http://localhost:3000/userExists', { "username": username })
       .then(test => {
         console.log("TEST", test)
         if (test.status == 200) {
@@ -76,7 +76,7 @@ function loginPage() {
 
   async function loginUser(data) {
     console.log("Login User Working")
-    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthLogin', data)
+    const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
       .then(response => {
         console.log(response)
         if (response.status === 201) {
@@ -90,7 +90,7 @@ function loginPage() {
   }
 
   async function onSuccess(res) {
-    const data = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthID', res.profileObj)
+    const data = await axios.post('http://localhost:3000/googleAuthID', res.profileObj)
       .then(data => {
         if (data.status === 200) {
           createUser(res.profileObj)

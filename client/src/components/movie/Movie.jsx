@@ -26,12 +26,15 @@ import likedOutLogo from '../../assets/liked out.png'
 import watchedIn from '../../assets/watchedIn.png'
 import watchedOut from '../../assets/watchedOut.png'
 
+import studio from '../../assets/studio.png'
+import search2 from '../../assets/image.png'
+
 import recommended from '../../assets/recommendedTile.png'
 
 
 function Movie() {
 
-  const RENDER_LINK = "https://s55-shaaz-capstone-flickpicks.onrender.com/"
+  const RENDER_LINK = "http://localhost:3000/"
 
   const navigate = useNavigate()
 
@@ -111,9 +114,9 @@ function Movie() {
   }
 
   const addToList = async (listName) => {
-    const username = sessionStorage.getItem("username")
+    const ID = localStorage.getItem("userID")
     try {
-      const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/addTo${listName}/${username}`, data)
+      const response = await axios.post(`http://localhost:3000/addTo${listName}/${ID}`, data)
       if (listName == "Watchlist") {
         if (response.status == 200) {
           setWatchlistAdded(true)
@@ -189,7 +192,7 @@ function Movie() {
 
     // console.log("handle is working")
 
-    // const res1 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatchlist/${username}`, data)
+    // const res1 = await axios.post(`http://localhost:3000/isInWatchlist/${username}`, data)
     // if (res1.status == 200) {
     //   setInWachlist(true)
     // }
@@ -197,7 +200,7 @@ function Movie() {
     //   setInWachlist(false)
     // }
 
-    // const res2 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInLiked/${username}`, data)
+    // const res2 = await axios.post(`http://localhost:3000/isInLiked/${username}`, data)
     // if (res2.status == 200) {
     //   setInLiked(true)
     // }
@@ -205,7 +208,7 @@ function Movie() {
     //   setInLiked(false)
     // }
 
-    // const res3 = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/isInWatched/${username}`, data)
+    // const res3 = await axios.post(`http://localhost:3000/isInWatched/${username}`, data)
     // if (res3.status == 200) {
     //   setInWatched(true)
     // }
@@ -215,7 +218,7 @@ function Movie() {
   }
 
   async function addToRecommended() {
-    const res = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/addToRec', data)
+    const res = await axios.post('http://localhost:3000/addToRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
@@ -227,7 +230,7 @@ function Movie() {
   const [userData, setUserData] = useState({})
 
   async function getData() {
-    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/users`)
+    const res = await axios.get(`http://localhost:3000/users`)
       .then(res => {
         setUsers(res.data)
       })
@@ -286,7 +289,7 @@ function Movie() {
 
   async function getUserData() {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`https://s55-shaaz-capstone-flickpicks.onrender.com/userByID/${ID}`)
+    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setUserData(res.data)
@@ -352,7 +355,9 @@ function Movie() {
   const [showEveryoneMessage,setShowEveryoneMessage] = useState(false)
   const [everyoneMessage,setEveryoneMessage] = useState('')
 
-
+  useEffect(() => {
+    document.title = `${data.title}`
+}, [data])
 
   return (
     <>
@@ -393,6 +398,19 @@ function Movie() {
           </h2>
         </Alert>}
       </div>
+
+      <nav className='white mons'>
+            <div className="nav55">
+                <img src={studio} alt="" className="logoImg" />
+            <div className="navList">
+                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                <div className="navLIS">USERS</div>
+                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
+                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+            </div>
+            </div>
+        </nav>
 
       {data && <div>
 

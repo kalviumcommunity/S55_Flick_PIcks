@@ -5,9 +5,15 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 import editIcon from '../../assets/editN.png'
-import editIconGreen from '../../assets/editG.png'
-import del from '../../assets/del.png'
-import delRed from '../../assets/delRed.png'
+import editIconGreen from '../../assets/editG2.png'
+import del from '../../assets/deleteWhite.png'
+import delRed from '../../assets/deleteRed.png'
+import close from '../../assets/close.png'
+import add from '../../assets/add.png'
+import studio from '../../assets/studio.png'
+import search2 from '../../assets/image.png'
+
+import search from '../../assets/search.png'
 
 function List() {
 
@@ -18,11 +24,12 @@ function List() {
     const { category } = useParams()
     console.log(username,listid)
     const ID = localStorage.getItem('userID')
+    const [user,setUser] = useState([])
 
     const [data,setData] = useState([])
 
-    async function getList(){
-        const res = await axios.get(`http://localhost:3000/getList/${ID}/${category}/${listid}`)
+    async function getList(passedData){
+        const res = await axios.get(`http://localhost:3000/getList/${passedData._id}/${category}/${listid}`)
         .then(res => {
             console.log(res.data)
             setData(res.data)
@@ -30,8 +37,18 @@ function List() {
         .catch(err => console.log(err))
     }
 
+    async function getUser(){
+        const res = await axios.get(`http://localhost:3000/user/${username}`)
+        .then(res => {
+            console.log(res.data)
+            getList(res.data)
+            setUser(res.data)
+        })
+        .catch(err => console.log(err))
+    }
+
     useEffect(() => {
-        getList()
+        getUser()
     },[])
 
     function stringCap(string){
@@ -57,15 +74,32 @@ function List() {
         setDelete(false)
     }
 
+    async function deleteList(){
+        const res = axios.delete(`http://localhost:3000/deleteList/${user._id}/${category}/${listid}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+
   return (
     <>
+        <nav className='white mons'>
+            <div className="nav55">
+                <img src={studio} alt="" className="logoImg" />
+            <div className="navList">
+                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                <div className="navLIS">USERS</div>
+                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
+                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+            </div>
+            </div>
+        </nav>
         {data && <div className="mainListArea white mons">
             <div className="mainList">
                 <div className="mainListTitle">
-                    {/* {data.title}*/}
-                    David Fincher Ranked
-                    <img src={edit ? editIconGreen : editIcon} onMouseEnter={mouseEnterEdit} onMouseLeave={mouseLeaveEdit} />
-                    <img src={Delete ? delRed : del} onMouseEnter={mouseEnterDelete} onMouseLeave={mouseLeaveDelete} />
+                    {data.title}
+                    {user._id == ID && <img src={edit ? editIconGreen : editIcon} onClick={() => navigate(`/user/${data.createdBy.username}/lists/${category}/${listid}/edit`)} className='editList' onMouseEnter={mouseEnterEdit} onMouseLeave={mouseLeaveEdit} />}
+                    {user._id == ID && <img src={Delete ? delRed : del} className='delList' onMouseEnter={mouseEnterDelete} onMouseLeave={mouseLeaveDelete} onClick={() => deleteList()}/> }
 
                 </div>
                 {category && <div className="mainListDetails">
@@ -77,10 +111,45 @@ function List() {
                     {data.createdBy && data.createdBy.name}
                 </div> 
                 <div className="mainListGray">
-                    {/* {data.description} */}
-                    David Fincher is my favourite Director and I am ranking his movies from Best to Worst. He has made many movies like F**** C***, Gone Girl, Zodiac and many more.
+                    {data.description}
                 </div>
                 <hr className="mainListLine"/>
+
+                <div className="userWatchedTile">
+                        {category == "movies" && data.content && data.content.map((el, index) => {
+                            return <div className="container" key={index} onClick={() => navigate(`/movie/${el.id}`)}>
+                                <img src={`https://image.tmdb.org/t/p/original${el.poster_path}`} className='image'/>
+                                <div className="overlay">
+                                    {el.title}
+                                    <br />
+                                    ({el.release_date && el.release_date.split("-")[0]})
+                                </div>
+                                    {/* <div className="rankBox">
+                                        {index + 1}
+                                    </div> */}
+                            </div>
+                        })}
+                        {category == "tvshows" && data.content && data.content.map((el, index) => {
+                            return <div className="container" key={index} onClick={() => navigate(`/tvshow/${el.id}`)}>
+                                <img src={`https://image.tmdb.org/t/p/original${el.poster_path}`} className='image'/>
+                                <div className="overlay">
+                                    {el.name}
+                                </div>      
+                            </div>
+                        })}
+                        {category == "cast" && data.content && data.content.map((el, index) => {
+                            return <div className="container" key={index} onClick={() => navigate(`/person/${el.id}`)}>
+                                <img src={`https://image.tmdb.org/t/p/original${el.profile_path}`} className='image' />
+                                <div className="overlay">
+                                    {el.name}
+                                </div>
+                            </div>
+                        })}
+                    </div>
+
+                {data.content && data.content.length == 0 && <div className="centerList">
+                    NO ITEMS IN THIS LIST
+                </div>}
 
 
             </div>

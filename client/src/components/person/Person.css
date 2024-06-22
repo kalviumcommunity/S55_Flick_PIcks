@@ -1,5 +1,5 @@
 .blackBG{
-    background-color: #131416f0;
+    background-color: #272727;
     position: fixed;
     z-index: -1;
     height: 100vh;
@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    height: 78vh;
+    height: 58vh;
 }
 
 .profileAreaProfilePage{
@@ -95,4 +95,110 @@
 
 .actorMovieHover .year{
     margin-top: 10px;
+}
+
+.personGrid{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    width: 60vw;
+    color: white;
+    row-gap: 30px;
+    column-gap: 30px;
+    font-size: 30px;
+}
+
+.personGrid .overlay{
+    font-size: 20px;
+}
+
+.centerPerson{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    flex-direction: column;
+}
+
+.anotherPersonDiv{
+    width: 60vw;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+}
+
+.anotherPersonDiv select{
+    margin-bottom: 10px;
+}
+
+.anotherPersonDiv hr{
+    width: 100%;
+    background-color: aliceblue;margin-bottom: 30px;
+}
+
+.optionBoxAreaPerson{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-y: hidden;
+    overflow: scroll;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.optionBoxSelectedPerson{
+    padding: 13px;
+    background-color: rgb(230, 230, 230);
+    color: rgb(18, 18, 18);
+    margin-right: 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    text-wrap: nowrap;
+    font-weight: 600;
+}
+
+.optionBoxPerson{
+    width: auto;
+    padding: 13px;
+    background-color: rgb(110, 110, 110);
+    color: #dadada;
+    margin-right: 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    text-wrap: nowrap;
+    font-weight: 600;
+}
+
+.optionBoxPerson:hover{
+    cursor: pointer;
+}
+
+.optionBoxSelectedPerson:hover{
+    cursor: pointer;
+}
+
+.anotherAnotherPersonDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 60vw;
+}
+
+.optionBoxAreaPerson2{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-y: hidden;
+    overflow: scroll;
+    margin-bottom: 30px;
+}
+
+.personPosterNa{
+    height: 100%;
+    width: 100%;
+    background-color: #1f1f1f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
 }

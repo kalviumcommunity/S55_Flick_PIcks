@@ -14,6 +14,8 @@ import crime from '../../assets/logos/crime.png'
 import sports from '../../assets/logos/sports.png'
 import scifi from '../../assets/logos/scifi.png'
 import random from '../../assets/logos/random.png'
+import studio from '../../assets/studio.png'
+import search from '../../assets/image.png'
 
 
 import movie from '../../assets/movieWhite.png'
@@ -32,7 +34,7 @@ function Recs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('https://s55-shaaz-capstone-flickpicks.onrender.com/recs')
+        const res = axios.get('http://localhost:3000/recs')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
@@ -110,16 +112,31 @@ function Recs() {
         }
     }
 
+    useEffect(() => {
+        document.title = 'Movies - STUDIO'
+    }, [])
+
     return (
         <div>
-        <Nav/>
+        <nav className='white mons'>
+            <div className="nav55">
+                <img src={studio} alt="" className="logoImg" />
+            <div className="navList">
+                <div className="navLI">MOVIES</div>
+                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                <div className="navLIS">USERS</div>
+                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
+                <div className="navLIS" onClick={() => navigate('/search')}><img src={search} alt="" /></div>
+            </div>
+            </div>
+        </nav>
         <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
             {display && <div className="recsBackdrop">
                 {display && display[current] && <img src={`${IMAGE_LINK}${display[current].backdrop_path}`} className='recsBackdropImg' />}
                 <div className='recsGrad'>
                     <div className='recsInfo'>
                         <div className="recsTitle">
-                            {display && display[current] && display[current].title } ({display[current] && display[current].release_date.split("-")[0]})
+                            {display && display[current] && display[current].title } ({display[current] && display[current].release_date && display[current].release_date.split("-")[0]})
                         </div>
                         <div className="recsDesc">
                             {display && display[current] && display[current].overview}                        

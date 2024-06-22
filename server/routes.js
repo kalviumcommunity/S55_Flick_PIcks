@@ -63,66 +63,96 @@ router.post('/userExists', async (req, res) => {
     }
 })
 
-router.post('/addToWatchlist/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/addToWatchlist/:id', async (req, res) => {
+    const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ username })
-    const isMoviePresent = user.watchlist.find(item => item.id == movie.id)
-    if (isMoviePresent) {
-        const newWatchlist = user.watchlist.filter(item => item.id != movie.id)
-        user.watchlist = newWatchlist
-        await user.save()
-        return res.status(201).json({ "Status": "Movie removed" })
+    const user = await userModel.findById(id)
+    if(user){
+        if (user.watchlist == null) {
+            user.watchlist = [];
+        }
+        const isMoviePresent = user.watchlist.find(item => item.id == movie.id)
+        
+        if (isMoviePresent) {
+            const newWatchlist = user.watchlist.filter(item => item.id != movie.id)
+            user.watchlist = newWatchlist
+            await user.save()
+            return res.status(201).json({ "Status": "Movie removed" })
+        }
+        else {
+            try {
+                user.watchlist.push(movie)
+                await user.save()
+                res.status(200).json(movie)
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+    }
+    else{
+        console.log("no user")
+    }
+    })
+    
+router.post('/addToLiked/:id', async (req, res) => {
+    const { id } = req.params
+    const movie = req.body
+
+    const user = await userModel.findById(id)
+    if (user.liked != []) {
+
+        const isMoviePresent = user.liked.find(item => item.id == movie.id)
+        if (isMoviePresent) {
+            const newliked = user.liked.filter(item => item.id != movie.id)
+            user.liked = newliked
+            await user.save()
+            return res.status(201).json({ "Status": "Movie removed" })
+        }
+        else {
+            try {
+                user.liked.push(movie)
+                await user.save()
+                res.status(200).json(movie)
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
     }
     else {
-        try {
-            user.watchlist.push(movie)
-            await user.save()
-            res.status(200).json(movie)
-        }
-        catch (err) {
-            console.log(err)
-        }
+        user.liked.push(movie)
+        await user.save()
+        res.status(200).json(movie)
     }
 })
 
-router.post('/addToLiked/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/addToWatched/:id', async (req, res) => {
+    const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ username })
-    const isMoviePresent = user.liked.find(item => item.id == movie.id)
-    if (isMoviePresent) {
-        const newliked = user.liked.filter(item => item.id != movie.id)
-        user.liked = newliked
-        await user.save()
-        return res.status(201).json({ "Status": "Movie removed" })
-    }
-    else {
-        try {
-            user.liked.push(movie)
+    const user = await userModel.findById(id)
+    if (user.watched != []) {
+
+        const isMoviePresent = user.watched.find(item => item.id == movie.id)
+        if (isMoviePresent) {
+            const newwatched = user.watched.filter(item => item.id != movie.id)
+            user.watched = newwatched
             await user.save()
-            res.status(200).json(movie)
+            console.log(user.watched)
+            return res.status(201).json({ "Status": "Movie removed" })
         }
-        catch (err) {
-            console.log(err)
+        else {
+            try {
+                user.watched.push(movie)
+                await user.save()
+                res.status(200).json(movie)
+            }
+            catch (err) {
+                console.log(err)
+            }
         }
-    }
-})
-
-router.post('/addToWatched/:username', async (req, res) => {
-    const { username } = req.params
-    const movie = req.body
-
-    const user = await userModel.findOne({ username })
-    const isMoviePresent = user.watched.find(item => item.id == movie.id)
-    if (isMoviePresent) {
-        const newwatched = user.watched.filter(item => item.id != movie.id)
-        user.watched = newwatched
-        await user.save()
-        console.log(user.watched)
-        return res.status(201).json({ "Status": "Movie removed" })
     }
     else {
         try {
@@ -159,14 +189,14 @@ router.get('/movies', async (req, res) => {
 //     }
 //     catch(err){
 //         console.log(err)
-//     }
+//     }id
 // })
 
-router.post('/isInWatchlist/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/isInWatchlist/:id', async (req, res) => {
+    const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ username })
+    const user = await userModel.findById(id)
     const isMoviePresent = user.watchlist.find(item => item.id === movie.id)
 
     if (isMoviePresent) {
@@ -177,11 +207,11 @@ router.post('/isInWatchlist/:username', async (req, res) => {
     }
 })
 
-router.post('/isInLiked/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/isInLiked/:id', async (req, res) => {
+    const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ username })
+    const user = await userModel.findById(id)
     const isMoviePresent = user.liked.find(item => item.id === movie.id)
 
     if (isMoviePresent) {
@@ -192,11 +222,11 @@ router.post('/isInLiked/:username', async (req, res) => {
     }
 })
 
-router.post('/isInWatched/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/isInWatched/:id', async (req, res) => {
+    const { id } = req.params
     const movie = req.body
 
-    const user = await userModel.findOne({ username })
+    const user = await userModel.findById(id)
     const isMoviePresent = user.watched.find(item => item.id === movie.id)
 
     if (isMoviePresent) {
@@ -223,12 +253,12 @@ router.get('/user/:username', async (req, res) => {
 
 })
 
-router.post('/profileUpdate/:username', async (req, res) => {
-    const { username } = req.params
+router.post('/profileUpdate/:id', async (req, res) => {
+    const { id } = req.params
     const imageLink = req.body.imageLink
 
     try {
-        const user = await userModel.findOne({ username })
+        const user = await userModel.findById(id)
         if (user) {
             user.profilePic = imageLink
             await user.save()
@@ -943,6 +973,11 @@ router.post('/createNewList/:id', async (req, res) => {
             user.lists.cast.push(newList)
         }
         await user.save()
+        const list = user.lists[field]
+        const lI = list.length - 1
+        const element = list[lI]
+        console.log(element)
+        return res.send(element)
     }
     catch (err) {
         console.log(err)
@@ -961,6 +996,81 @@ router.get('/getList/:id/:category/:listid', async (req, res) => {
         }
         const item = user.lists[category].find(element => element._id == listid);
         return res.json(item)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/addItemList/:id/:category/:listid', async (req, res) => {
+    const { id } = req.params
+    const { category } = req.params
+    const { listid } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+        user.lists[category].find(element => element._id == listid).content.push(req.body)
+        await user.save()
+        return res.json(user)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/removeItem/:id/:category/:listid', async (req, res) => {
+    const { id } = req.params
+    const { category } = req.params
+    const { listid } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+        const arr = user.lists[category].find(element => element._id == listid).content.filter(item => item.id != req.body.id)
+        user.lists[category].find(element => element._id == listid).content = arr
+        await user.save()
+        return res.json(user)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.put('/saveList/:id/:category/:listid', async (req, res) => {
+    const { id } = req.params
+    const { category } = req.params
+    const { listid } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+        user.lists[category].find(element => element._id == listid).title = req.body.title
+        user.lists[category].find(element => element._id == listid).description = req.body.description
+        await user.save()
+        return res.json(user)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+router.delete('/deleteList/:id/:category/:listid', async (req, res) => {
+    const { id } = req.params
+    const { category } = req.params
+    const { listid } = req.params
+    try {
+        const user = await userModel.findById(id)
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+        const arr = user.lists[category].filter(item => item.id != listid)
+        user.lists[category] = arr
+        await user.save()
+        return res.json(user)
     }
     catch (err) {
         console.log(err)

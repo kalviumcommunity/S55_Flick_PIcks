@@ -16,6 +16,10 @@ import random from '../../assets/logos/random.png'
 import movie from '../../assets/movieWhite.png'
 import tvShow from '../../assets/showWhite.png'
 
+
+import studio from '../../assets/studio.png'
+import search from '../../assets/image.png'
+
 function TvRecs() {
 
     const navigate = useNavigate()
@@ -29,7 +33,7 @@ function TvRecs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('https://s55-shaaz-capstone-flickpicks.onrender.com/tvshows')
+        const res = axios.get('http://localhost:3000/tvshows')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
@@ -101,9 +105,24 @@ function TvRecs() {
         }
     }
 
+    useEffect(() => {
+        document.title = 'TV Shows - STUDIO'
+    }, [])
+
     return (
         <div>
-            <Nav />
+            <nav className='white mons'>
+            <div className="nav55">
+                <img src={studio} alt="" className="logoImg" />
+            <div className="navList">   
+                <div className="navLIS" onClick={() => navigate('/tvrecs')}>MOVIES</div>
+                <div className="navLI">TV SHOWS</div>
+                <div className="navLIS">USERS</div>
+                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
+                <div className="navLIS" onClick={() => navigate('/search')}><img src={search} alt="" /></div>
+            </div>
+            </div>
+        </nav>
             {console.log(display)}
             {recommendations && console.log(recommendations)}
             <div className='mons white' onKeyDown={keyPress} tabIndex={0}>

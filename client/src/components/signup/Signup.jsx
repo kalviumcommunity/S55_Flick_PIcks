@@ -30,12 +30,12 @@ function loginPage() {
     else if (click) {
       try {
         setClick(false)
-        const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', values)
+        const test = await axios.post('http://localhost:3000/userExists', values)
           .then((test) => {
             console.log(test)
             if (test.status == 200) {
               try {
-                const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/newUser', values)
+                const res = axios.post('http://localhost:3000/newUser', values)
                   .then(res => console.log(res))
               }
               catch (err) {
@@ -58,7 +58,7 @@ function loginPage() {
   const [click, setClick] = useState(true)
 
   async function createUserSignup() {
-    const response = await axios.post(`https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         console.log("RES",response)
         localStorage.setItem("useInfo", response.data)
@@ -69,7 +69,7 @@ function loginPage() {
   }
 
   async function handleUsername() {
-    const test = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/userExists', { "username": username })
+    const test = await axios.post('http://localhost:3000/userExists', { "username": username })
       .then(test => {
         console.log("TEST", test)
         if (test.status == 200) {
@@ -94,7 +94,7 @@ function loginPage() {
 
   async function loginUser(data) {
     console.log("Login User Working")
-    const response = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthLogin', data)
+    const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
       .then(response => {
         console.log(response)
         if (response.status === 201) {
@@ -109,7 +109,7 @@ function loginPage() {
   async function onSuccess(res) {
     console.log("Login Success, Current user -> ", res.profileObj)
 
-    const data = await axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/googleAuthID', res.profileObj)
+    const data = await axios.post('http://localhost:3000/googleAuthID', res.profileObj)
     .then(data => {
       if(data.status === 200){
         createUser(res.profileObj)
@@ -148,7 +148,6 @@ const [username, setUsername] = useState('')
 
   return (
     <div className='areaCenterLogin mons'>
-
       {showUsername && <form className="signupRectangle" onSubmit={handleSubmit(onSubmit)}>
         <h2>SIGNUP</h2>
 
