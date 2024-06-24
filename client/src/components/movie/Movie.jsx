@@ -28,11 +28,22 @@ import watchedOut from '../../assets/watchedOut.png'
 
 import studio from '../../assets/studio.png'
 import search2 from '../../assets/image.png'
+import logout from '../../assets/logout.png'
 
 import recommended from '../../assets/recommendedTile.png'
 
 
 function Movie() {
+
+  async function getUserInfoForNav(){
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+    .then(res => {
+        console.log(res)
+        navigate(`/user/${res.data.username}`)
+    })
+    .catch(err => console.log(err))
+}
 
   const RENDER_LINK = "http://localhost:3000/"
 
@@ -41,9 +52,10 @@ function Movie() {
   const [data, setData] = useState([])
   const [cast, setCast] = useState([])
   const [recommendations, setRecommendations] = useState([])
-  const [similar, setSimilar] = useState([])
+  const [similar, setSimilar] = useState([])    
   const [watch, setWatch] = useState([])
   const [review, setReview] = useState([])
+  const [loginNA, setLoginNA] = useState(false)
 
   const { id } = useParams()
 
@@ -115,6 +127,7 @@ function Movie() {
 
   const addToList = async (listName) => {
     const ID = localStorage.getItem("userID")
+    if(ID){
     try {
       const response = await axios.post(`http://localhost:3000/addTo${listName}/${ID}`, data)
       if (listName == "Watchlist") {
@@ -166,6 +179,13 @@ function Movie() {
     }
     handle()
   }
+  else{
+    setLoginNA(true)
+    setTimeout(() => {
+      setLoginNA(false)
+    },3000)
+  }
+  }
 
   const [watchlistAdded, setWatchlistAdded] = useState(false)
   const [watchlistRemoved, setWatchlistRemoved] = useState(false)
@@ -188,46 +208,40 @@ function Movie() {
 
   const handle = async () => {
 
-    const username = sessionStorage.getItem("username")
+    const ID = localStorage.getItem('userID')
+    if(ID){
+    
+    const res1 = await axios.post(`http://localhost:3000/isInWatchlist/${ID}`, data)
+    if (res1.status == 200) {
+      setInWachlist(true)
+    }
+    else {
+      setInWachlist(false)
+    }
 
-    // console.log("handle is working")
+    const res2 = await axios.post(`http://localhost:3000/isInLiked/${ID}`, data)
+    if (res2.status == 200) {
+      setInLiked(true)
+    }
+    else {
+      setInLiked(false)
+    }
 
-    // const res1 = await axios.post(`http://localhost:3000/isInWatchlist/${username}`, data)
-    // if (res1.status == 200) {
-    //   setInWachlist(true)
-    // }
-    // else {
-    //   setInWachlist(false)
-    // }
-
-    // const res2 = await axios.post(`http://localhost:3000/isInLiked/${username}`, data)
-    // if (res2.status == 200) {
-    //   setInLiked(true)
-    // }
-    // else {
-    //   setInLiked(false)
-    // }
-
-    // const res3 = await axios.post(`http://localhost:3000/isInWatched/${username}`, data)
-    // if (res3.status == 200) {
-    //   setInWatched(true)
-    // }
-    // else {
-    //   setInWatched(false)
-    // }
+    const res3 = await axios.post(`http://localhost:3000/isInWatched/${ID}`, data)
+    if (res3.status == 200) {
+      setInWatched(true)
+    }
+    else {
+      setInWatched(false)
+    }
   }
-
-  async function addToRecommended() {
-    const res = await axios.post('http://localhost:3000/addToRec', data)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-    setShowRecommendedArea(false)
   }
 
   const [users, setUsers] = useState([])
   const [searchInput, setSearchInput] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [userData, setUserData] = useState({})
+  const [showRecommendedAlert, setShowRecommendedAlert] = useState(false)
 
   async function getData() {
     const res = await axios.get(`http://localhost:3000/users`)
@@ -257,31 +271,31 @@ function Movie() {
     );
   };
 
-  async function postMovie(el,second) {
+  async function postMovie(el, second) {
     const res = await axios.put(`http://localhost:3000/userMovieRec/${el._id}`, {
       from: {
         "name": second.name,
-        "username": second.username,                
+        "username": second.username,
         "profilePic": second.profilePic,
-        "id" : second._id
+        "id": second._id
       },
       data: data,
-      message : message
+      message: message
     })
       .then(res => console.log(res))
       .catch(err => console.log(err))
-  }           
+  }
 
-  async function postOwnMovie(el,second) {
+  async function postOwnMovie(el, second) {
     const res = await axios.put(`http://localhost:3000/userMovieOwnRec/${second._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
         "profilePic": el.profilePic,
-        "id" : el._id
+        "id": el._id
       },
       data: data,
-      message : message
+      message: message
     })
       .then(res => console.log(res))
       .catch(err => console.log(err))
@@ -292,9 +306,13 @@ function Movie() {
     const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
+        setShowRecommendedAlert(true)
+        setTimeout(()=>{
+          setShowRecommendedAlert(false)
+        },3000)
         setUserData(res.data)
-        postMovie(to,res.data)
-        postOwnMovie(to,res.data)
+        postMovie(to, res.data)
+        postOwnMovie(to, res.data)
         setShowRecommendedArea(false)
       })
       .catch(err => console.log(err))
@@ -307,19 +325,19 @@ function Movie() {
     setTo(el)
   }
 
-  async function sendMovieEveryone(dt){
-    const res = await axios.put(`http://localhost:3000/recMovieEveryone/${dt._id}`,{
+  async function sendMovieEveryone(dt) {
+    const res = await axios.put(`http://localhost:3000/recMovieEveryone/${dt._id}`, {
       from: {
         "name": dt.name,
-        "username": dt.username,                
+        "username": dt.username,
         "profilePic": dt.profilePic,
-        "id" : dt._id
+        "id": dt._id
       },
       data: data,
-      message : everyoneMessage
+      message: everyoneMessage
     })
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   }
 
   async function sendMovieOwn(dt) {
@@ -328,40 +346,55 @@ function Movie() {
         "name": "Everyone"
       },
       data: data,
-      message : everyoneMessage
+      message: everyoneMessage
     })
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }
 
-  async function handleRecommendEveryone(){
+  async function handleRecommendEveryone() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
-    .then(res => {
-      console.log(res)
-      sendMovieEveryone(res.data)
-      sendMovieOwn(res.data)
-    })
-    .catch(err => console.log(err))
+      .then(res => {
+        setShowRecommendedAlert(true)
+        setTimeout(()=>{
+          setShowRecommendedAlert(false)
+        },3000)
+        sendMovieEveryone(res.data)
+        sendMovieOwn(res.data)
+      })
+      .catch(err => console.log(err))
   }
 
   const [showPersonal, setShowPersonal] = useState(true)
   const [showRecommendedArea, setShowRecommendedArea] = useState(false)
 
-  const [showMessage,setShowMessage] = useState(false)
-  const [message,setMessage] = useState('')
-  const [to,setTo] = useState({})
+  const [showMessage, setShowMessage] = useState(false)
+  const [message, setMessage] = useState('')
+  const [to, setTo] = useState({})
 
-  const [showEveryoneMessage,setShowEveryoneMessage] = useState(false)
-  const [everyoneMessage,setEveryoneMessage] = useState('')
+  const [showEveryoneMessage, setShowEveryoneMessage] = useState(false)
+  const [everyoneMessage, setEveryoneMessage] = useState('')
 
   useEffect(() => {
     document.title = `${data.title}`
-}, [data])
+  }, [data])
+
+  function checkLogin(){
+    if(localStorage.getItem('userID')){
+      setShowRecommendedArea(true)
+    }
+    else{
+      setLoginNA(true)
+      setTimeout(() => {
+        setLoginNA(false)
+      },3000)
+    }
+  }
 
   return (
     <>
-      <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
+      <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved || showRecommendedAlert || loginNA ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
             Movie added to Watchlist
@@ -397,25 +430,43 @@ function Movie() {
             Movie removed from Watched list
           </h2>
         </Alert>}
+        
+        {showRecommendedAlert && <Alert variant="filled" severity="success" className='alert'>
+          <h2>
+            Movie Recommended
+          </h2>
+        </Alert>}
+
+        {loginNA && <Alert variant="filled" severity="info" className='alert'>
+          <h2>
+            Please Login / Signup to use this feature
+          </h2>
+        </Alert>}
       </div>
 
       <nav className='white mons'>
-            <div className="nav55">
-                <img src={studio} alt="" className="logoImg" />
-            <div className="navList">
-                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
-                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
-                <div className="navLIS">USERS</div>
-                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
-                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
-            </div>
-            </div>
-        </nav>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
 
       {data && <div>
 
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
+          {console.log(data)}
           <Nav></Nav>
           <div className="description">
             <div className="descArea mons white">
@@ -434,11 +485,12 @@ function Movie() {
                     })
                   }
                 </div>
+                  {data.tagline && <div className="tagline">{data.tagline}</div>}
                 <div className="overview">
                   {data.overview}
                 </div>
 
-                <div className="movieButtonsArea">
+                {/* <div className="movieButtonsArea">
 
                   <button className='addToWatchlist' onClick={() => addToList("Watched")}>
                     <img src={inWatched ? watchedIn : watchedOut} className='watchlist' loading="lazy" />
@@ -452,10 +504,19 @@ function Movie() {
                     <img src={inLiked ? likedInLogo : likedOutLogo} className='watchlist' loading="lazy" />
                   </button>
 
-                  <button className='addToWatchlist bg-black' onClick={() => setShowRecommendedArea(true)}>
+                  <button className='addToWatchlist bg-black'  onClick={() => setShowRecommendedArea(true)}>
                     <img src={recommended} className='watchlist' loading="lazy" />
                   </button>
-                </div>
+                </div> */}
+              </div>
+              <div className="anotherDiv2">
+                {!inWachlist ? <div className="impButtons" onClick={() => addToList("Watchlist")} >Add to Watchlist</div>
+                  : <div className="impButtons" onClick={() => addToList("Watchlist")} >Remove from Watchlist</div>}
+                {!inWatched ? <div className="impButtons" onClick={() => addToList("Watched")} >Add to Watched</div>
+                  : <div className="impButtons" onClick={() => addToList("Watched")} >Remove from Watched</div>}
+                {!inLiked ? <div className="impButtons" onClick={() => addToList("Liked")} >Add to Liked</div>
+                  : <div className="impButtons" onClick={() => addToList("Liked")} >Remove from Liked</div>}
+                <div className="impButtons" onClick={() => checkLogin()}>Recommend Movie</div>
               </div>
             </div>
           </div>
@@ -466,7 +527,7 @@ function Movie() {
 
             {/* {CAST AREA} */}
 
-             <h1 className='white cast flex-center'>
+            <h1 className='white cast flex-center'>
               Cast and Crew
               <img src={next} alt="" className='' loading="lazy" />
             </h1>
@@ -689,7 +750,7 @@ function Movie() {
 
             <div className='profileArea scrollbar'>
               {similar.results && similar.results.map((el, index) => {
-                if (index < 10  && el.backdrop_path && el.poster_path) {
+                if (index < 10 && el.backdrop_path && el.poster_path) {
                   return (
                     <div className='rec white' key={index} onClick={() => handleMovieClick(el.id)}>
                       {el.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${el.backdrop_path}`} className='recBackdrop' loading="lazy" />}
@@ -773,7 +834,7 @@ function Movie() {
 
             {/* REVIEW AREA OVER*/}
 
-            
+
 
           </div>
 
@@ -831,7 +892,7 @@ function Movie() {
               <div className="publicButton pbYes" onClick={() => {
                 setShowEveryoneMessage(true)
                 setShowRecommendedArea(false)
-                }}>YES</div>
+              }}>YES</div>
             </div>
 
           </div>}
@@ -842,10 +903,10 @@ function Movie() {
       </div>}
 
       {showMessage && <div className='RecommendMovie white mons'>
-        <div className= "addFilmToFav3">
+        <div className="addFilmToFav3">
           <div className='sendMessage'>
-            Enter a message you want to send them 
-            <textarea name="" placeholder='Enter a message' onChange={() => setMessage(event.target.value)}/>
+            Enter a message you want to send them
+            <textarea name="" placeholder='Enter a message' onChange={() => setMessage(event.target.value)} />
 
             <div className="publicButtons">
               <div className="publicButton pbNo" onClick={() => {
@@ -861,13 +922,13 @@ function Movie() {
           <img src={close} alt="" className="AddFavClose" onClick={() => setShowMessage(false)} />
 
         </div>
-        </div>}
+      </div>}
 
       {showEveryoneMessage && <div className='RecommendMovie white mons'>
-        <div className= "addFilmToFav3">
+        <div className="addFilmToFav3">
           <div className='sendMessage'>
-            Enter a message you want to send them 
-            <textarea name="" placeholder='Enter a message' onChange={() => setEveryoneMessage(event.target.value)}/>
+            Enter a message you want to send them
+            <textarea name="" placeholder='Enter a message' onChange={() => setEveryoneMessage(event.target.value)} />
 
             <div className="publicButtons">
               <div className="publicButton pbNo" onClick={() => {
@@ -883,7 +944,7 @@ function Movie() {
           <img src={close} alt="" className="AddFavClose" onClick={() => setShowEveryoneMessage(false)} />
 
         </div>
-        </div>}
+      </div>}
     </>
   )
 }

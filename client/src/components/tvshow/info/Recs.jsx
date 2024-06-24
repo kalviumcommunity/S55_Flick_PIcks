@@ -6,8 +6,22 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Nav from '../../nav/Nav'
+import logout from '../../../assets/logout.png'
+
+import studio from '../../../assets/studio.png'
+import search2 from '../../../assets/image.png'
 
 function Recs() {
+
+  async function getUserInfoForNav(){
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+    .then(res => {
+        console.log(res)
+        navigate(`/user/${res.data.username}`)
+    })
+    .catch(err => console.log(err))
+}
 
   const navigate = useNavigate()
 
@@ -53,24 +67,44 @@ function Recs() {
     navigate(`/tvshow/${movie_id}`)
   }
 
+  useEffect(() => {
+    document.title = `${data.name} Recommendations`
+}, [data])
+
   return (
     <div className=" mons">
-      <Nav/>
+      <nav className='white mons pta'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
 
-<div className="castBackArea">
+                    <div className="castBackArea">
 
-<img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='movieCastBackdrop' />
-<div className="castGradient"></div>
+<img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdropofcast' />
+<div className="gradientofcast"></div>
 </div>
 
       <div className="recsCenterMovie">
 
         <div className="flex-end" onClick={() => navigate(`/tvshow/${id}`)}>
           <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
-          <div className="title white">{data.title}</div>
+          <div className="title white">{data.name}</div>
         </div>
 
-        <h1 className='white cast flex-center'>
+        <h1 className='white cast flex-center ml4'>
           Recommendations
         </h1>
 

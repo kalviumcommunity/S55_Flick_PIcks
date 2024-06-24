@@ -127,6 +127,10 @@ function loginPage() {
     setUsername(event.target.value)
   }
 
+  useEffect(() => {
+    document.title = `Login - STUDIO`
+  }, [])
+
   return (
     <div className='areaCenterLogin mons'>
       <img src={login} alt="" className='loginPageImg' />

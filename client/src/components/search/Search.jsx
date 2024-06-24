@@ -5,7 +5,25 @@ import { useNavigate } from 'react-router-dom'
 import search from '../../assets/search.png'
 import user from '../../assets/user.png'
 
+import studio from '../../assets/studio.png'
+import search2 from '../../assets/image.png'
+import logout from '../../assets/logout.png'
+
 function Search() {
+
+  useEffect(() => {
+    document.title = `Search - STUDIO`
+  }, [])
+
+  async function getUserInfoForNav(){
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+    .then(res => {
+        console.log(res)
+        navigate(`/user/${res.data.username}`)
+    })
+    .catch(err => console.log(err))
+}
 
   const navigate = useNavigate()
 
@@ -108,6 +126,23 @@ function Search() {
   return (
     <div className='search mons'>
       <div className="bgBlack"></div>
+      <nav className='white mons'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
       <div className="searchArea">
         <div className="searchIcon" onClick={handleClick}>
           <img src={search} />

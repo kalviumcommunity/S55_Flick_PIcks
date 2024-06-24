@@ -12,13 +12,14 @@ import drama from '../../assets/drama.png'
 import sitcom from '../../assets/sitcom.png'
 import scifi from '../../assets/logos/scifi.png'
 import random from '../../assets/logos/random.png'
+import logout from '../../assets/logout.png'
 
 import movie from '../../assets/movieWhite.png'
 import tvShow from '../../assets/showWhite.png'
 
 
 import studio from '../../assets/studio.png'
-import search from '../../assets/image.png'
+import search2 from '../../assets/image.png'
 
 function TvRecs() {
 
@@ -109,20 +110,35 @@ function TvRecs() {
         document.title = 'TV Shows - STUDIO'
     }, [])
 
+    async function getUserInfoForNav(){
+        const ID = localStorage.getItem('userID')
+        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        .then(res => {
+            console.log(res)
+            navigate(`/user/${res.data.username}`)
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
         <div>
             <nav className='white mons'>
-            <div className="nav55">
-                <img src={studio} alt="" className="logoImg" />
-            <div className="navList">   
-                <div className="navLIS" onClick={() => navigate('/tvrecs')}>MOVIES</div>
-                <div className="navLI">TV SHOWS</div>
-                <div className="navLIS">USERS</div>
-                {localStorage.getItem('userID') && <div className="navLIS">PROFILE</div>}
-                <div className="navLIS" onClick={() => navigate('/search')}><img src={search} alt="" /></div>
-            </div>
-            </div>
-        </nav>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
             {console.log(display)}
             {recommendations && console.log(recommendations)}
             <div className='mons white' onKeyDown={keyPress} tabIndex={0}>

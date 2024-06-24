@@ -29,12 +29,12 @@
 }
 
 .poster {
-    width: 400px;
+    width: 16vw;
     border-radius: 4px;
 }
 
 .descArea {
-    width: 50vw;
+    width: 65vw;
     display: flex;
     align-items: end;
     flex-direction: row;
@@ -43,7 +43,7 @@
 }
 
 .movieInfo {
-    width: 100%;
+    width: 37vw;
     padding: 0px 20px;
 }
 
@@ -56,8 +56,18 @@
     font-size: 22px;
 }
 
-.overview {
+.tagline{
     font-size: 22px;
+    font-weight: 500;
+    padding:22px 18px 0px 18px;
+}
+
+.overview {
+    width: 37vw;
+    padding-right: 50px;
+    font-size: 22px;
+    max-height: 300px;
+    overflow: scroll;
 }
 
 .title,
@@ -466,7 +476,7 @@
 
 .castPage {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .flex-end {
@@ -488,10 +498,12 @@
 
 .recsPage {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px; /* Optional: adds a gap between grid items */
-    width: 80vw; /* Grid container is 80% of the viewport's width */
+    grid-template-columns: repeat(3, 26vw);
+    grid-gap: 10px; 
+    width: 80vw;
     margin: 0 auto;
+    margin-left: 4vw;
+    overflow: scroll;
 }
 
 .recsPageCenterMovie {
@@ -509,7 +521,7 @@
     align-items: center;
     font-size: 30px;
     transition: opacity 0.5s;
-    z-index: 10000;
+    z-index: 1000000;
 }
 
 .show {
@@ -525,6 +537,7 @@
     flex-direction: column;
     position: fixed;
     top: 20px;
+    z-index: 1000000;
 }
 
 .noPhoto{
@@ -546,12 +559,7 @@
     top: 0;
 }
 
-.castBackArea{
-    position: relative;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
+
 
 .castGradient{
     position: fixed;
@@ -862,4 +870,66 @@
 .pta{
     position: absolute;
     top: 0;
+}
+
+.anotherDiv2{
+    width: 100%;
+    background-color: #86868628;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(173, 173, 173, 0.694);
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+    margin-left: 30px;
+}
+
+.impButtons{
+    border-bottom: 1px solid rgba(173, 173, 173, 0.694);
+    /* margin: 10px; */
+    padding: 25px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    text-wrap: nowrap;
+    color: rgba(255, 255, 255, 0.719);
+    width: 280px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.impButtons:hover{
+    color: white;
+    background-color: rgba(145, 145, 145, 0.387);
+    border-bottom: 1px solid gray;
+}
+
+.anotherDiv2:hover{
+    cursor: pointer;
+}
+
+.gradientofcast {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(0deg,rgba(0, 0, 0, 01) 0%, #141414 30%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.backdropofcast {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: -1;
+}
+
+.castBackArea{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.ml4{
+    margin-left: 4vw;
 }

@@ -1260,7 +1260,7 @@ hr {
     grid-template-columns: repeat(2,48%);
     row-gap: 30px;
     column-gap: 4%;
-    margin-top: 50px;       
+    margin-top: 20px;    
     /* background-color: #2B4162; */
 }
 
@@ -1505,6 +1505,7 @@ hr {
 .extraListItem2{
     background-color: #1f1f1f;
     width: 140px;
+    min-height: 210px;
     font-size: 120px;
     color: #b2b2b2;
     display: flex;
@@ -1518,4 +1519,53 @@ hr {
     max-height: 85px;
     overflow: scroll;
     margin-top: 10px;
+}
+
+.followButton{
+    padding: 8px 15px;
+    font-size: 20px;
+    margin-left: 30px;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+}
+
+.followButton:hover{
+    cursor: pointer;
+    border: 2px solid rgb(109, 183, 109);
+    color: rgb(109, 183, 109);
+}
+
+.following{
+    padding: 8px 0;
+    margin-left: 30px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.following img{
+    margin-left: 15px;
+    height: 20px;
+}
+
+.following:hover{
+    cursor: pointer;
+}
+
+.followArea1{
+    font-weight: 500;
+}
+
+.favFilmsArea3{
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    width: 62%;
+    /* background-color: #92a4be; */
+    align-items: start;
+    font-size: 17px;
+    font-weight: 600;
 }

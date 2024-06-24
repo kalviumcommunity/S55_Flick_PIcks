@@ -18,6 +18,10 @@ import addSimple from '../../assets/addSimple.png'
 import minus from '../../assets/minus.png'
 import group from '../../assets/group.png'
 import user from '../../assets/user.png'
+import studio from '../../assets/studio.png'
+import search2 from '../../assets/image.png'
+import logout from '../../assets/logout.png'
+import rem1 from '../../assets/remove.png'
 
 
 function User() {
@@ -203,15 +207,41 @@ function User() {
             .catch(err => console.log(err))
     }
 
+    async function getUserInfoForNav(){
+        const ID = localStorage.getItem('userID')
+        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        .then(res => {
+            console.log(res)
+            navigate(`/user/${res.data.username}`)
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
         <>
-        {console.log(userData)}
             {userData && <div className="MainUser">
                 <div className="backdrop1">
                     {userData.backdrop && <img src={`https://image.tmdb.org/t/p/original${userData.backdrop.backdrop_path}`} alt="" />}
                     <div className="userGradient1"></div>
                 </div>
                 <div className="userPage white mons">
+                    <nav className='white mons'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLI" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
 
                     <div className="userInfo1">
                         <div className="userInfoArea1">
@@ -231,8 +261,9 @@ function User() {
                                     EDIT <img src={edit} />
                                 </button>}
                                 {localStorage.getItem("userID") == userData._id && <button className="delProfile" onClick={() => setDeletedArea(true)} ><img src={del} /></button>}
-                                {localStorage.getItem("userID") && showFollowButton && !doesFollow() && localStorage.getItem("userID") != userData._id && <div className='editProfile' onClick={() => addToFollower()}>FOLLOW</div>}
-                                {localStorage.getItem("userID") && (!showFollowButton || doesFollow()) && localStorage.getItem("userID") != userData._id && <div className='delProfile' onClick={() => remove()}>UNFOLLOW</div>}
+                                {localStorage.getItem("userID") && showFollowButton && !doesFollow() && localStorage.getItem("userID") != userData._id && <div className='followButton' onClick={() => addToFollower()}>FOLLOW</div>}
+                                {localStorage.getItem("userID") && (!showFollowButton || doesFollow()) && localStorage.getItem("userID") != userData._id && <div className='following' onClick={() => remove()}>Following <img src={rem1} alt='NA' /></div>}
+                                {localStorage.getItem("userID") && (!showFollowButton || doesFollow()) && localStorage.getItem("userID") != userData._id && <div className='unfollowButton' onClick={() => remove()}></div>}
 
                             </div>
                             <div className="bio1">
@@ -240,6 +271,13 @@ function User() {
                             </div>
                         </div>
                     </div>
+
+                    {genre == "profile" && <div className="favFilmsArea1 white mons">
+                        STATS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+                        
+                    </div>}
 
                     {genre == "profile" && userData.favourites && userData.favourites.movies && <div className="favFilmsArea1 white mons">
                         FAVOURITE FILMS
@@ -445,9 +483,9 @@ function User() {
                                 <div className={listGenre == 'tvshows' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('tvshows')}>TV SHOWS</div>
                                 <div className={listGenre == 'cast' ? "optionBoxSelected" : "optionBox"} onClick={() => setListGenre('cast')}>CAST & CREW</div>
                             </div>
-                            <div className="opBox2" onClick={() => setShowNewList(true)}>
+                            {localStorage.getItem('userID') == userData._id && <div className="opBox2" onClick={() => setShowNewList(true)}>
                                 CREATE A NEW LIST
-                            </div>
+                            </div>}
                         </div>
 
                         <div className="displayListArea">
@@ -456,64 +494,64 @@ function User() {
                             {listGenre == 'tvshows' && userData.lists && userData.lists.tvshows.length == 0 && <div className='center'>NO LISTS</div>}
                             {listGenre == 'cast' && userData.lists && userData.lists.cast.length == 0 && <div className='center'>NO LISTS</div>}
 
-                            {listGenre == 'movies' && userData.lists.movies.map((el,index) => {
+                            {listGenre == 'movies' && userData.lists.movies.map((el, index) => {
                                 return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/movies/${el._id}`)}>
                                     <div className="imgDisplayArea">
-                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3'/>
-                                                                     : <div className='extraListItem2'>? </div>}                                        
-                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2'/>
-                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
-                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1'/>
-                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3' />
+                                            : <div className='extraListItem2 z3'>? </div>}
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2' />
+                                            : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1' />
+                                            : <div className='mlMinus extraListItem2 z1'>? </div>}
                                     </div>
                                     <div className="displayListTitle">
                                         <div>
-                                        {el.title}
+                                            {el.title}
                                         </div>
                                         <div className="dc">
-                                        {el.description}
+                                            {el.description}
                                         </div>
                                     </div>
                                 </div>
                             })}
 
-                            {listGenre == 'tvshows' && userData.lists.tvshows.map((el,index) => {
+                            {listGenre == 'tvshows' && userData.lists.tvshows.map((el, index) => {
                                 return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/tvshows/${el._id}`)}>
                                     <div className="imgDisplayArea">
-                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3'/>
-                                                                     : <div className='extraListItem2'>? </div>}                                        
-                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2'/>
-                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
-                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1'/>
-                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].poster_path}`} alt="" className='z3' />
+                                            : <div className='extraListItem2 z3'>? </div>}
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].poster_path}`} alt="" className='mlMinus z2' />
+                                            : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].poster_path}`} alt="" className='mlMinus z1' />
+                                            : <div className='mlMinus extraListItem2 z1'>? </div>}
                                     </div>
                                     <div className="displayListTitle">
                                         <div>
-                                        {el.title}
+                                            {el.title}
                                         </div>
                                         <div className="dc">
-                                        {el.description}
+                                            {el.description}
                                         </div>
                                     </div>
                                 </div>
                             })}
 
-                            {listGenre == 'cast' && userData.lists.cast.map((el,index) => {
+                            {listGenre == 'cast' && userData.lists.cast.map((el, index) => {
                                 return <div className='listDisplay' onClick={() => navigate(`/user/${userData.username}/lists/cast/${el._id}`)}>
                                     <div className="imgDisplayArea">
-                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].profile_path}`} alt="" className='z3'/>
-                                                                     : <div className='extraListItem2'>? </div>}                                        
-                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].profile_path}`} alt="" className='mlMinus z2'/>
-                                                                     : <div className='mlMinus extraListItem2 z2'>? </div>}
-                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].profile_path}`} alt="" className='mlMinus z1'/>
-                                                                     : <div className='mlMinus extraListItem2 z1'>? </div>}
+                                        {el.content && el.content[0] ? <img src={`https://image.tmdb.org/t/p/original${el.content[0].profile_path}`} alt="" className='z3' />
+                                            : <div className='extraListItem2 z3'>? </div>}
+                                        {el.content && el.content[1] ? <img src={`https://image.tmdb.org/t/p/original${el.content[1].profile_path}`} alt="" className='mlMinus z2' />
+                                            : <div className='mlMinus extraListItem2 z2'>? </div>}
+                                        {el.content && el.content[2] ? <img src={`https://image.tmdb.org/t/p/original${el.content[2].profile_path}`} alt="" className='mlMinus z1' />
+                                            : <div className='mlMinus extraListItem2 z1'>? </div>}
                                     </div>
                                     <div className="displayListTitle">
                                         <div>
-                                        {el.title}
+                                            {el.title}
                                         </div>
                                         <div className="dc">
-                                        {el.description}
+                                            {el.description}
                                         </div>
                                     </div>
                                 </div>
@@ -699,12 +737,16 @@ function User() {
                     </div> : ""}
 
                     {genre == "people" ? <div className="peopleArea">
-                        <div className="selectPeople">
-                            <div className={showFollowers ? 'peopleBlocksSelected' : 'peopleBlocks'} onClick={() => setShowFollowers(!showFollowers)}>
-                                FOLLOWERS
-                            </div>
-                            <div className={!showFollowers ? 'peopleBlocksSelected' : 'peopleBlocks'} onClick={() => setShowFollowers(!showFollowers)}>
-                                FOLLOWING
+                        <div className="favFilmsArea3">
+
+                            PEOPLE
+                        </div>
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+                        <div className="followArea1">
+
+                            <div className="optionBoxArea">
+                                <div className={showFollowers ? "optionBoxSelected" : "optionBox"} onClick={() => setShowFollowers(true)}>FOLLOWERS</div>
+                                <div className={!showFollowers ? "optionBoxSelected" : "optionBox"} onClick={() => setShowFollowers(false)}>FOLLOWING</div>
                             </div>
                         </div>
 
@@ -712,8 +754,9 @@ function User() {
                             {userData && userData.followers && userData.followers.map((el, index) => {
                                 return <div className="userSearchResults2 white" onClick={() => {
                                     setGenre('profile')
-                                    navigate(`/user/${el.username}`)}
-                            }>
+                                    navigate(`/user/${el.username}`)
+                                }
+                                }>
                                     {el.profilePic ? <div className='centerMid'><img src={el.profilePic} className='followProfileImg' /></div>
                                         : <div className='noUser'><img src={user} className='followImg' />
                                         </div>}
@@ -733,10 +776,11 @@ function User() {
 
                         {!showFollowers && <div className="userFollowing">
                             {userData && userData.following && userData.following.map((el, index) => {
-                                return <div className="userSearchResults2 white"  onClick={() => {
+                                return <div className="userSearchResults2 white" onClick={() => {
                                     setGenre('profile')
-                                    navigate(`/user/${el.username}`)}
-                            }>
+                                    navigate(`/user/${el.username}`)
+                                }
+                                }>
                                     {el.profilePic ? <div className='centerMid'><img src={el.profilePic} className='followProfileImg' /></div>
                                         : <div className='noUser'><img src={user} className='followImg' />
                                         </div>}

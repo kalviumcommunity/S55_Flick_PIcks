@@ -13,6 +13,11 @@ import heart from '../../assets/heart.png'
 import Nav from '../nav/Nav'
 import user from '../../assets/user.png'
 
+import studio from '../../assets/studio.png'
+import search2 from '../../assets/image.png'
+import logout from '../../assets/logout.png'
+
+
 import Alert from '@mui/material/Alert';
 
 import watchlistInLogo from '../../assets/watchlist in.png'
@@ -46,6 +51,7 @@ function Show() {
 
   const [seasons, setSeasons] = useState([])
   const [notDone, setNotDone] = useState(true)
+  const [loginNA, setLoginNA] = useState(false)
 
   const { id } = useParams()
 
@@ -155,7 +161,20 @@ function Show() {
       if (listName == "Watched") {
         try {
           const response = await axios.put(`http://localhost:3000/addToTVWatched/${ID}`, data)
-            .then(response => console.log(response))
+            .then(response => {
+              if (response.status == 200) {
+                setWatchedAdded(true)
+                setTimeout(() => {
+                  setWatchedAdded(false)
+                }, 3000)
+              }
+              else if (response.status == 201) {
+                setWatchedRemoved(true)
+                setTimeout(() => {
+                  setWatchedRemoved(false)
+                }, 3000)
+              }
+            })
             .catch(err => console.log(err))
         }
         catch (err) {
@@ -165,7 +184,20 @@ function Show() {
       else if (listName == "Watchlist") {
         try {
           const response = await axios.put(`http://localhost:3000/addToTVWatchlist/${ID}`, data)
-            .then(response => console.log(response))
+            .then(response => {
+              if (response.status == 200) {
+                setWatchlistAdded(true)
+                setTimeout(() => {
+                  setWatchlistAdded(false)
+                }, 3000)
+              }
+              else if (response.status == 201) {
+                setWatchlistRemoved(true)
+                setTimeout(() => {
+                  setWatchlistRemoved(false)
+                }, 3000)
+              }
+            })
             .catch(err => console.log(err))
         }
         catch (err) {
@@ -175,16 +207,26 @@ function Show() {
       else if (listName == "Liked") {
         try {
           const response = await axios.put(`http://localhost:3000/addToTVLiked/${ID}`, data)
-            .then(response => console.log(response))
+            .then(response => {
+              if (response.status == 200) {
+                setLikedAdded(true)
+                setTimeout(() => {
+                  setLikedAdded(false)
+                }, 3000)
+              }
+              else if (response.status == 201) {
+                setLikedRemoved(true)
+                setTimeout(() => {
+                  setLikedRemoved(false)
+                }, 3000)
+              }
+            })
             .catch(err => console.log(err))
         }
         catch (err) {
           console.log(err)
         }
       }
-    }
-    else {
-      alert('Login Please')
     }
 
     handle()
@@ -204,7 +246,8 @@ function Show() {
   const [inWatched, setInWatched] = useState(false)
 
   useEffect(() => {
-    if (data) {
+    const ID = localStorage.getItem("userID")
+    if (data && ID) {
       handle()
     }
   }, [data, inWachlist, inLiked, inWatched])
@@ -240,6 +283,13 @@ function Show() {
       }
 
     }
+    else{
+      setLoginNA(true)
+      console.log("error here")
+      setTimeout(() => {
+        setLoginNA(false)
+      },3000)
+    }
   }
 
   async function addToRecommended() {
@@ -254,6 +304,7 @@ function Show() {
   const [searchInput, setSearchInput] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [userData, setUserData] = useState({})
+  const [showRecommendedAlert, setShowRecommendedAlert] = useState(false)
 
   async function getData() {
     const res = await axios.get(`http://localhost:3000/users`)
@@ -318,6 +369,10 @@ function Show() {
     const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
+        setShowRecommendedAlert(true)
+        setTimeout(()=>{
+          setShowRecommendedAlert(false)
+        },3000)
         setUserData(res.data)
         postMovie(to, res.data)
         postOwnMovie(to, res.data)
@@ -414,6 +469,10 @@ function Show() {
     const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
     .then(res => {
       console.log(res)
+      setShowRecommendedAlert(true)
+      setTimeout(()=>{
+        setShowRecommendedAlert(false)
+      },3000)
       sendMovieEveryone(res.data)
       sendMovieOwn(res.data)
     })
@@ -427,46 +486,98 @@ function Show() {
     document.title = `${data.name}`
 }, [data])
 
+function checkLogin(){
+  if(localStorage.getItem('userID')){
+    setShowRecommendedArea(true)
+  }
+  else{
+    setLoginNA(true)
+    // console.log("error here")
+    setTimeout(() => {
+      setLoginNA(false)
+    },3000)
+  }
+}
+
+async function getUserInfoForNav(){
+  const ID = localStorage.getItem('userID')
+  const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+  .then(res => {
+      console.log(res)
+      navigate(`/user/${res.data.username}`)
+  })
+  .catch(err => console.log(err))
+}
 
   return (
     <>
       <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
-            Movie added to Watchlist
+            TV Show added to Watchlist
           </h2>
         </Alert>}
 
         {watchlistRemoved && <Alert variant="filled" severity="error" className='alert'>
           <h2>
-            Movie removed from Watchlist
+            TV Show removed from Watchlist
           </h2>
         </Alert>}
 
         {likedAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
-            Movie added to Liked list
+            TV Show added to Liked list
           </h2>
         </Alert>}
 
         {likedRemoved && <Alert variant="filled" severity="error" className='alert'>
           <h2>
-            Movie removed from Liked list
+            TV Show removed from Liked list
           </h2>
         </Alert>}
 
         {watchedAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
-            Movie added to Watched list
+            TV Show added to Watched list
           </h2>
         </Alert>}
 
         {watchedRemoved && <Alert variant="filled" severity="error" className='alert'>
           <h2>
-            Movie removed from Watched list
+            TV Show removed from Watched list
+          </h2>
+        </Alert>}
+
+        {showRecommendedAlert && <Alert variant="filled" severity="success" className='alert'>
+          <h2>
+            TV Show Recommended
+          </h2>
+        </Alert>}
+
+        {loginNA && <Alert variant="filled" severity="info" className='alert'>
+          <h2>
+            Please Login / Signup to use this feature
           </h2>
         </Alert>}
       </div>
+
+      <nav className='white mons'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>
 
       {data && <div>
         {console.log(data)}
@@ -478,6 +589,7 @@ function Show() {
               {data.poster_path && <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} className="poster" loading="lazy" />}
               <div className="movieInfo">
                 <div className="title">{data.name}</div>
+
                 <div className="general">
                   {/* <span>{data.release_date && data.release_date.split("-")[0]}</span> */}
                   {/* <span>{data.runtime}M</span> */}
@@ -489,11 +601,12 @@ function Show() {
                     })
                   }
                 </div>
+                  {data.tagline && <div className="tagline">{data.tagline}</div>}
                 <div className="overview">
                   {data.overview}
                 </div>
 
-                <div className="movieButtonsArea">
+                {/* <div className="movieButtonsArea">
 
                   <button className='addToWatchlist' onClick={() => addToList("Watched")}>
                     <img src={inWatched ? watchedIn : watchedOut} className='watchlist' loading="lazy" />
@@ -510,7 +623,16 @@ function Show() {
                   <button className='addToWatchlist bg-black' onClick={() => setShowRecommendedArea(true)}>
                     <img src={recommended} className='watchlist' loading="lazy" />
                   </button>
-                </div>
+                </div> */}
+              </div>
+              <div className="anotherDiv2">
+                {!inWachlist ? <div className="impButtons" onClick={() => addToList("Watchlist")} >Add to Watchlist</div>
+                  : <div className="impButtons" onClick={() => addToList("Watchlist")} >Remove from Watchlist</div>}
+                {!inWatched ? <div className="impButtons" onClick={() => addToList("Watched")} >Add to Watched</div>
+                  : <div className="impButtons" onClick={() => addToList("Watched")} >Remove from Watched</div>}
+                {!inLiked ? <div className="impButtons" onClick={() => addToList("Liked")} >Add to Liked</div>
+                  : <div className="impButtons" onClick={() => addToList("Liked")} >Remove from Liked</div>}
+                <div className="impButtons" onClick={() => checkLogin()}>Recommend TV Show</div>
               </div>
             </div>
           </div>

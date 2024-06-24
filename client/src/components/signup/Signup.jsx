@@ -13,6 +13,10 @@ import lock from '../../assets/lock.png'
 
 function loginPage() {
 
+  useEffect(() => {
+    document.title = `Signup - STUDIO`
+  }, [])
+
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const navigate = useNavigate()

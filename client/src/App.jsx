@@ -23,7 +23,7 @@ import TVRecs from './components/tvshow/info/Recs'
 import TVSimilar from './components/tvshow/info/Similar'
 import List from './components/list/List'
 import EditList from './components/list/EditList'
-
+import Users from './components/users/Users'
 import ScrollToTop from './ScrollToTop'
 
 function App() {
@@ -55,6 +55,8 @@ function App() {
 
         <Route path='/recs' element={<FinalRecs/>}/>
         <Route path='/tvrecs' element={<TvRecs/>}/>
+        <Route path='/users' element={<Users/>}/>
+
 
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<SignupPage/>}/>
