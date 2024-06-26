@@ -4,6 +4,13 @@ const app = express()
 const Router = require('./routes.js')
 const PORT = 3000
 
+app.use(cors(
+    {
+        origin : [],
+        methods : ["POST","GET","PUT","DELETE"],
+        credentials : true
+    }
+))
 
 const bodyParser = require('body-parser')
 
