@@ -689,6 +689,18 @@ hr {
     font-weight: 600;
 }
 
+.favFilmsArea11{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    width: 62%;
+    /* background-color: #92a4be; */
+    align-items: start;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+
 .favFilmsArea2{
     margin-top: 50px;
     display: flex;
@@ -1568,4 +1580,56 @@ hr {
     align-items: start;
     font-size: 17px;
     font-weight: 600;
+}
+
+.statArea{
+    background-color: #272727;
+    padding: 20px 30px;
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 20px;
+    border: 1px solid rgb(72, 72, 72);
+}
+
+.statTitle{
+    margin-left: 10px;
+}
+
+.displayStats{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 50px;
+}
+
+.stat{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgb(157, 157, 157);
+}
+
+.statNumber{
+    font-size: 40px;
+    font-weight: 600;
+    color: rgb(213, 213, 213);
+}
+
+.statLine{
+    height: 100%;
+    width: 2px;
+    /* background-color: rgb(226, 226, 226); */
+}
+
+.verticalStat{
+    height: 50px;
+    width: 2px;
+    background-color: #12100E;
 }

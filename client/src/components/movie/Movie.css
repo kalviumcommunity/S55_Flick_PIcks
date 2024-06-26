@@ -526,7 +526,7 @@
 
 .show {
     transition: opacity 0.5s;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .alertArea {

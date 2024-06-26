@@ -10,7 +10,7 @@ import userTile from '../../assets/userTile.png'
 import watchlistTile from '../../assets/watchlistTile.png'
 import likedTile from '../../assets/likedTile.png'
 import watchedTile from '../../assets/watchedTile.png'
-import recommendedTile from '../../assets/recommendedTile.png'
+import recommendedTile from '../../assets/recommendation3.png'
 import listTile from '../../assets/listTile.png'
 import del from '../../assets/delete.png'
 import close from '../../assets/close.png'
@@ -272,12 +272,7 @@ function User() {
                         </div>
                     </div>
 
-                    {genre == "profile" && <div className="favFilmsArea1 white mons">
-                        STATS
-
-                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
-                        
-                    </div>}
+                    
 
                     {genre == "profile" && userData.favourites && userData.favourites.movies && <div className="favFilmsArea1 white mons">
                         FAVOURITE FILMS
@@ -356,6 +351,100 @@ function User() {
                         </div>
                     </div>}
 
+                    {genre == "profile" && <div className="favFilmsArea11 white mons">
+                        STATS
+
+                        <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
+                        
+                        <div className="statArea">
+                            <div className="statTitle">
+                            MOVIES
+                            </div>
+                            {console.log(userData)}
+
+                            <div className="displayStats">
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.watchlist.length}
+                                    </div>
+                                    WATCHLIST
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.watched.length}
+                                    </div>
+                                    WATCHED
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.liked.length}
+                                    </div>
+                                    LIKED
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.lists.movies.length}
+                                    </div>
+                                    LISTS
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.recs.incoming.length + userData.recs.outgoing.length}
+                                    </div>
+                                    RECS
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div className="statArea">
+                            <div className="statTitle">
+                            TV SHOWS
+                            </div>
+
+                            <div className="displayStats">
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.tv.watchlist.length}
+                                    </div>
+                                    WATCHLIST
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.tv.watched.length}
+                                    </div>
+                                    WATCHED
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.tv.liked.length}
+                                    </div>
+                                    LIKED
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.lists.tvshows.length}
+                                    </div>
+                                    LISTS
+                                </div>
+
+                                <div className="stat">
+                                    <div className='statNumber'>
+                                    {userData.tvrecs.incoming.length + userData.tvrecs.outgoing.length}
+                                    </div>
+                                    RECS
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>}
 
 
                     {genre == "watchlist" ? <div className='favFilmsArea1'>
