@@ -4,13 +4,12 @@ const app = express()
 const Router = require('./routes.js')
 const PORT = 3000
 
-app.use(cors(
-    {
-        origin : [],
-        methods : ["POST","GET","PUT","DELETE"],
-        credentials : true
-    }
-))
+app.use(cors({
+    origin: ['https://studio-4dsojvxk6-shaazs-projects-888212a7.vercel.app/','http://localhost:5173'],
+    methods: 'GET, POST, PUT, DELETE',
+    allowedHeaders: 'Content-Type',
+    credentials: true,
+}))
 
 const bodyParser = require('body-parser')
 
