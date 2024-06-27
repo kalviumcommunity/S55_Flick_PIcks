@@ -6,6 +6,7 @@ import logout from '../../assets/logout.png'
 import studio from '../../assets/studio.png'
 import next from '../../assets/nextB.png'
 import prev from '../../assets/prevB.png'
+import mm from '../../assets/mm.jpg'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
@@ -64,14 +65,14 @@ function Home() {
 
 
   return (
-    <div className='search white mons'>
+    <div className='search2 white mons'>
       <nav className='white mons'>
         <div className="nav55">
           <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')} />
           <div className="navList">
             <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
             <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
-            <div className="navLI">USERS</div>
+            <div className="navLIS" onClick={() => navigate('/tvrecs')}>USERS</div>
             {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
             <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
             {localStorage.getItem('userID') && <div className="" onClick={() => {
@@ -83,14 +84,21 @@ function Home() {
         </div>
       </nav>
 
-      {nowPlaying && console.log(nowPlaying)}
+      <img src={mm} alt="" className='mm'/>
 
-      {nowPlaying && nowPlaying.length > 0 && <div className='carousel'>
-        <img src={prev} alt="" className="corouselButtons" onClick={() => handlePrev()}/>
-        {<img src={`https://image.tmdb.org/t/p/original/${nowPlaying[current].backdrop_path}`} alt="ebfo" className="courselImage" />}
-        <img src={next} alt="" className="corouselButtons"  onClick={() => handleNext()}/>
-      </div>}
+      <div className="mainPageT mons">
+        Your go to place for Movies & TV Shows
+        <br/>
+        Save Movies you want to watch
+        <br/>
+        Customize your profile & Recommend movies
+        <br/>
+        Create Lists and so Much More...
 
+        <button>
+          Get Started!
+        </button>
+      </div>
 
     </div>
   )
