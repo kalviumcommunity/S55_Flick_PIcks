@@ -48,3 +48,26 @@
     background-color: white;
     color: black;
 }
+
+.carousel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.corouselButtons{
+    height: 50px;
+    opacity: 0.8;
+}
+
+.corouselButtons:hover{
+    cursor: pointer;
+}
+
+
+
+
+
+.courselImage{
+    width: 70vw;
+}

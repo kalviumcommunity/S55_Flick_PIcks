@@ -1,16 +1,71 @@
-import React,{useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './Home.css'
 import axios from 'axios'
 import search2 from '../../assets/image.png'
 import logout from '../../assets/logout.png'
 import studio from '../../assets/studio.png'
+import next from '../../assets/nextB.png'
+import prev from '../../assets/prevB.png'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
 
-    return (
-        <div className='search white mons'>
-            <nav className='white mons'>
+  const [nowPlaying, setNowPlaying] = useState([])
+
+  const NOWPLAYING_URL = `https://api.themoviedb.org/3/movie/now_playing`
+
+  const API_METHOD = (passed_url) => {
+    return {
+      method: 'GET',
+      url: passed_url,
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NjYxNmNlYTAzZmFiNTU0YWM1NGEyZTdlMWE4YzIwMiIsInN1YiI6IjY1ZjI4Y2MxMmZkZWM2MDE4OTIzM2E4ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eccxvzxCctqBTZ8lXeSUHgTBcc5r17hhsNLVy845QA4'
+      }
+    }
+  }
+
+  const axios_request = (URL, location) => {
+    axios.request(API_METHOD(URL))
+      .then(function (response) {
+        location(response.data.results)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  useEffect(() => {
+
+    axios_request(NOWPLAYING_URL, setNowPlaying)
+
+  }, [])
+
+  const [current, setCurrent] = useState(0)
+
+  function handlePrev(){
+
+    if(current == 0){
+      setCurrent(nowPlaying.length - 1)
+    }
+    else{
+      setCurrent(current - 1)
+    }
+  }
+
+  function handleNext(){
+    if(current == nowPlaying.length - 1){
+      setCurrent(0)
+    }
+    else{
+      setCurrent(current + 1)
+    }
+  }
+
+
+  return (
+    <div className='search white mons'>
+      <nav className='white mons'>
         <div className="nav55">
           <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')} />
           <div className="navList">
@@ -27,8 +82,18 @@ function Home() {
           </div>
         </div>
       </nav>
-        </div>
-    )
+
+      {nowPlaying && console.log(nowPlaying)}
+
+      {nowPlaying && nowPlaying.length > 0 && <div className='carousel'>
+        <img src={prev} alt="" className="corouselButtons" onClick={() => handlePrev()}/>
+        {<img src={`https://image.tmdb.org/t/p/original/${nowPlaying[current].backdrop_path}`} alt="ebfo" className="courselImage" />}
+        <img src={next} alt="" className="corouselButtons"  onClick={() => handleNext()}/>
+      </div>}
+
+
+    </div>
+  )
 }
 
 export default Home
