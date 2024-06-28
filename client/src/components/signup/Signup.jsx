@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { GoogleLogin } from 'react-google-login'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+
 import { gapi } from 'gapi-script';
 
 import person from '../../assets/loginPerson.png'
@@ -65,7 +67,7 @@ function loginPage() {
     const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         console.log("RES",response)
-        localStorage.setItem("useInfo", response.data)
+        localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
         navigate('/recs')
       })
@@ -102,7 +104,7 @@ function loginPage() {
       .then(response => {
         console.log(response)
         if (response.status === 201) {
-          localStorage.setItem("useInfo", response.data)
+          localStorage.setItem("userID", response.data._id)
           localStorage.setItem("user", true)
         }
         navigate('/recs')
@@ -111,20 +113,20 @@ function loginPage() {
   }
 
   async function onSuccess(res) {
-    console.log("Login Success, Current user -> ", res.profileObj)
-
-    const data = await axios.post('http://localhost:3000/googleAuthID', res.profileObj)
-    .then(data => {
-      if(data.status === 200){
-        createUser(res.profileObj)
-      }
-      else if(data.status === 201){
-        loginUser(res.profileObj)
-      }
-    })
-    .catch(err => console.log(err))
+    const decoded = jwtDecode(res.credential)
+    console.log("decode",decoded)
+    const data = await axios.post('http://localhost:3000/googleAuthID', decoded)
+      .then(data => {
+        console.log("check",data)
+        if (data.status === 200) {
+          createUser(decoded)
+        }
+        else if (data.status === 201) {
+          loginUser(decoded)
+        }
+      })
+      .catch(err => console.log(err))
   }
-
   function onFailure(res) {
     console.log("Login Failed, Res -> ", res)
   }
@@ -205,18 +207,16 @@ const [username, setUsername] = useState('')
           <div class="myLine"></div>
         </div>
 
+        <div className="custom-google-login-button">
         <GoogleLogin
-          clientId={clientID}
           onSuccess={onSuccess}
-          onFailure={onFailure}
-          cookiePolicy={'single_host_origin'}
-          isSignedIn={false}
-          className='googleButton'
-        >
-
-          Continue with Google
-
-        </GoogleLogin>
+          onError={onFailure}
+          className='padding'
+          text="continue_with"
+          size='medium'
+          width='250'
+        />
+      </div>
 
         <h4 onClick={() => navigate('/login')}>Already a User?
           <span className='underline'> LOGIN HERE

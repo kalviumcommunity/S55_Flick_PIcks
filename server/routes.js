@@ -483,7 +483,7 @@ router.get('/tvshows', async (req, res) => {
 
 router.post('/googleAuthID', async (req, res) => {
     try {
-        const user = await userModel.findOne({ "googleId": req.body.googleId })
+        const user = await userModel.findOne({ "googleId": req.body.sub })
         if (!user) {
             return res.status(200).json({ error: 'No User Exists, Signup Please' });
         } else {
@@ -498,7 +498,7 @@ router.post('/googleAuthID', async (req, res) => {
 
 router.post('/googleAuthLogin', async (req, res) => {
     try {
-        const user = await userModel.findOne({ "googleId": req.body.googleId })
+        const user = await userModel.findOne({ "googleId": req.body.sub })
         if (user) {
             console.log(user);
             return res.status(201).json(user);
@@ -517,8 +517,8 @@ router.post('/googleAuthSignup', async (req, res) => {
         if (req.body.name && req.body.imageUrl && req.body.googleId) {
             const data = await userModel.create({
                 "name": req.body.name,
-                "profilePic": req.body.imageUrl,
-                "googleId": req.body.googleId,
+                "profilePic": req.body.picture,
+                "googleId": req.body.sub,
                 "username": req.body.name
             })
             if (data) {
@@ -548,11 +548,11 @@ router.get('/edit', async (req, res) => {
 router.post('/googleAuthSignup/:username', async (req, res) => {
     try {
         console.log(req.body)
-        if (req.body.name && req.body.imageUrl && req.body.googleId) {
+        if (req.body.name && req.body.picture && req.body.sub) {
             const data = await userModel.create({
                 "name": req.body.name,
-                "profilePic": req.body.imageUrl,
-                "googleId": req.body.googleId,
+                "profilePic": req.body.picture,
+                "googleId": req.body.sub,
                 "username": req.params.username
             })
             if (data) {

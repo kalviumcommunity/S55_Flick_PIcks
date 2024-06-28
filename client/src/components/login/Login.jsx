@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { GoogleLogin } from 'react-google-login'
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from "jwt-decode";
+
 
 import person from '../../assets/loginPerson.png'
 import lock from '../../assets/lock.png'
@@ -41,9 +43,11 @@ function loginPage() {
   }
 
   async function createUserSignup() {
+    console.log("coming here")
     const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
-        localStorage.setItem("userInfo", response.data)
+        console.log("signup",response)
+        localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
         console.log("LOCAL STORAGE",localStorage.getItem("userInfo"))
         navigate('/recs')
@@ -78,7 +82,7 @@ function loginPage() {
     console.log("Login User Working")
     const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
       .then(response => {
-        console.log(response)
+        console.log("login",response)
         if (response.status === 201) {
           localStorage.setItem("userID", response.data._id)
           localStorage.setItem("user", true)
@@ -90,13 +94,16 @@ function loginPage() {
   }
 
   async function onSuccess(res) {
-    const data = await axios.post('http://localhost:3000/googleAuthID', res.profileObj)
+    const decoded = jwtDecode(res.credential)
+    console.log("decode",decoded)
+    const data = await axios.post('http://localhost:3000/googleAuthID', decoded)
       .then(data => {
+        console.log("check",data)
         if (data.status === 200) {
-          createUser(res.profileObj)
+          createUser(decoded)
         }
         else if (data.status === 201) {
-          loginUser(res.profileObj)
+          loginUser(decoded)
         }
       })
       .catch(err => console.log(err))
@@ -106,20 +113,32 @@ function loginPage() {
     console.log("Login Failed, Res -> ", res)
   }
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientID,
-        scope: "email"
-      }).then(() => {
-        console.log('Google API client initialized')
-      }, (error) => {
-        console.error('Error initializing Google API client:', error)
-      })
-    }
+  const getData = async (token) => {
+    console.log(token)
+    const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: {
+        Authorization: `Bearer ${token.clientId}`
+      }
+    })
+    .then(response => console.log(response))
+    .catch(err => console.log(err))
+    // return await response.json();
+  }
 
-    gapi.load('client:auth2', start)
-  }, [])
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.client.init({
+  //       clientId: clientID,
+  //       scope: "email"
+  //     }).then(() => {
+  //       console.log('Google API client initialized')
+  //     }, (error) => {
+  //       console.error('Error initializing Google API client:', error)
+  //     })
+  //   }
+
+  //   gapi.load('client:auth2', start)
+  // }, [])
 
   const [username, setUsername] = useState('')
 
@@ -161,24 +180,22 @@ function loginPage() {
         </div>
 
 
-        <div class="line-container">
-          <div class="myLine"></div>
-          <div class="or">OR</div>
-          <div class="myLine"></div>
+        <div className="line-container">
+          <div className="myLine"></div>
+          <div className="or">OR</div>
+          <div className="myLine"></div>
         </div>
 
+        <div className="custom-google-login-button">
         <GoogleLogin
-          clientId={clientID}
           onSuccess={onSuccess}
-          onFailure={onFailure}
-          cookiePolicy={'single_host_origin'}
-          isSignedIn={false}
-          className='googleButtonLogin'
-        >
-
-          Continue with Google
-
-        </GoogleLogin>
+          onError={onFailure}
+          className='padding'
+          text="continue_with"
+          size='medium'
+          width='250'
+        />
+      </div>
 
 
         <h4 onClick={() => navigate('/signup')}>Not a User? <span className='underline'> SIGNUP HERE

@@ -17,7 +17,7 @@ import TvRecs from './components/tvrecs/TvRecs'
 import Show from './components/tvshow/Show'
 import Login from './components/login/Login'
 import SignupPage from './components/signup/Signup'
-import Logout from './components/login/Logout'
+// import Logout from './components/login/Logout'
 import TVCast from './components/tvshow/info/Cast'
 import TVRecs from './components/tvshow/info/Recs'
 import TVSimilar from './components/tvshow/info/Similar'
@@ -61,7 +61,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<SignupPage/>}/>
 
-        <Route path='/logout' element={<Logout/>}/>
+        {/* <Route path='/logout' element={<Logout/>}/> */}
       </Routes>
     </>
   )

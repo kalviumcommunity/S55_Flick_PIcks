@@ -145,3 +145,22 @@
     font-size: 200%;
     margin-bottom: 25px;
 }
+
+.custom-google-login-button {
+    color: white;
+    border: none;
+    padding: 0px 20px 20px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* Adjust display as needed */
+    text-align: center;
+  }
+  
+  .custom-google-login-button:hover {
+  }
+
+  .signupButton22{
+    width: 100%;
+    padding: 20px;
+  }
