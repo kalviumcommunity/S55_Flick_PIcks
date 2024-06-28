@@ -36,12 +36,12 @@ function loginPage() {
     else if (click) {
       try {
         setClick(false)
-        const test = await axios.post('http://localhost:3000/userExists', values)
+        const test = await axios.post('https://studio-ejn1.onrender.com/userExists', values)
           .then((test) => {
             console.log(test)
             if (test.status == 200) {
               try {
-                const res = axios.post('http://localhost:3000/newUser', values)
+                const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
                   .then(res => console.log(res))
               }
               catch (err) {
@@ -64,7 +64,7 @@ function loginPage() {
   const [click, setClick] = useState(true)
 
   async function createUserSignup() {
-    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         console.log("RES",response)
         localStorage.setItem("userID", response.data._id)
@@ -75,7 +75,7 @@ function loginPage() {
   }
 
   async function handleUsername() {
-    const test = await axios.post('http://localhost:3000/userExists', { "username": username })
+    const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
         console.log("TEST", test)
         if (test.status == 200) {
@@ -100,7 +100,7 @@ function loginPage() {
 
   async function loginUser(data) {
     console.log("Login User Working")
-    const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
+    const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
       .then(response => {
         console.log(response)
         if (response.status === 201) {
@@ -115,7 +115,7 @@ function loginPage() {
   async function onSuccess(res) {
     const decoded = jwtDecode(res.credential)
     console.log("decode",decoded)
-    const data = await axios.post('http://localhost:3000/googleAuthID', decoded)
+    const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
       .then(data => {
         console.log("check",data)
         if (data.status === 200) {
@@ -207,7 +207,7 @@ const [username, setUsername] = useState('')
           <div class="myLine"></div>
         </div>
 
-        <div className="custom-google-login-button">
+        <div className="custom-google-signup-button">
         <GoogleLogin
           onSuccess={onSuccess}
           onError={onFailure}

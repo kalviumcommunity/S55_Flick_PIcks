@@ -23,7 +23,7 @@ function loginPage() {
 
   const onSubmit = (values) => {
     try {
-      const res = axios.post('http://localhost:3000/login', values)
+      const res = axios.post('https://studio-ejn1.onrender.com/login', values)
         .then((res) => {
           console.log(res)
           if (res.status == 200) {
@@ -44,7 +44,7 @@ function loginPage() {
 
   async function createUserSignup() {
     console.log("coming here")
-    const response = await axios.post(`http://localhost:3000/googleAuthSignup/${username}`, googleUserData)
+    const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         console.log("signup",response)
         localStorage.setItem("userID", response.data._id)
@@ -56,7 +56,7 @@ function loginPage() {
   }
 
   async function handleUsername() {
-    const test = await axios.post('http://localhost:3000/userExists', { "username": username })
+    const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
         console.log("TEST", test)
         if (test.status == 200) {
@@ -80,7 +80,7 @@ function loginPage() {
 
   async function loginUser(data) {
     console.log("Login User Working")
-    const response = await axios.post('http://localhost:3000/googleAuthLogin', data)
+    const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
       .then(response => {
         console.log("login",response)
         if (response.status === 201) {
@@ -96,7 +96,7 @@ function loginPage() {
   async function onSuccess(res) {
     const decoded = jwtDecode(res.credential)
     console.log("decode",decoded)
-    const data = await axios.post('http://localhost:3000/googleAuthID', decoded)
+    const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
       .then(data => {
         console.log("check",data)
         if (data.status === 200) {

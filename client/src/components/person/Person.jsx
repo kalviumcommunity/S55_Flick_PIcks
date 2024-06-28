@@ -13,7 +13,7 @@ function Person() {
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
         console.log(res)
         navigate(`/user/${res.data.username}`)

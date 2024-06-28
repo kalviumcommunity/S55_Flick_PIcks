@@ -26,7 +26,7 @@ function Recs() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
             console.log(res)
             navigate(`/user/${res.data.username}`)
@@ -46,7 +46,7 @@ function Recs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('http://localhost:3000/recs')
+        const res = axios.get('https://studio-ejn1.onrender.com/recs')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
@@ -134,7 +134,7 @@ function Recs() {
                         <div className="nav55">
                             <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
                             <div className="navList">
-                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLI">MOVIES</div>
                                 <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
                                 <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
                                 {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}

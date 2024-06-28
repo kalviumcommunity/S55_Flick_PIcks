@@ -3,7 +3,7 @@ import axios from 'axios'
 
 function UserProfile() {
 
-  const RENDER_LINK = "http://localhost:3000/"
+  const RENDER_LINK = "https://studio-ejn1.onrender.com/"
 
   const [image, setImage] = useState()
 
@@ -22,7 +22,7 @@ function UserProfile() {
   }
 
   const handleSubmit = async() => {
-    const res = await axios.post(`http://localhost:3000/profileUpdate/shaaaaz`,{"imageLink" : image})
+    const res = await axios.post(`https://studio-ejn1.onrender.com/profileUpdate/shaaaaz`,{"imageLink" : image})
     .then(res => console.log(res))
     .catch(err => console.log(err))
   }

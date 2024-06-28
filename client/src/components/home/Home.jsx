@@ -70,7 +70,7 @@ function Home() {
     <div className='search2 white mons'>
       <nav className='white mons'>
         <div className="nav55">
-          <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')} />
+          <img src={studio} alt="" className="logoImg"/>
           <div className="navList">
             <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
             <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
@@ -97,7 +97,7 @@ function Home() {
         <br/>
         Create Lists and so Much More...
 
-        <button>
+        <button onClick={() => navigate('/login')}>
           Get Started!
         </button>
       </div>

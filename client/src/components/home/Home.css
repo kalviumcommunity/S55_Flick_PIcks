@@ -120,17 +120,22 @@
 
 .mainPageT button{
     padding: 16px 20px;
-    background-color: #13141600;
+    
+    background: linear-gradient(45deg, rgb(59, 137, 52) 50%, rgba(255, 255, 255, 0) 50%);
     border: 1px solid white;
     color: white;
     font-weight: 700;
     font-size: 24px;
     border-radius: 8px;
     margin-top: 20px;
+    background-size: 250% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
 }
 
 .mainPageT button:hover{
     cursor: pointer;
     background-color: green;
     border: 1px solid green;
+    background-position: left bottom;
 }

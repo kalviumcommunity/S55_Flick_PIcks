@@ -17,7 +17,7 @@ function EditProfile() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
             console.log(res)
             navigate(`/user/${res.data.username}`)
@@ -41,7 +41,7 @@ function EditProfile() {
     const { username } = useParams()
 
     const getData = async () => {
-        const res = await axios.get(`http://localhost:3000/user/${username}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
             .then(res => {
                 setUserData(res.data)
             })
@@ -77,39 +77,43 @@ function EditProfile() {
     }
 
     const removeFilm = async (data) => {
-        const res = await axios.post(`http://localhost:3000/removeFromFavMovies/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavMovies/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeTVShow = async (data) => {
-        const res = await axios.post(`http://localhost:3000/removeTVShow/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/removeTVShow/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeBackdrop = async () => {
-        const res = await axios.post(`http://localhost:3000/rmBackdrop/${userData._id}`, {})
+        const res = await axios.post(`https://studio-ejn1.onrender.com/rmBackdrop/${userData._id}`, {})
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeActors = async (data) => {
-        const res = await axios.post(`http://localhost:3000/removeFromFavActors/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavActors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeDirectors = async (data) => {
-        const res = await axios.post(`http://localhost:3000/removeFromFavDirectors/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavDirectors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
+
+    useEffect(() => {
+        document.title = 'Edit Profile'
+    }, [])
 
     const [movieResults, setMovieResults] = useState()
     const [castResults, setCastResults] = useState()
@@ -167,7 +171,7 @@ function EditProfile() {
 
     const pushToFav = async (data) => {
         setMovieSearch(false)
-        const res = await axios.post(`http://localhost:3000/pushToFav/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFav/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -176,7 +180,7 @@ function EditProfile() {
 
     const pushToTVShow = async (data) => {
         setTVShowSearch(false)
-        const res = await axios.post(`http://localhost:3000/pushTVShow/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/pushTVShow/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -185,7 +189,7 @@ function EditProfile() {
 
     const pushToBackdrop = async (data) => {
         setBackdropSearch(false)
-        const res = await axios.post(`http://localhost:3000/backdrop/${userData._id}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/backdrop/${userData._id}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -194,7 +198,7 @@ function EditProfile() {
 
     const pushToFavActor = async (data) => {
         setActorSearch(false)
-        const res = await axios.post(`http://localhost:3000/pushToFavActors/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFavActors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -203,7 +207,7 @@ function EditProfile() {
 
     const pushToFavDirectors = async (data) => {
         setDirectorSearch(false)
-        const res = await axios.post(`http://localhost:3000/pushToFavDirectors/${username}`, data)
+        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFavDirectors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -211,7 +215,7 @@ function EditProfile() {
     }
 
     const saveChanges = async () => {
-        const res = await axios.put(`http://localhost:3000/saveUserChanges/${username}`, userData)
+        const res = await axios.put(`https://studio-ejn1.onrender.com/saveUserChanges/${username}`, userData)
             .then(res => {
                 navigate(`/user/${username}`)
             })

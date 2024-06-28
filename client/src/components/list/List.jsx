@@ -30,7 +30,7 @@ function List() {
     const [data,setData] = useState([])
 
     async function getList(passedData){
-        const res = await axios.get(`http://localhost:3000/getList/${passedData._id}/${category}/${listid}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${passedData._id}/${category}/${listid}`)
         .then(res => {
             console.log(res.data)
             setData(res.data)
@@ -39,7 +39,7 @@ function List() {
     }
 
     async function getUser(){
-        const res = await axios.get(`http://localhost:3000/user/${username}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
         .then(res => {
             console.log(res.data)
             getList(res.data)
@@ -76,14 +76,14 @@ function List() {
     }
 
     async function deleteList(){
-        const res = axios.delete(`http://localhost:3000/deleteList/${user._id}/${category}/${listid}`)
+        const res = axios.delete(`https://studio-ejn1.onrender.com/deleteList/${user._id}/${category}/${listid}`)
         .then(res => console.log(res))
         .catch(err => console.log(err))
     }
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
             console.log(res)
             navigate(`/user/${res.data.username}`)

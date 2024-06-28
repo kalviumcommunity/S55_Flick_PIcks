@@ -17,7 +17,7 @@ function Search() {
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
         console.log(res)
         navigate(`/user/${res.data.username}`)
@@ -114,7 +114,7 @@ function Search() {
   const [users, setUsers] = useState([])
 
   async function getData() {
-    const res = await axios.get(`http://localhost:3000/users`)
+    const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
   }
@@ -134,7 +134,7 @@ function Search() {
                                 <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
                                 <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
                                 {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
-                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                <div className="navLI" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
                                 {localStorage.getItem('userID') && <div className="" onClick={() => {
                                     localStorage.setItem('userID', '')
                                     location.reload()

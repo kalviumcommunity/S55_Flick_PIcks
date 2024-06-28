@@ -26,12 +26,12 @@
 }
 
 .recsTitle {
-    font-size: 40px;
+    font-size: 2.2vw;
     font-weight: 600;
 }
 
 .recsDesc {
-    font-size: 25px;
+    font-size: 1.3vw;
     font-weight: 500;
     width: 40vw;
     margin: 20px 0;
@@ -91,7 +91,7 @@
     height: 100vh;
     z-index: 10;
     left: 0;
-    width: 4vw;
+    width: 5vw;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -103,7 +103,7 @@
 .hoverBlackBG {
     transition: background-image 0.5s ease;
     background-image: linear-gradient(to right, #000000b2 0%, #00000045 80%, #00000000 100%);
-    width: 30vw;
+    width: 27vw;
 }
 
 .genreLogos {
@@ -116,7 +116,7 @@
 }
 
 .genreLogos img {
-    width: 40px;
+    width: 38px;
     opacity: 0.5;
     transition: opacity 0.4s ease;
 }
@@ -277,6 +277,10 @@ nav {
     opacity: 0.8;
 }
 
+.logoImg:hover{
+    cursor: pointer;
+}
+
 .navList {
     display: flex;
     font-size: 22px;
@@ -335,13 +339,15 @@ nav {
     padding: 7px 12px;
     font-size: 20px;
     color: black;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0);
     transition: background-color 0.3s, color 0.3s, opacity 0.3s, transform 0.3s, border 0.3s;
 
-    background: linear-gradient(45deg, rgb(86, 197, 76) 50%, rgba(255, 255, 255) 50%);
+    background: linear-gradient(45deg, rgb(59, 137, 52) 50%, rgba(255, 255, 255, 0) 50%);
     background-size: 250% 100%;
     background-position: right bottom;
     transition: all .3s ease-out;
+    color: white;
+    border: 2px solid white;
 }
 
 .loginButtonNav:hover{
@@ -352,5 +358,6 @@ nav {
     /* color: white; */
     opacity: 1;
     /* border: 1px solid green; */
+    border: 2px solid rgb(59, 137, 52);
 
 }

@@ -14,7 +14,7 @@ function Users() {
   const [users, setUsers] = useState([])
 
   async function getData() {
-    const res = await axios.get(`http://localhost:3000/users`)
+    const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
       .then(res => setUsers(res.data))
       .catch(err => console.log(err))
   }
@@ -22,6 +22,16 @@ function Users() {
   useEffect(() => {
     getData()
   }, [])
+
+  async function getUserInfoForNav(){
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    .then(res => {
+        console.log(res)
+        navigate(`/user/${res.data.username}`)
+    })
+    .catch(err => console.log(err))
+  }
 
   return (
     <div className='search mons white'>

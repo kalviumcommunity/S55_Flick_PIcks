@@ -38,7 +38,7 @@ import minus from '../../assets/minus.png'
 
 function Show() {
 
-  const RENDER_LINK = "http://localhost:3000/"
+  const RENDER_LINK = "https://studio-ejn1.onrender.com/"
 
   const navigate = useNavigate()
 
@@ -160,7 +160,7 @@ function Show() {
     if (ID) {
       if (listName == "Watched") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVWatched/${ID}`, data)
+          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVWatched/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setWatchedAdded(true)
@@ -183,7 +183,7 @@ function Show() {
       }
       else if (listName == "Watchlist") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVWatchlist/${ID}`, data)
+          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVWatchlist/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setWatchlistAdded(true)
@@ -206,7 +206,7 @@ function Show() {
       }
       else if (listName == "Liked") {
         try {
-          const response = await axios.put(`http://localhost:3000/addToTVLiked/${ID}`, data)
+          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVLiked/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setLikedAdded(true)
@@ -258,7 +258,7 @@ function Show() {
 
     if (ID) {
 
-      const res1 = await axios.post(`http://localhost:3000/isInTVWatchlist/${ID}`, data)
+      const res1 = await axios.post(`https://studio-ejn1.onrender.com/isInTVWatchlist/${ID}`, data)
       if (res1.status == 200) {
         setInWachlist(true)
       }
@@ -266,7 +266,7 @@ function Show() {
         setInWachlist(false)
       }
 
-      const res2 = await axios.post(`http://localhost:3000/isInTVLiked/${ID}`, data)
+      const res2 = await axios.post(`https://studio-ejn1.onrender.com/isInTVLiked/${ID}`, data)
       if (res2.status == 200) {
         setInLiked(true)
       }
@@ -274,7 +274,7 @@ function Show() {
         setInLiked(false)
       }
 
-      const res3 = await axios.post(`http://localhost:3000/isInTVWatched/${ID}`, data)
+      const res3 = await axios.post(`https://studio-ejn1.onrender.com/isInTVWatched/${ID}`, data)
       if (res3.status == 200) {
         setInWatched(true)
       }
@@ -294,7 +294,7 @@ function Show() {
 
   async function addToRecommended() {
     console.log("Data that is passed in addToTvRecs", data)
-    const res = await axios.post('http://localhost:3000/addToTVRec', data)
+    const res = await axios.post('https://studio-ejn1.onrender.com/addToTVRec', data)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
@@ -307,7 +307,7 @@ function Show() {
   const [showRecommendedAlert, setShowRecommendedAlert] = useState(false)
 
   async function getData() {
-    const res = await axios.get(`http://localhost:3000/users`)
+    const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
       .then(res => {
         setUsers(res.data)
       })
@@ -335,7 +335,7 @@ function Show() {
   };
 
   async function postMovie(el, second) {
-    const res = await axios.put(`http://localhost:3000/userTvRec/${el._id}`, {
+    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvRec/${el._id}`, {
       from: {
         "name": second.name,
         "username": second.username,
@@ -350,7 +350,7 @@ function Show() {
   }
 
   async function postOwnMovie(el, second) {
-    const res = await axios.put(`http://localhost:3000/userTvOwnRec/${second._id}`, {
+    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvOwnRec/${second._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
@@ -366,7 +366,7 @@ function Show() {
 
   async function getUserData(el) {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
       .then(res => {
         console.log("User who is logged in", res.data)
         setShowRecommendedAlert(true)
@@ -438,7 +438,7 @@ function Show() {
   }
 
   async function sendMovieEveryone(dt){
-    const res = await axios.put(`http://localhost:3000/recTvEveryone/${dt._id}`,{
+    const res = await axios.put(`https://studio-ejn1.onrender.com/recTvEveryone/${dt._id}`,{
       from: {
         "name": dt.name,
         "username": dt.username,                
@@ -453,7 +453,7 @@ function Show() {
   }
 
   async function sendMovieOwn(dt) {
-    const res = await axios.put(`http://localhost:3000/userTvOwnRec/${dt._id}`, {
+    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvOwnRec/${dt._id}`, {
       to: {
         "name": "Everyone"
       },
@@ -466,7 +466,7 @@ function Show() {
 
   async function handleRecommendEveryone(){
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+    const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
       console.log(res)
       setShowRecommendedAlert(true)
@@ -501,7 +501,7 @@ function checkLogin(){
 
 async function getUserInfoForNav(){
   const ID = localStorage.getItem('userID')
-  const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+  const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
   .then(res => {
       console.log(res)
       navigate(`/user/${res.data.username}`)

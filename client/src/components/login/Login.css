@@ -149,6 +149,17 @@
 .custom-google-login-button {
     color: white;
     border: none;
+    padding: 0px 20px 30px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* Adjust display as needed */
+    text-align: center;
+  }
+
+  .custom-google-signup-button {
+    color: white;
+    border: none;
     padding: 0px 20px 20px 20px;
     font-size: 16px;
     border-radius: 5px;

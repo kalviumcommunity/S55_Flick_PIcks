@@ -29,7 +29,7 @@ function EditList() {
     const [searchInput, setSearchInput] = useState()
 
     async function getList() {
-        const res = await axios.get(`http://localhost:3000/getList/${ID}/${category}/${listid}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${ID}/${category}/${listid}`)
             .then(res => {
                 console.log(res.data)
                 setData(res.data)
@@ -102,7 +102,7 @@ function EditList() {
 
     async function addMovie(dataToPass) {
         setShowAddArea(false)
-        const res = axios.put(`http://localhost:3000/addItemList/${ID}/${category}/${listid}`, dataToPass)
+        const res = axios.put(`https://studio-ejn1.onrender.com/addItemList/${ID}/${category}/${listid}`, dataToPass)
             .then(res => {
                 console.log(res)
                 getList()
@@ -111,7 +111,7 @@ function EditList() {
     }
 
     async function removeMovie(dataToRemove){
-        const res = axios.put(`http://localhost:3000/removeItem/${ID}/${category}/${listid}`, dataToRemove)
+        const res = axios.put(`https://studio-ejn1.onrender.com/removeItem/${ID}/${category}/${listid}`, dataToRemove)
             .then(res => {
                 console.log(res)
                 getList()
@@ -124,7 +124,7 @@ function EditList() {
             alert('Enter a title')
             return
         }
-        const res = axios.put(`http://localhost:3000/saveList/${ID}/${category}/${listid}`, {
+        const res = axios.put(`https://studio-ejn1.onrender.com/saveList/${ID}/${category}/${listid}`, {
             "title" : title,
             "description" : description
         })
@@ -147,7 +147,7 @@ function EditList() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
             console.log(res)
             navigate(`/user/${res.data.username}`)

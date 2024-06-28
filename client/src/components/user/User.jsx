@@ -26,7 +26,7 @@ import rem1 from '../../assets/remove.png'
 
 function User() {
 
-    const RENDER_LINK = "http://localhost:3000/"
+    const RENDER_LINK = "https://studio-ejn1.onrender.com/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
 
@@ -46,7 +46,7 @@ function User() {
     const ID = localStorage.getItem("userID")
 
     const getUserData = async () => {
-        const res = await axios.get(`http://localhost:3000/user/${username}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
             .then(res => {
                 console.log(res)
                 setUserData(res.data)
@@ -69,7 +69,7 @@ function User() {
 
     async function checkPassword() {
         if ('CONFIRM' == password) {
-            const res = await axios.delete(`http://localhost:3000/delete/${userData._id}`)
+            const res = await axios.delete(`https://studio-ejn1.onrender.com/delete/${userData._id}`)
                 .then(res => {
                     if (res.status == 200) {
                         alert("User Deleted Succesfully. Sorry to see you go :(")
@@ -92,7 +92,7 @@ function User() {
     const [showFollowButton, setShowFollowButton] = useState(true)
 
     async function follow(profileData) {
-        const res = await axios.put(`http://localhost:3000/addToFollower/${userData._id}`, {
+        const res = await axios.put(`https://studio-ejn1.onrender.com/addToFollower/${userData._id}`, {
             "name": profileData.name,
             "username": profileData.username,
             "id": profileData._id,
@@ -103,7 +103,7 @@ function User() {
     }
 
     async function following(profileData) {
-        const res = await axios.put(`http://localhost:3000/addToFollowing/${profileData._id}`, {
+        const res = await axios.put(`https://studio-ejn1.onrender.com/addToFollowing/${profileData._id}`, {
             "name": userData.name,
             "username": userData.username,
             "id": userData._id,
@@ -115,7 +115,7 @@ function User() {
 
     async function addToFollower() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
             .then(res => {
                 console.log("User who is logged in", res.data)
                 follow(res.data)
@@ -136,7 +136,7 @@ function User() {
     }
 
     async function removeFollowing(profileData) {
-        const res = await axios.put(`http://localhost:3000/removeFollowing/${profileData._id}`, {
+        const res = await axios.put(`https://studio-ejn1.onrender.com/removeFollowing/${profileData._id}`, {
             "name": userData.name,
             "username": profileData.username,
             "id": userData._id,
@@ -147,7 +147,7 @@ function User() {
     }
 
     async function removeFollower(profileData) {
-        const res = await axios.put(`http://localhost:3000/removeFollower/${userData._id}`, {
+        const res = await axios.put(`https://studio-ejn1.onrender.com/removeFollower/${userData._id}`, {
             "name": profileData.name,
             "username": profileData.username,
             "id": profileData._id,
@@ -159,7 +159,7 @@ function User() {
 
     async function remove() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
             .then(res => {
                 console.log("User who is logged in", res.data)
                 removeFollower(res.data)
@@ -191,7 +191,7 @@ function User() {
             alert('Enter a title for your list')
             return
         }
-        const res = await axios.post(`http://localhost:3000/createNewList/${userData._id}`, {
+        const res = await axios.post(`https://studio-ejn1.onrender.com/createNewList/${userData._id}`, {
             userDetails: {
                 "name": userData.name,
                 "username": userData.username,
@@ -209,13 +209,19 @@ function User() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`http://localhost:3000/userByID/${ID}`)
+        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
             console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))
     }
+
+    useEffect(() => {
+        if(userData && userData.username){
+            document.title = `${userData.username}`
+        };
+    }, [userData])
 
     return (
         <>
@@ -232,7 +238,7 @@ function User() {
                                 <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
                                 <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
                                 <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
-                                {localStorage.getItem('userID') && <div className="navLI" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                {localStorage.getItem('userID') && <div className={localStorage.getItem('userID') == userData._id ? 'navLI' : 'navLIS'} onClick={() => getUserInfoForNav()}>PROFILE</div>}
                                 <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
                                 {localStorage.getItem('userID') && <div className="" onClick={() => {
                                     localStorage.setItem('userID', '')
