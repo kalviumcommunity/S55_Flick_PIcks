@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom'
 
 function Home() {
 
+  const navigate = useNavigate()
+
   const [nowPlaying, setNowPlaying] = useState([])
 
   const NOWPLAYING_URL = `https://api.themoviedb.org/3/movie/now_playing`
