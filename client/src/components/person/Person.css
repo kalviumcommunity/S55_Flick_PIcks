@@ -1,0 +1,204 @@
+.blackBG{
+    background-color: #272727;
+    position: fixed;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+}
+
+.centerPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    height: 58vh;
+}
+
+.profileAreaProfilePage{
+    display: flex;
+    align-items: end;
+}
+
+.profileAreaProfilePage img{
+    width: 15vw;
+}
+
+.actorName{
+    padding: 30px;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.actorOverview{
+    width: 40vw;
+    padding-left: 30px;
+    font-size: 23px;
+    color: #bababb;
+    text-align: justify;
+    height: 300px;
+    overflow: scroll;
+}
+
+.actorCenter{
+    margin: 50px 20vw;
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.actorMovieArea{
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    row-gap: 40px;
+    column-gap: 50px;
+}
+
+.actorMovieItem{
+    position: relative;
+    height: 300px;
+}
+
+.actorMovieItem img{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    position: absolute;
+    z-index: 1;
+}
+
+.actorMovieHover{
+    background-color: rgb(34, 34, 34);
+    z-index: 21;
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: black;
+    text-align: center;
+    padding: 17px;
+    font-weight: 500;
+    font-size: 22px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.actorMovieHover:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.actorMovieHover .year{
+    margin-top: 10px;
+}
+
+.personGrid{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    width: 60vw;
+    color: white;
+    row-gap: 30px;
+    column-gap: 30px;
+    font-size: 30px;
+}
+
+.personGrid .overlay{
+    font-size: 20px;
+}
+
+.centerPerson{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    flex-direction: column;
+}
+
+.anotherPersonDiv{
+    width: 60vw;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+}
+
+.anotherPersonDiv select{
+    margin-bottom: 10px;
+}
+
+.anotherPersonDiv hr{
+    width: 100%;
+    background-color: aliceblue;margin-bottom: 30px;
+}
+
+.optionBoxAreaPerson{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-y: hidden;
+    overflow: scroll;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.optionBoxSelectedPerson{
+    padding: 13px;
+    background-color: rgb(230, 230, 230);
+    color: rgb(18, 18, 18);
+    margin-right: 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    text-wrap: nowrap;
+    font-weight: 600;
+}
+
+.optionBoxPerson{
+    width: auto;
+    padding: 13px;
+    background-color: rgb(110, 110, 110);
+    color: #dadada;
+    margin-right: 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    text-wrap: nowrap;
+    font-weight: 600;
+}
+
+.optionBoxPerson:hover{
+    cursor: pointer;
+}
+
+.optionBoxSelectedPerson:hover{
+    cursor: pointer;
+}
+
+.anotherAnotherPersonDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 60vw;
+}
+
+.optionBoxAreaPerson2{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-y: hidden;
+    overflow: scroll;
+    margin-bottom: 30px;
+}
+
+.personPosterNa{
+    height: 100%;
+    width: 100%;
+    background-color: #1f1f1f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}

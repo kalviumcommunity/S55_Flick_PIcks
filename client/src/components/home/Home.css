@@ -48,3 +48,94 @@
     background-color: white;
     color: black;
 }
+
+.carousel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.corouselButtons{
+    height: 50px;
+    opacity: 0.8;
+}
+
+.corouselButtons:hover{
+    cursor: pointer;
+}
+
+.carouselArea{
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+}
+
+.carBox{
+    position: relative;
+    width: 100vw;
+}
+
+.courselImage{
+    width: 70vw;
+    height: 80vh;
+    object-fit: cover;
+    opacity: 0.6;
+    position: absolute;
+}
+
+.carFront{
+    height: 80vh;
+}
+
+.search2{
+    background-color: #131416;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.mm{
+    width: 100vw;
+    opacity: 0.3;
+    object-fit: cover;
+}
+
+.mainPageT{
+    height: 60vh;
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 50px;
+    opacity: 0.8;
+}
+
+.mainPageT button{
+    padding: 16px 20px;
+    
+    background: linear-gradient(45deg, rgb(59, 137, 52) 50%, rgba(255, 255, 255, 0) 50%);
+    border: 1px solid white;
+    color: white;
+    font-weight: 700;
+    font-size: 24px;
+    border-radius: 8px;
+    margin-top: 20px;
+    background-size: 250% 100%;
+    background-position: right bottom;
+    transition: all .3s ease-out;
+}
+
+.mainPageT button:hover{
+    cursor: pointer;
+    background-color: green;
+    border: 1px solid green;
+    background-position: left bottom;
+}

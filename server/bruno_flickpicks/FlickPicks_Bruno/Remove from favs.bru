@@ -1,0 +1,17 @@
+meta {
+  name: Remove from favs
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/removeFromFavMovies/shaaaaz
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id" : 157336
+  }
+}

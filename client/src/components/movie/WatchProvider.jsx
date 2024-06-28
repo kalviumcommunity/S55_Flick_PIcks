@@ -6,11 +6,10 @@ function WatchProvider(props) {
 
     return (
         <div className="watchProviders">
-            {console.log("props",currData)}
             {
-                currData && currData.map(el => {
+                currData && currData.map((el,index)=> {
                     return (
-                        <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' />
+                        <img src={`https://image.tmdb.org/t/p/original/${el.logo_path}`} alt='logo' className='' key={index}/>
                     )
                 })
             }

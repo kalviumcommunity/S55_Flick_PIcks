@@ -1,0 +1,18 @@
+meta {
+  name: AUTH
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:3000/auth
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username" : "Shaaz",
+    "password" : "password"
+  }
+}

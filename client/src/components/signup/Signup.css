@@ -1,0 +1,102 @@
+.loginPageImg {
+    width: 60vw;
+    /* border: 2px solid black; */
+}
+
+.signupRectangle {
+    padding: 50px 0;
+    width: 25vw;
+    height: auto;
+    background-color: #f9d9d1a3;
+    /* border: 2px solid gray; */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin-left: 7vw;
+}
+
+.signupRectangle h2 {
+    font-size: 35px;
+    font-weight: 600;
+}
+
+.signupRectangle .signupButton {
+    width: 170px;
+    height: 60px;
+    border: none;
+    background-color: #ffffff;
+    /* color: white; */
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+}
+
+
+.signupRectangle .signupButton:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+.signupRectangle h4 {
+    color: #575757;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.signupRectangle h4:hover {
+    cursor: pointer;
+}
+
+.userPlaceholder {
+    height: 25px;
+    width: 25px;
+    margin-top: -42.5px;
+    /* padding: 10px; */
+    margin-left: 10px;
+}
+
+.red {
+    color: red;
+}
+
+.transperent {
+    color: #00000000;
+}
+
+.googleButton{
+    width: 70%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-size: 200%;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.underline:hover{
+    color: rgb(0, 0, 0);
+}
+
+.line-container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 10px 0 30px;
+    width: 70%;
+}
+.myLine {
+    height: 1px;
+    width: 100%;
+    background-color: #a9a9a9;
+}
+.or {
+    margin: 0 10px;
+    padding: 0 10px;
+    /* color: #a9a9a9; */
+}

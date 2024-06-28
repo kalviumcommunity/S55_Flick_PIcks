@@ -1,78 +1,230 @@
+import React, { useEffect, useState } from 'react'
 import './Login.css'
-import React from 'react'
-import loginWP from '../../assets/loginWP.png'
+import login from '../../assets/login3.png'
 import { Link } from 'react-router-dom'
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from "jwt-decode";
 
-function Login() {
 
-    const { register , handleSubmit , formState : {errors}} = useForm()
+import person from '../../assets/loginPerson.png'
+import lock from '../../assets/lock.png'
+import { gapi } from 'gapi-script';
 
-    const navigate = useNavigate()
+function loginPage() {
 
-    const onSubmit =(values) =>{
-        try{
-            const res = axios.post('https://s55-shaaz-capstone-flickpicks.onrender.com/login',values)
-            .then((res)=>{
+  const { register, handleSubmit, formState: { errors } } = useForm()
 
-                if(res.status == 200){
-                    sessionStorage.setItem('username',values.username)
-                    navigate('/main')
-                    console.log("Login Successfull")
-                }
-                else{
-                    alert("Invalid Credentials")
-                }
-            })    
-            
-        }
-        catch(err){
+  const navigate = useNavigate()
+
+  const [googleUserData,setGoogleUserData] = useState({})
+
+  const onSubmit = (values) => {
+    try {
+      const res = axios.post('https://studio-ejn1.onrender.com/login', values)
+        .then((res) => {
+          console.log(res)
+          if (res.status == 200) {
+            localStorage.setItem("userID",res.data._id)
+            localStorage.setItem("user",true)
+            navigate('/recs')
+          }
+          else {
             alert("Invalid Credentials")
-        }
+          }
+        })
+
     }
+    catch (err) {
+      alert("Invalid Credentials")
+    }
+  }
 
-    return (
-        <>
-            <img src={loginWP} alt="background" className="background" />
+  async function createUserSignup() {
+    console.log("coming here")
+    const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
+      .then(response => {
+        console.log("signup",response)
+        localStorage.setItem("userID", response.data._id)
+        localStorage.setItem("user", true)
+        console.log("LOCAL STORAGE",localStorage.getItem("userInfo"))
+        navigate('/recs')
+      })
+      .catch(err => console.log(err))
+  }
 
-            <div className="mid">
-                <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className='amatic loginHeading'>LOGIN</h1>
+  async function handleUsername() {
+    const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
+      .then(test => {
+        console.log("TEST", test)
+        if (test.status == 200) {
+          createUserSignup()
+        }
+        else {
+          alert("Username Not Available")
+        }
+      })
+      .catch(err => console.log(err))
+  }
 
-                    <div className="fields">
-                        <label className='amatic'>
-                            USERNAME
-                        </label>
-                        <input type="text" name='username'
-                        {...register("username", { required: 'username is Required!' })}/>
-                        {errors.username && <p>{errors.username.message}</p>}
-                    </div>
+  const [showUsername, setShowUsername] = useState(true)
 
-                    <div className="fields">
-                        <label className='amatic'>
-                            PASSWORD
-                        </label>
-                        <input type="password" name='password'
-                        {...register("password", { required: 'Password is Required!' })} />
-                        {errors.password && <p>{errors.password.message}</p>}
-                    </div>
+  const clientID = "934760259390-idpvnt9md5ov9pr4lnoufcb0obh56eue.apps.googleusercontent.com"
 
-                    <h2 className='amatic signupInstead'>
-                        Not a user? 
-                        <Link to='/signup' className='goto'>
-                                SIGNUP
-                        </Link>
-                    </h2>
+  async function createUser(data) {
+    setGoogleUserData(data)
+    setShowUsername(false)
+  }
 
-                    <button type='submit' value='submit' className="amatic loginButton">
-                        LOGIN
-                    </button>
-                </form>
-            </div>
-        </>
-    )
+  async function loginUser(data) {
+    console.log("Login User Working")
+    const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
+      .then(response => {
+        console.log("login",response)
+        if (response.status === 201) {
+          localStorage.setItem("userID", response.data._id)
+          localStorage.setItem("user", true)
+          console.log("LOCAL STORAGE",localStorage.getItem("userID"))
+        }
+        navigate('/recs')
+      })
+      .catch(err => console.log(err))
+  }
+
+  async function onSuccess(res) {
+    const decoded = jwtDecode(res.credential)
+    console.log("decode",decoded)
+    const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
+      .then(data => {
+        console.log("check",data)
+        if (data.status === 200) {
+          createUser(decoded)
+        }
+        else if (data.status === 201) {
+          loginUser(decoded)
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  function onFailure(res) {
+    console.log("Login Failed, Res -> ", res)
+  }
+
+  const getData = async (token) => {
+    console.log(token)
+    const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: {
+        Authorization: `Bearer ${token.clientId}`
+      }
+    })
+    .then(response => console.log(response))
+    .catch(err => console.log(err))
+    // return await response.json();
+  }
+
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.client.init({
+  //       clientId: clientID,
+  //       scope: "email"
+  //     }).then(() => {
+  //       console.log('Google API client initialized')
+  //     }, (error) => {
+  //       console.error('Error initializing Google API client:', error)
+  //     })
+  //   }
+
+  //   gapi.load('client:auth2', start)
+  // }, [])
+
+  const [username, setUsername] = useState('')
+
+  const handleChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  useEffect(() => {
+    document.title = `Login - STUDIO`
+  }, [])
+
+  return (
+    <div className='areaCenterLogin mons'>
+      <img src={login} alt="" className='loginPageImg' />
+
+      {showUsername && <form className="loginRectangle" onSubmit={handleSubmit(onSubmit)}>
+        <h2>LOGIN</h2>
+
+        <div className="inputLoginArea">
+          <label htmlFor="username">
+            Username
+          </label>
+          <input type="text" name='username' placeholder='Enter your Username'
+            {...register("username", { required: 'Username is Required' })} />
+          <img src={person} className='userPlaceholder' />
+          {errors.username && <p className='red'>{errors.username.message}</p>}
+          {!errors.username && <p className='transperent'>x</p>}
+        </div>
+
+        <div className="inputLoginArea">
+          <label htmlFor="username">
+            Password
+          </label>
+          <input type="password" name='password' placeholder='Enter your Password'
+            {...register("password", { required: 'Password is Required' })} />
+          <img src={lock} className='userPlaceholder' />
+          {errors.password && <p className='red'>{errors.password.message}</p>}
+          {!errors.username && <p className='transperent'>x</p>}
+        </div>
+
+
+        <div className="line-container">
+          <div className="myLine"></div>
+          <div className="or">OR</div>
+          <div className="myLine"></div>
+        </div>
+
+        <div className="custom-google-login-button">
+        <GoogleLogin
+          onSuccess={onSuccess}
+          onError={onFailure}
+          className='padding'
+          text="continue_with"
+          size='medium'
+          width='250'
+        />
+      </div>
+
+
+        <h4 onClick={() => navigate('/signup')}>Not a User? <span className='underline'> SIGNUP HERE
+        </span>
+        </h4>
+
+
+        <button type='submit' value='submit' className='signupButton' >
+          LOGIN
+        </button>
+      </form>}
+
+      {!showUsername && <div className="loginRectangle">
+        <h2>LOGIN</h2>
+
+        <div className="inputLoginArea inputLoginArea2">
+          <label htmlFor="username">
+            Username
+          </label>
+          <input value={username} onChange={handleChange} placeholder="Enter your username" />
+          <img src={person} className='userPlaceholder' />
+        </div>
+
+        <button className='submitUsername' onClick={() => handleUsername()}>
+          SUBMIT
+        </button>
+      </div>}
+    </div>
+  )
 }
 
-export default Login
+export default loginPage
