@@ -2,7 +2,7 @@ const express = require("express")
 const { connectDB , disconnectDB , isConnected} = require('./db.js')
 const app = express()
 const Router = require('./routes.js')
-const PORT = 4000
+const PORT = 3000
 const cors = require('cors')
 
 app.options('*', (req, res) => {

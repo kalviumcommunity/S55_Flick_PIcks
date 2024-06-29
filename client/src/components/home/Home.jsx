@@ -65,6 +65,14 @@ function Home() {
     }
   }
 
+  async function getData(){
+    const res = await axios.get()
+  }
+
+  useEffect(() => {
+    getData()
+  },[])
+
 
   return (
     <div className='search2 white mons'>
