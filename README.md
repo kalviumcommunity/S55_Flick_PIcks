@@ -6,19 +6,19 @@ By Shaaz Jiwani
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [Acknowledgement](#acknowledgement)
-- [Contact](#contact)
-- [Deployed Links](#deployed-links)
+- [Introduction 🎬](#introduction-🎬)
+- [Features 🌟](#features-🌟)
+- [Technologies Used 💻](#technologies-used-💻)
+- [Contributing 🚀](#contributing-🚀)
+- [Acknowledgement 🙌](#acknowledgement-🙌)
+- [Contact 📧](#contact-📧)
+- [Deployed Links 🔗](#deployed-links-🔗)
 
-## Introduction
+## Introduction 🎬
 
 How many times have you found yourself stuck, unsure of what to watch next? We've all been there, endlessly scrolling through options but not finding that perfect match. Welcome to Studio — the web app designed to break that cycle. With Studio, discovering and sharing great content has never been easier. Join our community and start exploring today!
 
-## Features
+## Features 🌟
 
 1. **Customize Profiles** - Customize your profiles to showcase your favorite Movies, TV Shows, Actors and Directors.
 
@@ -32,7 +32,7 @@ How many times have you found yourself stuck, unsure of what to watch next? We'v
 
 6. **Follow People** - You can even follow your friends here and get Stats of Movies and TV Shows you have watched.
 
-## Technologies Used
+## Technologies Used 💻
 
 - Frontend: HTML5, CSS3, JavaScript, React
 - Backend: Node.js, Express.js
@@ -42,7 +42,7 @@ How many times have you found yourself stuck, unsure of what to watch next? We'v
 - Deployment - Vercel (Frontend) & Render (Backend)
 - Version Control - Git
 
-## Contributing
+## Contributing 🚀
 
 We welcome contributions to Studio! Whether you want to report a bug, suggest a feature, or submit a pull request, your input is valuable to us. Here’s how you can get started.
 
@@ -69,7 +69,7 @@ git clone https://github.com/kalviumcommunity/S55_Shaaz_Capstone_FlickPicks
     - After you have made the necessary changes push the code after creating a new branch
 
 
-## Acknowledgement
+## Acknowledgement 🙌
 
 We would like to extend our gratitude to everyone who has contributed to the development of Studio. This project would not have been possible without the support and resources provided by the following:
 
@@ -85,15 +85,15 @@ We would like to extend our gratitude to everyone who has contributed to the dev
 
 - **Users**: Finally, we want to thank our users for their feedback and support. Your engagement helps us improve and grow Studio.
 
-## Contact
+## Contact 📧
 
 We value your feedback and are eager to hear from you! If you have any questions, suggestions, or just want to say hello, feel free to reach out to us.
 
-- Email: [jiwanishaaz@mail.com](mailto:jiwanishaaz@mail.com)
+- Email: [jiwanishaaz@mail.com](mailto:jiwanishaaz@gmail.com)
 - Github Profile: [shaaaaz](https://github.com/shaaaaz)
 - Linkedin Profile: [Shaaz Jiwani](https://www.linkedin.com/in/shaaz-jiwani-7b271628b/)
 
-## Deployed Links
+## Deployed Links 🔗
 
 - Backend Deployed Link - [https://studio-ejn1.onrender.com](https://studio-ejn1.onrender.com)
 - Frontend Deployed Link - [https://studio-frontend-phi.vercel.app/](https://studio-frontend-phi.vercel.app/)
