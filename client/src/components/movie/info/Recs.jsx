@@ -52,7 +52,6 @@ function Recs() {
   }, [id])
 
   const handleMovieClick = (movie_id) => {
-    console.log(movie_id)
     navigate(`/movie/${movie_id}`)
   }
 
@@ -60,7 +59,6 @@ function Recs() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))

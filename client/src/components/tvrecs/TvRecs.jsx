@@ -34,7 +34,7 @@ function TvRecs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('https://studio-ejn1.onrender.com/tvshows')
+        const res = axios.get('https://studio-backend-alpha.vercel.app/tvshows')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
@@ -114,7 +114,6 @@ function TvRecs() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))
@@ -139,8 +138,6 @@ function TvRecs() {
                             </div>
                         </div>
                     </nav>
-            {console.log(display)}
-            {recommendations && console.log(recommendations)}
             <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
                 {display && <div className="recsBackdrop">
                     {display && display[current] && <img src={`${IMAGE_LINK}${display[current].backdrop_path}`} className='recsBackdropImg' />}

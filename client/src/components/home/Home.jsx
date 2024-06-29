@@ -66,7 +66,7 @@ function Home() {
   }
 
   async function getData(){
-    const res = await axios.get()
+    const res = await axios.get('https://studio-ejn1.onrender.com/recs')
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function Home() {
           <div className="navList">
             <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
             <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
-            <div className="navLIS" onClick={() => navigate('/tvrecs')}>USERS</div>
+            <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
             {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
             <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
             {localStorage.getItem('userID') && <div className="" onClick={() => {

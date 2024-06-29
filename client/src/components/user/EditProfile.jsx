@@ -19,7 +19,6 @@ function EditProfile() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))
@@ -57,14 +56,13 @@ function EditProfile() {
         read.readAsDataURL(e.target.files[0])
         read.onload = () => {
             setImage(read.result)
-            console.log(read.result)
             setUserData((prevData) => ({
                 ...prevData,
                 profilePic: read.result
             }))
         }
         read.onerror = err => {
-            console.log("You have an error ", err)
+            console.log("You have an error ")
         }
     }
 

@@ -39,7 +39,6 @@ function Movie() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))
@@ -175,7 +174,6 @@ function Movie() {
     }
     catch (err) {
       alert("Unable to add movie. Try sigining in!")
-      console.log(err)
     }
     handle()
   }
@@ -282,7 +280,7 @@ function Movie() {
       data: data,
       message: message
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Recommended"))
       .catch(err => console.log(err))
   }
 
@@ -297,7 +295,7 @@ function Movie() {
       data: data,
       message: message
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Recommended"))
       .catch(err => console.log(err))
   }
 
@@ -305,7 +303,6 @@ function Movie() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
       .then(res => {
-        console.log("User who is logged in", res.data)
         setShowRecommendedAlert(true)
         setTimeout(()=>{
           setShowRecommendedAlert(false)
@@ -319,7 +316,6 @@ function Movie() {
   }
 
   function handleUserClick(el) {
-    console.log("Handle user click working")
     setShowRecommendedArea(false)
     setShowMessage(true)
     setTo(el)
@@ -336,7 +332,7 @@ function Movie() {
       data: data,
       message: everyoneMessage
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
@@ -348,7 +344,7 @@ function Movie() {
       data: data,
       message: everyoneMessage
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
@@ -466,7 +462,6 @@ function Movie() {
 
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
-          {console.log(data)}
           <Nav></Nav>
           <div className="description">
             <div className="descArea mons white">

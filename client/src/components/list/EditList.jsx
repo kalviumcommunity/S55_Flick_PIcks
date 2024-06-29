@@ -18,7 +18,6 @@ function EditList() {
     const { username } = useParams()
     const { listid } = useParams()
     const { category } = useParams()
-    console.log(username, listid)
     const ID = localStorage.getItem('userID')
 
     const [title, setTitle] = useState('');
@@ -31,7 +30,6 @@ function EditList() {
     async function getList() {
         const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${ID}/${category}/${listid}`)
             .then(res => {
-                console.log(res.data)
                 setData(res.data)
             })
             .catch(err => console.log(err))
@@ -54,7 +52,7 @@ function EditList() {
                 location(response.data)
             })
             .catch(function (error) {
-                console.error(error);
+                console.error(error)
             });
     }
 
@@ -104,7 +102,6 @@ function EditList() {
         setShowAddArea(false)
         const res = axios.put(`https://studio-ejn1.onrender.com/addItemList/${ID}/${category}/${listid}`, dataToPass)
             .then(res => {
-                console.log(res)
                 getList()
             })
             .catch(err => console.log(err))
@@ -113,7 +110,6 @@ function EditList() {
     async function removeMovie(dataToRemove){
         const res = axios.put(`https://studio-ejn1.onrender.com/removeItem/${ID}/${category}/${listid}`, dataToRemove)
             .then(res => {
-                console.log(res)
                 getList()
             })
             .catch(err => console.log(err))
@@ -129,7 +125,6 @@ function EditList() {
             "description" : description
         })
             .then(res => {
-                console.log(res)
                 navigate(`/user/${username}/lists/${category}/${listid}`)
             })
             .catch(err => console.log(err))
@@ -149,7 +144,6 @@ function EditList() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))

@@ -27,7 +27,6 @@ function Users() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))
@@ -56,7 +55,6 @@ function Users() {
       </nav>
 
             <div className="usersDisplayArea">
-              {users && console.log(users)}
               {users && users.map((el,index) => {
                 return <div className="usersDisplayTile" onClick={() => navigate(`/user/${el.username}`)}>
                   {el.profilePic ? <img src={el.profilePic} alt="" className="usersTileProfile" />

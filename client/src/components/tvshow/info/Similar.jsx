@@ -54,7 +54,6 @@ function Similar() {
   }, [id])
 
   const handleMovieClick = (movie_id) => {
-    console.log(movie_id)
     navigate(`/tvshow/${movie_id}`)
   }
 
@@ -62,7 +61,6 @@ function Similar() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))

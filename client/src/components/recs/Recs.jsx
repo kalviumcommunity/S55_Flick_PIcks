@@ -28,7 +28,6 @@ function Recs() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))
@@ -46,7 +45,7 @@ function Recs() {
     const [current, setCurrent] = useState(1)
 
     function getRecs() {
-        const res = axios.get('https://studio-ejn1.onrender.com/recs')
+        const res = axios.get('https://studio-backend-alpha.vercel.app/recs')
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
@@ -59,7 +58,6 @@ function Recs() {
     }, [])
 
     function setGenre(passedGenre) {
-        console.log(passedGenre)
         setCurrGenre(passedGenre)
         setCurrent(1)
 

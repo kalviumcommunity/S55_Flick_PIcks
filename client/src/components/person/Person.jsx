@@ -15,7 +15,6 @@ function Person() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))
@@ -24,8 +23,6 @@ function Person() {
   const navigate = useNavigate()
 
   const { id } = useParams()
-
-  console.log("id", id)
 
   const [details, setDetails] = useState([])
   const [images, setImages] = useState([])
@@ -81,11 +78,9 @@ function Person() {
   useEffect(() => {
     if (movies && movies.cast) {
       setSortedMoviesCast(movies.cast.sort((a, b) => b.popularity - a.popularity))
-      console.log(sortedMoviesCast)
     }
     if (movies && movies.crew) {
       setSortedMoviesCrew(movies.crew.sort((a, b) => b.popularity - a.popularity))
-      console.log(sortedMoviesCrew)
     }
     if (movies.crew) {
       setJobs([...new Set(movies.crew.map(movie => movie.job))])
@@ -133,7 +128,6 @@ function Person() {
                             </div>
                         </div>
                     </nav>
-      {console.log("movies", movies)}
 
       <div className="blackBG"></div>
 

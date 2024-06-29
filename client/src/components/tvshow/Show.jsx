@@ -135,7 +135,6 @@ function Show() {
   }
 
   const findDirector = cast.crew && cast.crew.find(el => {
-    // console.log("el is", el)
     return el.job == "Director"
   })
 
@@ -285,7 +284,6 @@ function Show() {
     }
     else{
       setLoginNA(true)
-      console.log("error here")
       setTimeout(() => {
         setLoginNA(false)
       },3000)
@@ -293,9 +291,8 @@ function Show() {
   }
 
   async function addToRecommended() {
-    console.log("Data that is passed in addToTvRecs", data)
     const res = await axios.post('https://studio-ejn1.onrender.com/addToTVRec', data)
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
   }
@@ -345,7 +342,7 @@ function Show() {
       data: data,
       message: message
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
@@ -360,7 +357,7 @@ function Show() {
       data: data,
       message: message
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
@@ -368,7 +365,6 @@ function Show() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
       .then(res => {
-        console.log("User who is logged in", res.data)
         setShowRecommendedAlert(true)
         setTimeout(()=>{
           setShowRecommendedAlert(false)
@@ -382,7 +378,6 @@ function Show() {
   }
 
   function handleUserClick(el) {
-    console.log("Handle user click working")
     setShowRecommendedArea(false)
     setShowMessage(true)
     setTo(el)
@@ -448,7 +443,7 @@ function Show() {
       data: data,
       message : everyoneMessage
     })
-    .then(res => console.log(res))
+    .then(res => console.log("Movie Sent"))
     .catch(err => console.log(err))
   }
 
@@ -460,7 +455,7 @@ function Show() {
       data: data,
       message : everyoneMessage
     })
-      .then(res => console.log(res))
+      .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
@@ -468,7 +463,6 @@ function Show() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-      console.log(res)
       setShowRecommendedAlert(true)
       setTimeout(()=>{
         setShowRecommendedAlert(false)
@@ -492,7 +486,6 @@ function checkLogin(){
   }
   else{
     setLoginNA(true)
-    // console.log("error here")
     setTimeout(() => {
       setLoginNA(false)
     },3000)
@@ -503,7 +496,6 @@ async function getUserInfoForNav(){
   const ID = localStorage.getItem('userID')
   const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
   .then(res => {
-      console.log(res)
       navigate(`/user/${res.data.username}`)
   })
   .catch(err => console.log(err))
@@ -580,7 +572,6 @@ async function getUserInfoForNav(){
                     </nav>
 
       {data && <div>
-        {console.log(data)}
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
           <Nav></Nav>

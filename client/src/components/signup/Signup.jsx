@@ -38,7 +38,6 @@ function loginPage() {
         setClick(false)
         const test = await axios.post('https://studio-ejn1.onrender.com/userExists', values)
           .then((test) => {
-            console.log(test)
             if (test.status == 200) {
               try {
                 const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
@@ -66,7 +65,6 @@ function loginPage() {
   async function createUserSignup() {
     const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
-        console.log("RES",response)
         localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
         navigate('/recs')
@@ -77,7 +75,6 @@ function loginPage() {
   async function handleUsername() {
     const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
-        console.log("TEST", test)
         if (test.status == 200) {
           createUserSignup()
         }
@@ -99,10 +96,8 @@ function loginPage() {
   }
 
   async function loginUser(data) {
-    console.log("Login User Working")
     const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
       .then(response => {
-        console.log(response)
         if (response.status === 201) {
           localStorage.setItem("userID", response.data._id)
           localStorage.setItem("user", true)
@@ -114,10 +109,8 @@ function loginPage() {
 
   async function onSuccess(res) {
     const decoded = jwtDecode(res.credential)
-    console.log("decode",decoded)
     const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
       .then(data => {
-        console.log("check",data)
         if (data.status === 200) {
           createUser(decoded)
         }

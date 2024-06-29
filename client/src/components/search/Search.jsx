@@ -19,7 +19,6 @@ function Search() {
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
     .then(res => {
-        console.log(res)
         navigate(`/user/${res.data.username}`)
     })
     .catch(err => console.log(err))
@@ -66,7 +65,6 @@ function Search() {
   const axios_request = (URL, location) => {
     axios.request(API_METHOD(URL))
       .then(function (response) {
-        // console.log(response.data)
         location(response.data)
       })
       .catch(function (error) {

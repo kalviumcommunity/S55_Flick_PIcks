@@ -48,7 +48,6 @@ function User() {
     const getUserData = async () => {
         const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
             .then(res => {
-                console.log(res)
                 setUserData(res.data)
                 if (res.data._id == ID) {
                     setCurrUserID(true)
@@ -98,7 +97,7 @@ function User() {
             "id": profileData._id,
             "profilePic": profileData.profilePic
         })
-            .then(res => console.log(res))
+            .then(res => console.log("Movie Sent"))
             .catch(err => console.log(err))
     }
 
@@ -109,7 +108,7 @@ function User() {
             "id": userData._id,
             "profilePic": userData.profilePic
         })
-            .then(res => console.log(res))
+            .then(res => console.log("Movie Sent"))
             .catch(err => console.log(err))
     }
 
@@ -117,7 +116,6 @@ function User() {
         const ID = localStorage.getItem("userID")
         const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
             .then(res => {
-                console.log("User who is logged in", res.data)
                 follow(res.data)
                 following(res.data)
                 setShowFollowButton(false)
@@ -142,7 +140,7 @@ function User() {
             "id": userData._id,
             "profilePic": userData.profilePic
         })
-            .then(res => console.log(res))
+            .then(res => console.log("Show Sent"))
             .catch(err => console.log(err))
     }
 
@@ -153,7 +151,7 @@ function User() {
             "id": profileData._id,
             "profilePic": profileData.profilePic
         })
-            .then(res => console.log(res))
+            .then(res => console.log("Show Sent"))
             .catch(err => console.log(err))
     }
 
@@ -161,7 +159,6 @@ function User() {
         const ID = localStorage.getItem("userID")
         const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
             .then(res => {
-                console.log("User who is logged in", res.data)
                 removeFollower(res.data)
                 removeFollowing(res.data)
                 setShowFollowButton(true)
@@ -201,7 +198,6 @@ function User() {
             listDetails: formData
         })
             .then(res => {
-                console.log(res.data)
                 navigate(`/user/${username}/lists/${formData.category}/${res.data._id}`)
             })
             .catch(err => console.log(err))
@@ -211,7 +207,6 @@ function User() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))
@@ -366,7 +361,6 @@ function User() {
                             <div className="statTitle">
                             MOVIES
                             </div>
-                            {console.log(userData)}
 
                             <div className="displayStats">
                                 <div className="stat">
@@ -657,7 +651,6 @@ function User() {
 
                     {genre == "recommended" ? <div className='favFilmsArea1'>
                         RECOMMENDED
-                        {console.log(userData)}
                         <div style={{ height: '1px', backgroundColor: 'white', width: '100%', marginTop: "5px" }} />
 
                         <div className="optionBoxArea">

@@ -23,7 +23,6 @@ function List() {
     const { username } = useParams()
     const { listid } = useParams()
     const { category } = useParams()
-    console.log(username,listid)
     const ID = localStorage.getItem('userID')
     const [user,setUser] = useState([])
 
@@ -32,7 +31,6 @@ function List() {
     async function getList(passedData){
         const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${passedData._id}/${category}/${listid}`)
         .then(res => {
-            console.log(res.data)
             setData(res.data)
         })
         .catch(err => console.log(err))
@@ -41,7 +39,6 @@ function List() {
     async function getUser(){
         const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
         .then(res => {
-            console.log(res.data)
             getList(res.data)
             setUser(res.data)
         })
@@ -77,7 +74,7 @@ function List() {
 
     async function deleteList(){
         const res = axios.delete(`https://studio-ejn1.onrender.com/deleteList/${user._id}/${category}/${listid}`)
-        .then(res => console.log(res))
+        .then(res => console.log("deleted"))
         .catch(err => console.log(err))
     }
 
@@ -85,7 +82,6 @@ function List() {
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
         .then(res => {
-            console.log(res)
             navigate(`/user/${res.data.username}`)
         })
         .catch(err => console.log(err))

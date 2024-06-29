@@ -25,7 +25,6 @@ function loginPage() {
     try {
       const res = axios.post('https://studio-ejn1.onrender.com/login', values)
         .then((res) => {
-          console.log(res)
           if (res.status == 200) {
             localStorage.setItem("userID",res.data._id)
             localStorage.setItem("user",true)
@@ -43,13 +42,10 @@ function loginPage() {
   }
 
   async function createUserSignup() {
-    console.log("coming here")
     const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
-        console.log("signup",response)
         localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
-        console.log("LOCAL STORAGE",localStorage.getItem("userInfo"))
         navigate('/recs')
       })
       .catch(err => console.log(err))
@@ -58,7 +54,6 @@ function loginPage() {
   async function handleUsername() {
     const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
-        console.log("TEST", test)
         if (test.status == 200) {
           createUserSignup()
         }
@@ -79,14 +74,11 @@ function loginPage() {
   }
 
   async function loginUser(data) {
-    console.log("Login User Working")
     const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
       .then(response => {
-        console.log("login",response)
         if (response.status === 201) {
           localStorage.setItem("userID", response.data._id)
           localStorage.setItem("user", true)
-          console.log("LOCAL STORAGE",localStorage.getItem("userID"))
         }
         navigate('/recs')
       })
@@ -95,10 +87,8 @@ function loginPage() {
 
   async function onSuccess(res) {
     const decoded = jwtDecode(res.credential)
-    console.log("decode",decoded)
     const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
       .then(data => {
-        console.log("check",data)
         if (data.status === 200) {
           createUser(decoded)
         }
@@ -114,13 +104,14 @@ function loginPage() {
   }
 
   const getData = async (token) => {
-    console.log(token)
     const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: {
         Authorization: `Bearer ${token.clientId}`
       }
     })
-    .then(response => console.log(response))
+    .then(response => {
+
+    })
     .catch(err => console.log(err))
     // return await response.json();
   }

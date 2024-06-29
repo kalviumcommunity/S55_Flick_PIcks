@@ -8,7 +8,6 @@ function UserProfile() {
   const [image, setImage] = useState()
 
   const convertToBase64 = (e) => {
-    console.log(e)
 
     var read = new FileReader()
     read.readAsDataURL(e.target.files[0])
@@ -17,13 +16,13 @@ function UserProfile() {
       setImage(read.result)
     }
     read.onerror = err => {
-      console.log("You have an error ", err)
+      console.log("You have an error ")
     }
   }
 
   const handleSubmit = async() => {
     const res = await axios.post(`https://studio-ejn1.onrender.com/profileUpdate/shaaaaz`,{"imageLink" : image})
-    .then(res => console.log(res))
+    .then(res => console.log("done"))
     .catch(err => console.log(err))
   }
 
