@@ -1,5 +1,5 @@
 const express = require("express")
-const { connectDB , disconnectDB , isConnected} = require('./db.js')
+const { connectDB , disconnecYtDB , isConnected} = require('./db.js')
 const app = express()
 const Router = require('./routes.js')
 const PORT = 3000
