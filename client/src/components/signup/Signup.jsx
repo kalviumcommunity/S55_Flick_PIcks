@@ -41,12 +41,13 @@ function loginPage() {
             if (test.status == 200) {
               try {
                 const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
-                  .then(res => console.log(res))
+                  .then(res => {
+                    localStorage.setItem("userID",res._id)
+                  })
               }
               catch (err) {
                 console.log(err)
               }
-              sessionStorage.setItem('username', values.username)
               navigate('/recs')
             }
             else {
