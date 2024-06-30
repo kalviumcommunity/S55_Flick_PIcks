@@ -64,7 +64,9 @@ function Users() {
         </div>
       </nav>
 
-            {loading ? <div className='loader mt'></div> : <div className="usersDisplayArea">
+            {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div>: <div className="usersDisplayArea">
               {users && users.map((el,index) => {
                 return <div className="usersDisplayTile" key={index} onClick={() => navigate(`/user/${el.username}`)}>
                   {el.profilePic ? <img src={el.profilePic} alt="" className="usersTileProfile" />

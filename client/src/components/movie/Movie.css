@@ -142,6 +142,7 @@
     width: 95%;
     margin: 2%;
     border-radius: 8px;
+    max-height: 350px;
     /* border-top-left-radius: 8px;
     border-top-right-radius: 8px; */
 }
