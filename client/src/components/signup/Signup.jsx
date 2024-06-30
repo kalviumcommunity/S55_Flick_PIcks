@@ -43,12 +43,12 @@ function loginPage() {
                 const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
                   .then(res => {
                     localStorage.setItem("userID",res.data._id)
+                    navigate('/recs')
                   })
               }
               catch (err) {
                 console.log(err)
               }
-              navigate('/recs')
             }
             else {
               alert("Username already exists.")
