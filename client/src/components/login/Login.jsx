@@ -138,7 +138,7 @@ function loginPage() {
   }
 
   useEffect(() => {
-    document.title = `Login - STUDIO`
+    document.title = `Login - Studio`
   }, [])
 
   return (

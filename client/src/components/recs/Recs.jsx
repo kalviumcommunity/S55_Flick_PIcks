@@ -123,7 +123,7 @@ function Recs() {
     }
 
     useEffect(() => {
-        document.title = 'Movies - STUDIO'
+        document.title = 'Movies - Studio'
     }, [])
 
     return (

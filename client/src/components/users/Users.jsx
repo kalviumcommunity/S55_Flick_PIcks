@@ -32,6 +32,11 @@ function Users() {
     .catch(err => console.log(err))
   }
 
+  useEffect(() => {
+    document.title = `Users`
+  }, [])
+
+
   return (
     <div className='search mons white'>
       <div className="bgBlack"></div>

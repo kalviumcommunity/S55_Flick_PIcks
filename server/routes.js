@@ -482,7 +482,6 @@ router.get('/tvshows', async (req, res) => {
 })
 
 router.post('/googleAuthID', async (req, res) => {
-    console.log(req.body)
     try {
         const user = await userModel.findOne({ "googleId": req.body.sub })
         if (!user) {

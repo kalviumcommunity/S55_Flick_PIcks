@@ -8,8 +8,20 @@ import next from '../../assets/nextB.png'
 import prev from '../../assets/prevB.png'
 import mm from '../../assets/mm.jpg'
 import { useNavigate } from 'react-router-dom'
+import frame from '../../assets/frame1.png'
+import fWatchlist from '../../assets/fWatchlist.png'
+import fProfile from '../../assets/fProfile.png'
+import fRecs from '../../assets/fRecs.png'
+import fList from '../../assets/fList.png'
+import fGenres from '../../assets/fGenres.png'
+import fUsers from '../../assets/fUsers.png'
+import studioLogo from '../../assets/studioLogo.png'
 
 function Home() {
+
+  useEffect(() => {
+    document.title = `Studio`
+  }, [])
 
   const navigate = useNavigate()
 
@@ -73,9 +85,35 @@ function Home() {
     getData()
   },[])
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const calculateScrollProgress = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+    const totalHeight = scrollHeight - clientHeight
+    const scrollPosition = (scrollTop / totalHeight) * 100
+    setScrollProgress(scrollPosition)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', calculateScrollProgress)
+    return () => {
+      window.removeEventListener('scroll', calculateScrollProgress)
+    }
+  }, [])
+
 
   return (
     <div className='search2 white mons'>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 99868250386 }}>
+      <div
+        style={{
+          height: '5px',
+          width: `${scrollProgress}%`,
+          backgroundColor: 'white',
+          transition: 'width 0.25s',
+        }}
+      />
+    </div>
       <nav className='white mons'>
         <div className="nav55">
           <img src={studio} alt="" className="logoImg"/>
@@ -94,21 +132,104 @@ function Home() {
         </div>
       </nav>
 
-      <img src={mm} alt="" className='mm'/>
+<div className="frameDiv">
 
-      <div className="mainPageT mons">
-        Your go to place for Movies & TV Shows
+            <img src={frame} alt="" className='frame'/>
+            <div className="frameGradient"></div>
+            <div className="frameGradient2"></div>
+            <div className="frameGradient3"></div>
+            <div className="frameWrite mons white"> 
+              <div>
+                <div className="frameTitle">
+                  STUDIO
+                </div>
+
+            Your go to place for Movies & TV Shows.
+            <br/> 
+            Save Movies you want to watch.
         <br/>
-        Save Movies you want to watch
-        <br/>
-        Customize your profile & Recommend movies
+        Customize your profile & Recommend movies.
         <br/>
         Create Lists and so Much More...
 
-        <button onClick={() => navigate('/login')}>
+              </div>
+
+        <button onClick={() => navigate('/login')} className='recsSeeMore2'>
           Get Started!
         </button>
-      </div>
+            </div>
+
+</div>
+            <div className="featuresArea white mons">
+                <div className="feature">
+                  <img src={fGenres} alt="" className='featureImg'/>
+                  <div className="featureDesc">
+                  Get recommendations tailored to your mood. 
+                  <br/>We have a pick for your every feeling.
+                  </div>
+                </div>
+                <div className="feature">
+                  <div className="featureDesc">
+                    Customize your Profile
+                    <br/>Showcase your favorite films
+                  </div>
+                  <img src={fProfile} alt="" className='featureImg'/>
+                </div>
+                <div className="feature">
+                  <img src={fWatchlist} alt="" className='featureImg'/>
+                  <div className="featureDesc">
+                    Add Movies & TV Shows to you Watchlist
+                    <br/>Save them to watch localStorage
+                    <br/>Like Films to tell others whats good
+                  </div>
+                </div>
+                <div className="feature">
+                  <div className="featureDesc">
+                    Recommned movies to your friends
+                    <br/>Tell them whats good
+                    <br/> Explore the world of cinema together
+                  </div>
+                  <img src={fRecs} alt="" className='featureImg'/>
+                </div>
+                <div className="feature">
+                  <img src={fList} alt="" className='featureImg'/>
+                  <div className="featureDesc">
+                    Create Lists
+                    <br/>A list underrated movies?
+                    <br/>Or a List of your favourite Actors...?
+                    <br/>Show your creativity!
+                  </div>
+                </div>
+                <div className="feature">
+                  <div className="featureDesc">
+                    Join the Community Now!
+                  </div>
+                  <img src={fUsers} alt="" className='featureImg'/>
+                </div>
+            </div>
+
+            <div className="footer">
+              <div className="footer50">
+
+
+              <img src={studioLogo} alt="" />
+
+              <div className="footerLink">
+                Quick Access
+                <div className="footerLinks"  onClick={() => navigate('/recs')}>Movies</div>
+                <div className="footerLinks" onClick={() => navigate('/tvrecs')}>TV Shows</div>
+                <div className="footerLinks"  onClick={() => navigate('/users')}>Users</div>
+              </div>
+
+              <div className="footerLinkL">
+                Contact Us
+                <div className="footerLinks">Email: jiwanishaaz@gmail.com</div>
+                <div className="footerLinks">Github: shaaaaz</div>
+                <div className="footerLinks">Number: 702059897</div>
+              </div>
+
+              </div>
+            </div>
 
     </div>
   )

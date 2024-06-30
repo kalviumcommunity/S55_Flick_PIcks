@@ -388,8 +388,34 @@ function Movie() {
     }
   }
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const calculateScrollProgress = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+    const totalHeight = scrollHeight - clientHeight
+    const scrollPosition = (scrollTop / totalHeight) * 100
+    setScrollProgress(scrollPosition)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', calculateScrollProgress)
+    return () => {
+      window.removeEventListener('scroll', calculateScrollProgress)
+    }
+  }, [])
+
   return (
     <>
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 99868250386 }}>
+      <div
+        style={{
+          height: '5px',
+          width: `${scrollProgress}%`,
+          backgroundColor: 'white',
+          transition: 'width 0.25s',
+        }}
+      />
+    </div>
       <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved || showRecommendedAlert || loginNA ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>

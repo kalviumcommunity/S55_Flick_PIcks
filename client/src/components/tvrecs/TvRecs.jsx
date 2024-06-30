@@ -107,7 +107,7 @@ function TvRecs() {
     }
 
     useEffect(() => {
-        document.title = 'TV Shows - STUDIO'
+        document.title = 'TV Shows - Studio'
     }, [])
 
     async function getUserInfoForNav(){
