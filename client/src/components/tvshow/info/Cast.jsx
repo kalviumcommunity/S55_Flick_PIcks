@@ -13,6 +13,8 @@ import studio from '../../../assets/studio.png'
 import search2 from '../../../assets/image.png'
 
 function Cast() {
+  
+  const [loading,setLoading] = useState(true)
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
@@ -49,6 +51,7 @@ function Cast() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -105,7 +108,9 @@ function Cast() {
           Cast and Crew
         </h1>
 
-        <div className='castPage'>
+        {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className='castPage'>
         {cast.cast && cast.cast.map((el, index) => {
                   return (
                     <div className='profile white' key={index} onClick={() => navigate(`/person/${el.id}`)}>
@@ -116,7 +121,7 @@ function Cast() {
                     </div>
                   )
                 })}
-        </div>
+        </div>}
       </div>
     </div>
   )

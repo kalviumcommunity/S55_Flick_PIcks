@@ -24,6 +24,8 @@ import tvShow from '../../assets/showWhite.png'
 
 function Recs() {
 
+  const [loading,setLoading] = useState(true)
+
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -49,6 +51,7 @@ function Recs() {
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
+                setLoading(false)
             })
             .catch(err => console.log(err))
     }
@@ -145,7 +148,9 @@ function Recs() {
                             </div>
                         </div>
                     </nav>
-        <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
+        {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> :  <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
             {display && <div className="recsBackdrop">
                 {display && display[current] && <img src={`${IMAGE_LINK}${display[current].backdrop_path}`} className='recsBackdropImg' />}
                 <div className='recsGrad'>
@@ -243,7 +248,7 @@ function Recs() {
                 </div>
 
             </div>}
-        </div>
+        </div>}
         </div>
     )
 }

@@ -12,6 +12,9 @@ import logout from '../../../assets/logout.png'
 
 function Recs() {
 
+
+  const [loading,setLoading] = useState(true)
+
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
@@ -38,6 +41,7 @@ function Recs() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -95,7 +99,9 @@ useEffect(() => {
         <div className="gradientofcast"></div>
         </div>
 
-        <div className="recsCenterMovie">
+        {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="recsCenterMovie">
 
           <div className="flex-end" onClick={() => navigate(`/movie/${id}`)}>
             <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
@@ -123,7 +129,7 @@ useEffect(() => {
               )
             })}
           </div>
-        </div>
+        </div>}
       </div>
     </>
   )

@@ -13,6 +13,9 @@ import logout from '../../../assets/logout.png'
 
 function Similar() {
 
+
+  const [loading,setLoading] = useState(true)
+
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -48,6 +51,7 @@ function Similar() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -98,7 +102,9 @@ function Similar() {
         <div className="gradientofcast"></div>
 </div>
 
-      <div className="recsCenterMovie">
+{loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="recsCenterMovie">
 
         <div className="flex-end" onClick={() => navigate(`/movie/${id}`)}>
           <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
@@ -127,7 +133,7 @@ function Similar() {
             )
           })}
         </div>
-      </div>
+      </div>}
     </div>
     </div>
   )

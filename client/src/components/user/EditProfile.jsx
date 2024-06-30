@@ -15,6 +15,8 @@ import logout from '../../assets/logout.png'
 
 function EditProfile() {
 
+  const [loading,setLoading] = useState(true)
+
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
         const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -43,6 +45,7 @@ function EditProfile() {
         const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
             .then(res => {
                 setUserData(res.data)
+                setLoading(false)
             })
             .catch(err => console.log(err))
     }
@@ -239,7 +242,9 @@ function EditProfile() {
                             </div>
                         </div>
                     </nav>
-            {userData && <div className="editProfilePage white mons ">
+            {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="editProfilePage white mons ">
                 <div className="EditArea ">
                     {/* <div className="editImgArea">
                         <img src={image ? image : userData.profilePic} alt="" className='editProfileImg' />

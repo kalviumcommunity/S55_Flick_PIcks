@@ -13,6 +13,8 @@ import search2 from '../../../assets/image.png'
 
 function Recs() {
 
+  const [loading,setLoading] = useState(true)
+
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -48,6 +50,7 @@ function Recs() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -95,7 +98,9 @@ function Recs() {
 <div className="gradientofcast"></div>
 </div>
 
-      <div className="recsCenterMovie">
+      {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="recsCenterMovie">
 
         <div className="flex-end" onClick={() => navigate(`/tvshow/${id}`)}>
           <img src={`https://image.tmdb.org/t/p/original/${data.poster_path}`} alt="poster" className="" />
@@ -123,7 +128,7 @@ function Recs() {
             )
           })}
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

@@ -11,7 +11,10 @@ import studio from '../../../assets/studio.png'
 import search2 from '../../../assets/image.png'
 
 import logout from '../../../assets/logout.png'
+
 function Cast() {
+
+  const [loading,setLoading] = useState(true)
 
   const navigate = useNavigate()
 
@@ -39,6 +42,7 @@ function Cast() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -91,7 +95,9 @@ useEffect(() => {
         <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdropofcast' />
         <div className="gradientofcast"></div>
       </div>
-      <div className="castCenterMovie">
+      {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="castCenterMovie">
 
         {/* {CAST AREA} */}
 
@@ -117,7 +123,7 @@ useEffect(() => {
             )
           })}
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

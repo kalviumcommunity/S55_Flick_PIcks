@@ -26,6 +26,8 @@ import rem1 from '../../assets/remove.png'
 
 function User() {
 
+  const [loading,setLoading] = useState(true)
+
     const RENDER_LINK = "https://studio-ejn1.onrender.com/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
@@ -49,6 +51,7 @@ function User() {
         const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
             .then(res => {
                 setUserData(res.data)
+                setLoading(false)
                 if (res.data._id == ID) {
                     setCurrUserID(true)
                 }
@@ -220,11 +223,31 @@ function User() {
 
     return (
         <>
-            {userData && <div className="MainUser">
-                <div className="backdrop1">
+            {loading && <nav className='white mons'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className='navLI' onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>}
+            {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> :  <div className="MainUser">
+                {userData.backdrop && userData.backdrop.backdrop_path && <div className="backdrop1">
                     {userData.backdrop && <img src={`https://image.tmdb.org/t/p/original${userData.backdrop.backdrop_path}`} alt="" />}
                     <div className="userGradient1"></div>
-                </div>
+                </div>}
+                {(!userData.backdrop ||  !userData.backdrop.backdrop_path) && <div className="userGradient14"></div>}
                 <div className="userPage white mons">
                     <nav className='white mons'>
                         <div className="nav55">

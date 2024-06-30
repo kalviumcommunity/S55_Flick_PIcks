@@ -35,6 +35,8 @@ import recommended from '../../assets/recommendedTile.png'
 
 function Movie() {
 
+  const [loading,setLoading] = useState(true)
+
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -81,6 +83,7 @@ function Movie() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -484,7 +487,9 @@ function Movie() {
                         </div>
                     </nav>
 
-      {data && <div>
+                    {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div>
 
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">

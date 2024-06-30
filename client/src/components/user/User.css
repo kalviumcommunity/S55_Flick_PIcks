@@ -678,6 +678,15 @@ hr {
     backdrop-filter: blur(2px);
 }
 
+.userGradient14{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(4, 4, 4, 0.932);
+    position: fixed;
+    z-index: -100;
+    backdrop-filter: blur(2px);
+}
+
 .favFilmsArea1{
     margin-top: 100px;
     display: flex;

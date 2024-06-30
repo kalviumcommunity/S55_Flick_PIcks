@@ -11,6 +11,8 @@ import logout from '../../assets/logout.png'
 
 function Person() {
 
+  const [loading,setLoading] = useState(true)
+
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
     const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
@@ -49,6 +51,7 @@ function Person() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -110,7 +113,27 @@ function Person() {
   }, [details])
 
   return (
-    <div>
+    <>
+    {loading && <nav className='white mons'>
+                        <div className="nav55">
+                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
+                            <div className="navList">
+                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+                                {localStorage.getItem('userID') && <div className="" onClick={() => {
+                                    localStorage.setItem('userID', '')
+                                    location.reload()
+                                }}><img src={logout} className='logoutImg' /></div>}
+                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+                            </div>
+                        </div>
+                    </nav>}
+    {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div>
       <nav className='white mons'>
                         <div className="nav55">
                             <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
@@ -248,7 +271,9 @@ function Person() {
         </div>
 
       </div>
-    </div>
+    </div>}
+
+    </>
   )
 }
 

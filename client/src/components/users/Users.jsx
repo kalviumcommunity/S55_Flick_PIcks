@@ -11,11 +11,16 @@ function Users() {
 
   const navigate = useNavigate()
 
+  const [loading,setLoading] = useState(true)
+
   const [users, setUsers] = useState([])
 
   async function getData() {
     const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
-      .then(res => setUsers(res.data))
+      .then(res => {
+        setUsers(res.data)
+        setLoading(false)
+      })
       .catch(err => console.log(err))
   }
 
@@ -59,7 +64,7 @@ function Users() {
         </div>
       </nav>
 
-            <div className="usersDisplayArea">
+            {loading ? <div className='loader mt'></div> : <div className="usersDisplayArea">
               {users && users.map((el,index) => {
                 return <div className="usersDisplayTile" onClick={() => navigate(`/user/${el.username}`)}>
                   {el.profilePic ? <img src={el.profilePic} alt="" className="usersTileProfile" />
@@ -69,7 +74,7 @@ function Users() {
                   <div className="usersTileUsername">{el.username}</div>
                 </div>
               })}
-            </div>
+            </div>}
     </div>
   )
 }

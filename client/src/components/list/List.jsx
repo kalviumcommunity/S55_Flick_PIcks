@@ -18,6 +18,8 @@ import search from '../../assets/search.png'
 
 function List() {
 
+  const [loading,setLoading] = useState(true)
+
     const navigate = useNavigate()
 
     const { username } = useParams()
@@ -32,6 +34,7 @@ function List() {
         const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${passedData._id}/${category}/${listid}`)
         .then(res => {
             setData(res.data)
+            setLoading(false)
         })
         .catch(err => console.log(err))
     }
@@ -111,7 +114,10 @@ function List() {
                             </div>
                         </div>
                     </nav>
-        {data && <div className="mainListArea white mons">
+
+        {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="mainListArea white mons">
             <div className="mainList">
                 <div className="mainListTitle">
                     {data.title}

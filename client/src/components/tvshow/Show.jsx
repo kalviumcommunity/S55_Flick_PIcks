@@ -38,6 +38,8 @@ import minus from '../../assets/minus.png'
 
 function Show() {
 
+  const [loading, setLoading] = useState(true)
+
   const RENDER_LINK = "https://studio-ejn1.onrender.com/"
 
   const navigate = useNavigate()
@@ -78,6 +80,7 @@ function Show() {
     axios.request(API_METHOD(URL))
       .then(function (response) {
         location(response.data)
+        setLoading(false)
       })
       .catch(function (error) {
         console.error(error);
@@ -282,11 +285,11 @@ function Show() {
       }
 
     }
-    else{
+    else {
       setLoginNA(true)
       setTimeout(() => {
         setLoginNA(false)
-      },3000)
+      }, 3000)
     }
   }
 
@@ -366,9 +369,9 @@ function Show() {
     const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
       .then(res => {
         setShowRecommendedAlert(true)
-        setTimeout(()=>{
+        setTimeout(() => {
           setShowRecommendedAlert(false)
-        },3000)
+        }, 3000)
         setUserData(res.data)
         postMovie(to, res.data)
         postOwnMovie(to, res.data)
@@ -432,19 +435,19 @@ function Show() {
     return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
   }
 
-  async function sendMovieEveryone(dt){
-    const res = await axios.put(`https://studio-ejn1.onrender.com/recTvEveryone/${dt._id}`,{
+  async function sendMovieEveryone(dt) {
+    const res = await axios.put(`https://studio-ejn1.onrender.com/recTvEveryone/${dt._id}`, {
       from: {
         "name": dt.name,
-        "username": dt.username,                
+        "username": dt.username,
         "profilePic": dt.profilePic,
-        "id" : dt._id
+        "id": dt._id
       },
       data: data,
-      message : everyoneMessage
+      message: everyoneMessage
     })
-    .then(res => console.log("Movie Sent"))
-    .catch(err => console.log(err))
+      .then(res => console.log("Movie Sent"))
+      .catch(err => console.log(err))
   }
 
   async function sendMovieOwn(dt) {
@@ -453,55 +456,55 @@ function Show() {
         "name": "Everyone"
       },
       data: data,
-      message : everyoneMessage
+      message: everyoneMessage
     })
       .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
   }
 
-  async function handleRecommendEveryone(){
+  async function handleRecommendEveryone() {
     const ID = localStorage.getItem("userID")
     const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
-    .then(res => {
-      setShowRecommendedAlert(true)
-      setTimeout(()=>{
-        setShowRecommendedAlert(false)
-      },3000)
-      sendMovieEveryone(res.data)
-      sendMovieOwn(res.data)
-    })
-    .catch(err => console.log(err))
+      .then(res => {
+        setShowRecommendedAlert(true)
+        setTimeout(() => {
+          setShowRecommendedAlert(false)
+        }, 3000)
+        sendMovieEveryone(res.data)
+        sendMovieOwn(res.data)
+      })
+      .catch(err => console.log(err))
   }
 
-  const [showEveryoneMessage,setShowEveryoneMessage] = useState(false)
-  const [everyoneMessage,setEveryoneMessage] = useState('')
+  const [showEveryoneMessage, setShowEveryoneMessage] = useState(false)
+  const [everyoneMessage, setEveryoneMessage] = useState('')
 
   useEffect(() => {
     document.title = `${data.name}`
-}, [data])
+  }, [data])
 
-function checkLogin(){
-  if(localStorage.getItem('userID')){
-    setShowRecommendedArea(true)
+  function checkLogin() {
+    if (localStorage.getItem('userID')) {
+      setShowRecommendedArea(true)
+    }
+    else {
+      setLoginNA(true)
+      setTimeout(() => {
+        setLoginNA(false)
+      }, 3000)
+    }
   }
-  else{
-    setLoginNA(true)
-    setTimeout(() => {
-      setLoginNA(false)
-    },3000)
+
+  async function getUserInfoForNav() {
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+      .then(res => {
+        navigate(`/user/${res.data.username}`)
+      })
+      .catch(err => console.log(err))
   }
-}
 
-async function getUserInfoForNav(){
-  const ID = localStorage.getItem('userID')
-  const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
-  .then(res => {
-      navigate(`/user/${res.data.username}`)
-  })
-  .catch(err => console.log(err))
-}
-
-const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const calculateScrollProgress = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
@@ -515,20 +518,20 @@ const [scrollProgress, setScrollProgress] = useState(0);
     return () => {
       window.removeEventListener('scroll', calculateScrollProgress)
     }
-  }, [])  
+  }, [])
 
   return (
     <>
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 99868250386 }}>
-      <div
-        style={{
-          height: '5px',
-          width: `${scrollProgress}%`,
-          backgroundColor: 'white',
-          transition: 'width 0.25s',
-        }}
-      />
-    </div>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 99868250386 }}>
+        <div
+          style={{
+            height: '5px',
+            width: `${scrollProgress}%`,
+            backgroundColor: 'white',
+            transition: 'width 0.25s',
+          }}
+        />
+      </div>
       <div className={`alertArea ${watchlistAdded || watchlistRemoved || likedAdded || likedRemoved || watchedAdded || watchedRemoved ? 'show' : ''}`}>
         {watchlistAdded && <Alert variant="filled" severity="success" className='alert'>
           <h2>
@@ -580,24 +583,26 @@ const [scrollProgress, setScrollProgress] = useState(0);
       </div>
 
       <nav className='white mons'>
-                        <div className="nav55">
-                            <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')}/>
-                            <div className="navList">
-                                <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
-                                <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
-                                <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
-                                {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
-                                <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
-                                {localStorage.getItem('userID') && <div className="" onClick={() => {
-                                    localStorage.setItem('userID', '')
-                                    location.reload()
-                                }}><img src={logout} className='logoutImg' /></div>}
-                                {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
-                            </div>
-                        </div>
-                    </nav>
+        <div className="nav55">
+          <img src={studio} alt="" className="logoImg" onClick={() => navigate('/')} />
+          <div className="navList">
+            <div className="navLIS" onClick={() => navigate('/recs')}>MOVIES</div>
+            <div className="navLIS" onClick={() => navigate('/tvrecs')}>TV SHOWS</div>
+            <div className="navLIS" onClick={() => navigate('/users')}>USERS</div>
+            {localStorage.getItem('userID') && <div className="navLIS" onClick={() => getUserInfoForNav()}>PROFILE</div>}
+            <div className="navLIS" onClick={() => navigate('/search')}><img src={search2} alt="" /></div>
+            {localStorage.getItem('userID') && <div className="" onClick={() => {
+              localStorage.setItem('userID', '')
+              location.reload()
+            }}><img src={logout} className='logoutImg' /></div>}
+            {!localStorage.getItem('userID') && <div className="loginButtonNav" onClick={() => navigate('/login')}>LOGIN / SIGNUP</div>}
+          </div>
+        </div>
+      </nav>
 
-      {data && <div>
+      {loading ? <div className="screenBlack">
+        <div className="loader mt"></div>
+      </div> : <div>
         {data.backdrop_path && <img src={`https://image.tmdb.org/t/p/original/${data.backdrop_path}`} className='backdrop' loading="lazy" />}
         <div className="gradient">
           <Nav></Nav>
@@ -618,7 +623,7 @@ const [scrollProgress, setScrollProgress] = useState(0);
                     })
                   }
                 </div>
-                  {data.tagline && <div className="tagline">{data.tagline}</div>}
+                {data.tagline && <div className="tagline">{data.tagline}</div>}
                 <div className="overview">
                   {data.overview}
                 </div>
@@ -714,7 +719,7 @@ const [scrollProgress, setScrollProgress] = useState(0);
                 <div className="watchArea">
 
 
-                {data.vote_average && <div className="flex">
+                  {data.vote_average && <div className="flex">
                     <div className="movieDetailKey">
                       Rating:
                     </div>
@@ -811,9 +816,9 @@ const [scrollProgress, setScrollProgress] = useState(0);
                     </div>
                   </div>}
 
-                  
 
-                 
+
+
 
 
                 </div>
@@ -870,7 +875,7 @@ const [scrollProgress, setScrollProgress] = useState(0);
 
               {/* {WATCH AREA OVER} */}
 
-            </div>    
+            </div>
 
             {/* SEASONS AREA */}
 
@@ -883,77 +888,77 @@ const [scrollProgress, setScrollProgress] = useState(0);
               <div className="seasonsP1">
 
                 {seasons && removeDuplicates(seasons).sort((a, b) => a.season_number - b.season_number).map((el, index) => {
-                  if(showNumber != index){
+                  if (showNumber != index) {
                     return <div className="seasonBlock white" key={index}>
 
-                    <div className={showNumber == index && el.overview ? 'seasonHeadSelected' : 'seasonHead'} onClick={() =>
-                      showNumber == index ? setShowNumber(null) : setShowNumber(index)}>
-                      {/* <div> */}
+                      <div className={showNumber == index && el.overview ? 'seasonHeadSelected' : 'seasonHead'} onClick={() =>
+                        showNumber == index ? setShowNumber(null) : setShowNumber(index)}>
+                        {/* <div> */}
 
-                      <h2>{el.name}</h2>
+                        <h2>{el.name}</h2>
 
-                      {showNumber != index && <img src={addSimple} className='addButton' />}
-                      {showNumber == index && <div className="seasonOverview seasonGray">
-                        {el.overview}
-                      </div>}
-                      {/* </div> */}
+                        {showNumber != index && <img src={addSimple} className='addButton' />}
+                        {showNumber == index && <div className="seasonOverview seasonGray">
+                          {el.overview}
+                        </div>}
+                        {/* </div> */}
 
-                    </div>
-
-                    {showNumber == index && <div className="seasonsP2">
-                      {el.episodes.map((el, index) => {
-                        return <div className="episodeTile white" >
-                          <img src={`https://image.tmdb.org/t/p/original/${el.still_path}`} />
-                          <div className="episodeDesc">
-
-                            <div className="episodeTitle">
-                              E{index + 1 < 10 ? `0${index + 1}` : `${index + 1}`} {el.name}</div>
-                            {/* {index + 1}. {el.name}</div> */}
-                            <div className='episodeOverview'>{el.overview}</div>
-                          </div>
-
-                        </div>
-                      })}
-                    </div>}
-
-                  </div>
-                  }
-                  else{
-                  return <div className="seasonBlock white" key={index}>
-
-                    <div className={showNumber == index && el.overview ? 'seasonHeadSelected' : 'seasonHead'} onClick={() =>
-                      showNumber == index ? setShowNumber(null) : setShowNumber(index)}>
-                      {/* <div> */}
-
-                      <div className='flex-end-season'>
-
-                      <h2>{el.name}</h2>
-                      {showNumber == index && <img src={minus} className='addButton' />}
                       </div>
-                      {showNumber == index && <div className="seasonOverview seasonGray">
-                        {el.overview}
+
+                      {showNumber == index && <div className="seasonsP2">
+                        {el.episodes.map((el, index) => {
+                          return <div className="episodeTile white" >
+                            <img src={`https://image.tmdb.org/t/p/original/${el.still_path}`} />
+                            <div className="episodeDesc">
+
+                              <div className="episodeTitle">
+                                E{index + 1 < 10 ? `0${index + 1}` : `${index + 1}`} {el.name}</div>
+                              {/* {index + 1}. {el.name}</div> */}
+                              <div className='episodeOverview'>{el.overview}</div>
+                            </div>
+
+                          </div>
+                        })}
                       </div>}
-                      {/* </div> */}
 
                     </div>
+                  }
+                  else {
+                    return <div className="seasonBlock white" key={index}>
 
-                    {showNumber == index && <div className="seasonsP2">
-                      {el.episodes.map((el, index) => {
-                        return <div className="episodeTile white" >
-                          <img src={`https://image.tmdb.org/t/p/original/${el.still_path}`} />
-                          <div className="episodeDesc">
+                      <div className={showNumber == index && el.overview ? 'seasonHeadSelected' : 'seasonHead'} onClick={() =>
+                        showNumber == index ? setShowNumber(null) : setShowNumber(index)}>
+                        {/* <div> */}
 
-                            <div className="episodeTitle">
-                              E{index + 1 < 10 ? `0${index + 1}` : `${index + 1}`} {el.name}</div>
-                            {/* {index + 1}. {el.name}</div> */}
-                            <div className='episodeOverview'>{el.overview}</div>
-                          </div>
+                        <div className='flex-end-season'>
 
+                          <h2>{el.name}</h2>
+                          {showNumber == index && <img src={minus} className='addButton' />}
                         </div>
-                      })}
-                    </div>}
+                        {showNumber == index && <div className="seasonOverview seasonGray">
+                          {el.overview}
+                        </div>}
+                        {/* </div> */}
 
-                  </div>
+                      </div>
+
+                      {showNumber == index && <div className="seasonsP2">
+                        {el.episodes.map((el, index) => {
+                          return <div className="episodeTile white" >
+                            <img src={`https://image.tmdb.org/t/p/original/${el.still_path}`} />
+                            <div className="episodeDesc">
+
+                              <div className="episodeTitle">
+                                E{index + 1 < 10 ? `0${index + 1}` : `${index + 1}`} {el.name}</div>
+                              {/* {index + 1}. {el.name}</div> */}
+                              <div className='episodeOverview'>{el.overview}</div>
+                            </div>
+
+                          </div>
+                        })}
+                      </div>}
+
+                    </div>
                   }
                 })}
               </div>
@@ -977,7 +982,7 @@ const [scrollProgress, setScrollProgress] = useState(0);
 
             {/* SEASONS AREA OVER */}
 
-            
+
 
             {/* {RECCOMENDATIONS AREA} */}
 
@@ -1163,15 +1168,15 @@ const [scrollProgress, setScrollProgress] = useState(0);
               <div className="publicButton pbYes" onClick={() => {
                 setShowEveryoneMessage(true)
                 setShowRecommendedArea(false)
-                }}>YES</div>
+              }}>YES</div>
             </div>
 
           </div>}
 
           <img src={close} alt="" className="AddFavClose" onClick={() => {
-                setShowEveryoneMessage(true)
-                setShowRecommendedArea(false)
-                }} />
+            setShowEveryoneMessage(true)
+            setShowRecommendedArea(false)
+          }} />
         </div>
 
       </div>}
@@ -1199,10 +1204,10 @@ const [scrollProgress, setScrollProgress] = useState(0);
       </div>}
 
       {showEveryoneMessage && <div className='RecommendMovie white mons'>
-        <div className= "addFilmToFav3">
+        <div className="addFilmToFav3">
           <div className='sendMessage'>
-            Enter a message you want to send them 
-            <textarea name="" placeholder='Enter a message' onChange={() => setEveryoneMessage(event.target.value)}/>
+            Enter a message you want to send them
+            <textarea name="" placeholder='Enter a message' onChange={() => setEveryoneMessage(event.target.value)} />
 
             <div className="publicButtons">
               <div className="publicButton pbNo" onClick={() => {
@@ -1218,7 +1223,7 @@ const [scrollProgress, setScrollProgress] = useState(0);
           <img src={close} alt="" className="AddFavClose" onClick={() => setShowEveryoneMessage(false)} />
 
         </div>
-        </div>}
+      </div>}
     </>
   )
 }

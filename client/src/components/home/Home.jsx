@@ -101,6 +101,15 @@ function Home() {
     }
   }, [])
 
+  async function getUserInfoForNav(){
+    const ID = localStorage.getItem('userID')
+    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    .then(res => {
+        navigate(`/user/${res.data.username}`)
+    })
+    .catch(err => console.log(err))
+}
+
 
   return (
     <div className='search2 white mons'>
@@ -171,7 +180,7 @@ function Home() {
                 <div className="feature">
                   <div className="featureDesc">
                     Customize your Profile
-                    <br/>Showcase your favorite films
+                    <br/>Showcase your favourite films
                   </div>
                   <img src={fProfile} alt="" className='featureImg'/>
                 </div>
@@ -195,7 +204,7 @@ function Home() {
                   <img src={fList} alt="" className='featureImg'/>
                   <div className="featureDesc">
                     Create Lists
-                    <br/>A list underrated movies?
+                    <br/>A list of underrated movies?
                     <br/>Or a List of your favourite Actors...?
                     <br/>Show your creativity!
                   </div>

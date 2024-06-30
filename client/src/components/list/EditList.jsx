@@ -13,6 +13,8 @@ import search from '../../assets/search.png'
 
 function EditList() {
 
+  const [loading,setLoading] = useState(true)
+
     const navigate = useNavigate()
 
     const { username } = useParams()
@@ -31,6 +33,7 @@ function EditList() {
         const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${ID}/${category}/${listid}`)
             .then(res => {
                 setData(res.data)
+                setLoading(false)
             })
             .catch(err => console.log(err))
     }
@@ -172,7 +175,9 @@ function EditList() {
                             </div>
                         </div>
                     </nav>
-            {data && <div className="mainListArea white mons">
+                    {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className="mainListArea white mons">
                 <div className="mainList">
                     <div className="mainListTitleEdit">
                         <label htmlFor="title">Title</label>

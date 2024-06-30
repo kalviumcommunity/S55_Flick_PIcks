@@ -23,6 +23,9 @@ import search2 from '../../assets/image.png'
 
 function TvRecs() {
 
+
+  const [loading,setLoading] = useState(true)
+
     const navigate = useNavigate()
 
     const IMAGE_LINK = "https://image.tmdb.org/t/p/original/"
@@ -38,6 +41,7 @@ function TvRecs() {
             .then(res => {
                 setRecommendations(res.data)
                 setShow(res.data.random)
+                setLoading(false)
             })
             .catch(err => console.log(err))
     }
@@ -138,7 +142,9 @@ function TvRecs() {
                             </div>
                         </div>
                     </nav>
-            <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
+            {loading ? <div className="screenBlack">
+            <div className="loader mt"></div>
+        </div> : <div className='mons white' onKeyDown={keyPress} tabIndex={0}>
                 {display && <div className="recsBackdrop">
                     {display && display[current] && <img src={`${IMAGE_LINK}${display[current].backdrop_path}`} className='recsBackdropImg' />}
                     <div className='recsGrad'>
@@ -224,7 +230,7 @@ function TvRecs() {
                 </div>
 
                 </div>}
-            </div>
+            </div>}
         </div>
 
 
