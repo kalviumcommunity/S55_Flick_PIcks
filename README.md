@@ -1,4 +1,4 @@
-![Logo](https://i.ibb.co/3Wg6Ncd/Screenshot-2024-06-29-9-40-38-PM-removebg-preview.png)
+![Logo](https://i.ibb.co/FYKyWBN/Screenshot-2024-06-30-5-17-59-PM-removebg-preview.png)
 
 ***
 
