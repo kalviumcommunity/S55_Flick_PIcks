@@ -66,7 +66,7 @@ function Users() {
 
             {loading ? <div className='loader mt'></div> : <div className="usersDisplayArea">
               {users && users.map((el,index) => {
-                return <div className="usersDisplayTile" onClick={() => navigate(`/user/${el.username}`)}>
+                return <div className="usersDisplayTile" key={index} onClick={() => navigate(`/user/${el.username}`)}>
                   {el.profilePic ? <img src={el.profilePic} alt="" className="usersTileProfile" />
                                  : <div className='usersProfilePicNA'>
                                     <img src={people} alt="" className="userSil" />

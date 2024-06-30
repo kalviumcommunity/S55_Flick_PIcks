@@ -42,7 +42,7 @@ function loginPage() {
               try {
                 const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
                   .then(res => {
-                    localStorage.setItem("userID",res._id)
+                    localStorage.setItem("userID",res.data._id)
                   })
               }
               catch (err) {
@@ -195,10 +195,10 @@ const [username, setUsername] = useState('')
           {!errors.confirmPassword && <p className='transperent'>x</p>}
         </div>
 
-        <div class="line-container">
-          <div class="myLine"></div>
-          <div class="or">OR</div>
-          <div class="myLine"></div>
+        <div className="line-container">
+          <div className="myLine"></div>
+          <div className="or">OR</div>
+          <div className="myLine"></div>
         </div>
 
         <div className="custom-google-signup-button">
