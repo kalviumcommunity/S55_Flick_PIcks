@@ -63,8 +63,11 @@ function loginPage() {
 
   const [click, setClick] = useState(true)
 
+
+  const [done, setDone] = useState(false)
+
   async function createUserSignup() {
-    const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
+      const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
@@ -74,12 +77,14 @@ function loginPage() {
   }
 
   async function handleUsername() {
+    setDone(true)
     const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
         if (test.status == 200) {
           createUserSignup()
         }
         else {
+          setDone(false)
           alert("Username Not Available")
         }
       })
@@ -222,19 +227,21 @@ const [username, setUsername] = useState('')
       </form>}
 
       {!showUsername && <div className="signupRectangle">
-        <h2>LOGIN</h2>
+        <h2>SIGNUP</h2>
 
         <div className="inputLoginArea inputLoginArea2">
           <label htmlFor="username">
             Username
           </label>
-          <input value={username} onChange={handleChange} placeholder="Enter your username" />
+          <input value={username} onChange={handleChange} placeholder="Enter a username" />
           <img src={person} className='userPlaceholder' />
         </div>
 
-        <button className='submitUsername' onClick={() => handleUsername()}>
+        {done ? <button className='submitUsername'>
           SUBMIT
-        </button>
+        </button> : <button className='submitUsername' onClick={() => handleUsername()}>
+          SUBMIT
+        </button>}
       </div>}
 
 

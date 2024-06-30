@@ -41,6 +41,8 @@ function loginPage() {
     }
   }
 
+  const [done, setDone] = useState(false)
+
   async function createUserSignup() {
     const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
@@ -52,12 +54,14 @@ function loginPage() {
   }
 
   async function handleUsername() {
+    setDone(true)
     const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
       .then(test => {
         if (test.status == 200) {
           createUserSignup()
         }
         else {
+          setDone(false)
           alert("Username Not Available")
         }
       })
@@ -210,9 +214,11 @@ function loginPage() {
           <img src={person} className='userPlaceholder' />
         </div>
 
-        <button className='submitUsername' onClick={() => handleUsername()}>
+        {done ? <button className='submitUsername'>
           SUBMIT
-        </button>
+        </button> : <button className='submitUsername' onClick={() => handleUsername()}>
+          SUBMIT
+        </button>}
       </div>}
     </div>
   )
