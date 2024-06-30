@@ -53,7 +53,7 @@ We welcome contributions to Studio! Whether you want to report a bug, suggest a 
 2. Clone the Repository
 
   ```bash
-git clone https://github.com/kalviumcommunity/S55_Shaaz_Capstone_FlickPicks
+git clone https://github.com/kalviumcommunity/S55_Shaaz_Capstone_Studio
 ````
 
 3. Install Dependencies
