@@ -28,7 +28,7 @@ function User() {
 
   const [loading,setLoading] = useState(true)
 
-    const RENDER_LINK = "https://studio-ejn1.onrender.com/"
+    const RENDER_LINK = "https://studio-backend-alpha.vercel.app/"
 
     const IMAGE_PATH = "https://image.tmdb.org/t/p/original"
 
@@ -48,7 +48,7 @@ function User() {
     const ID = localStorage.getItem("userID")
 
     const getUserData = async () => {
-        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/user/${username}`)
             .then(res => {
                 setUserData(res.data)
                 setLoading(false)
@@ -71,7 +71,7 @@ function User() {
 
     async function checkPassword() {
         if ('CONFIRM' == password) {
-            const res = await axios.delete(`https://studio-ejn1.onrender.com/delete/${userData._id}`)
+            const res = await axios.delete(`https://studio-backend-alpha.vercel.app/delete/${userData._id}`)
                 .then(res => {
                     if (res.status == 200) {
                         alert("User Deleted Succesfully. Sorry to see you go :(")
@@ -94,7 +94,7 @@ function User() {
     const [showFollowButton, setShowFollowButton] = useState(true)
 
     async function follow(profileData) {
-        const res = await axios.put(`https://studio-ejn1.onrender.com/addToFollower/${userData._id}`, {
+        const res = await axios.put(`https://studio-backend-alpha.vercel.app/addToFollower/${userData._id}`, {
             "name": profileData.name,
             "username": profileData.username,
             "id": profileData._id,
@@ -105,7 +105,7 @@ function User() {
     }
 
     async function following(profileData) {
-        const res = await axios.put(`https://studio-ejn1.onrender.com/addToFollowing/${profileData._id}`, {
+        const res = await axios.put(`https://studio-backend-alpha.vercel.app/addToFollowing/${profileData._id}`, {
             "name": userData.name,
             "username": userData.username,
             "id": userData._id,
@@ -117,7 +117,7 @@ function User() {
 
     async function addToFollower() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
             .then(res => {
                 follow(res.data)
                 following(res.data)
@@ -137,7 +137,7 @@ function User() {
     }
 
     async function removeFollowing(profileData) {
-        const res = await axios.put(`https://studio-ejn1.onrender.com/removeFollowing/${profileData._id}`, {
+        const res = await axios.put(`https://studio-backend-alpha.vercel.app/removeFollowing/${profileData._id}`, {
             "name": userData.name,
             "username": profileData.username,
             "id": userData._id,
@@ -148,7 +148,7 @@ function User() {
     }
 
     async function removeFollower(profileData) {
-        const res = await axios.put(`https://studio-ejn1.onrender.com/removeFollower/${userData._id}`, {
+        const res = await axios.put(`https://studio-backend-alpha.vercel.app/removeFollower/${userData._id}`, {
             "name": profileData.name,
             "username": profileData.username,
             "id": profileData._id,
@@ -160,7 +160,7 @@ function User() {
 
     async function remove() {
         const ID = localStorage.getItem("userID")
-        const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
             .then(res => {
                 removeFollower(res.data)
                 removeFollowing(res.data)
@@ -191,7 +191,7 @@ function User() {
             alert('Enter a title for your list')
             return
         }
-        const res = await axios.post(`https://studio-ejn1.onrender.com/createNewList/${userData._id}`, {
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/createNewList/${userData._id}`, {
             userDetails: {
                 "name": userData.name,
                 "username": userData.username,
@@ -208,7 +208,7 @@ function User() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
         .then(res => {
             navigate(`/user/${res.data.username}`)
         })

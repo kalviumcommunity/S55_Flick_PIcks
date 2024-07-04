@@ -31,7 +31,7 @@ function List() {
     const [data,setData] = useState([])
 
     async function getList(passedData){
-        const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${passedData._id}/${category}/${listid}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/getList/${passedData._id}/${category}/${listid}`)
         .then(res => {
             setData(res.data)
             setLoading(false)
@@ -40,7 +40,7 @@ function List() {
     }
 
     async function getUser(){
-        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/user/${username}`)
         .then(res => {
             getList(res.data)
             setUser(res.data)
@@ -76,14 +76,14 @@ function List() {
     }
 
     async function deleteList(){
-        const res = axios.delete(`https://studio-ejn1.onrender.com/deleteList/${user._id}/${category}/${listid}`)
+        const res = axios.delete(`https://studio-backend-alpha.vercel.app/deleteList/${user._id}/${category}/${listid}`)
         .then(res => console.log("deleted"))
         .catch(err => console.log(err))
     }
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
         .then(res => {
             navigate(`/user/${res.data.username}`)
         })

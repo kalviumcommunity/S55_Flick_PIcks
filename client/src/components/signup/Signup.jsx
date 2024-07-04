@@ -36,11 +36,11 @@ function loginPage() {
     else if (click) {
       try {
         setClick(false)
-        const test = await axios.post('https://studio-ejn1.onrender.com/userExists', values)
+        const test = await axios.post('https://studio-backend-alpha.vercel.app/userExists', values)
           .then((test) => {
             if (test.status == 200) {
               try {
-                const res = axios.post('https://studio-ejn1.onrender.com/newUser', values)
+                const res = axios.post('https://studio-backend-alpha.vercel.app/newUser', values)
                   .then(res => {
                     localStorage.setItem("userID",res.data._id)
                     navigate('/recs')
@@ -67,7 +67,7 @@ function loginPage() {
   const [done, setDone] = useState(false)
 
   async function createUserSignup() {
-      const response = await axios.post(`https://studio-ejn1.onrender.com/googleAuthSignup/${username}`, googleUserData)
+      const response = await axios.post(`https://studio-backend-alpha.vercel.app/googleAuthSignup/${username}`, googleUserData)
       .then(response => {
         localStorage.setItem("userID", response.data._id)
         localStorage.setItem("user", true)
@@ -78,7 +78,7 @@ function loginPage() {
 
   async function handleUsername() {
     setDone(true)
-    const test = await axios.post('https://studio-ejn1.onrender.com/userExists', { "username": username })
+    const test = await axios.post('https://studio-backend-alpha.vercel.app/userExists', { "username": username })
       .then(test => {
         if (test.status == 200) {
           createUserSignup()
@@ -102,7 +102,7 @@ function loginPage() {
   }
 
   async function loginUser(data) {
-    const response = await axios.post('https://studio-ejn1.onrender.com/googleAuthLogin', data)
+    const response = await axios.post('https://studio-backend-alpha.vercel.app/googleAuthLogin', data)
       .then(response => {
         if (response.status === 201) {
           localStorage.setItem("userID", response.data._id)
@@ -115,7 +115,7 @@ function loginPage() {
 
   async function onSuccess(res) {
     const decoded = jwtDecode(res.credential)
-    const data = await axios.post('https://studio-ejn1.onrender.com/googleAuthID', decoded)
+    const data = await axios.post('https://studio-backend-alpha.vercel.app/googleAuthID', decoded)
       .then(data => {
         if (data.status === 200) {
           createUser(decoded)

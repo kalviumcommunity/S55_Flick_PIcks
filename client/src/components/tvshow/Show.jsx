@@ -40,7 +40,7 @@ function Show() {
 
   const [loading, setLoading] = useState(true)
 
-  const RENDER_LINK = "https://studio-ejn1.onrender.com/"
+  const RENDER_LINK = "https://studio-backend-alpha.vercel.app/"
 
   const navigate = useNavigate()
 
@@ -162,7 +162,7 @@ function Show() {
     if (ID) {
       if (listName == "Watched") {
         try {
-          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVWatched/${ID}`, data)
+          const response = await axios.put(`https://studio-backend-alpha.vercel.app/addToTVWatched/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setWatchedAdded(true)
@@ -185,7 +185,7 @@ function Show() {
       }
       else if (listName == "Watchlist") {
         try {
-          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVWatchlist/${ID}`, data)
+          const response = await axios.put(`https://studio-backend-alpha.vercel.app/addToTVWatchlist/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setWatchlistAdded(true)
@@ -208,7 +208,7 @@ function Show() {
       }
       else if (listName == "Liked") {
         try {
-          const response = await axios.put(`https://studio-ejn1.onrender.com/addToTVLiked/${ID}`, data)
+          const response = await axios.put(`https://studio-backend-alpha.vercel.app/addToTVLiked/${ID}`, data)
             .then(response => {
               if (response.status == 200) {
                 setLikedAdded(true)
@@ -260,7 +260,7 @@ function Show() {
 
     if (ID) {
 
-      const res1 = await axios.post(`https://studio-ejn1.onrender.com/isInTVWatchlist/${ID}`, data)
+      const res1 = await axios.post(`https://studio-backend-alpha.vercel.app/isInTVWatchlist/${ID}`, data)
       if (res1.status == 200) {
         setInWachlist(true)
       }
@@ -268,7 +268,7 @@ function Show() {
         setInWachlist(false)
       }
 
-      const res2 = await axios.post(`https://studio-ejn1.onrender.com/isInTVLiked/${ID}`, data)
+      const res2 = await axios.post(`https://studio-backend-alpha.vercel.app/isInTVLiked/${ID}`, data)
       if (res2.status == 200) {
         setInLiked(true)
       }
@@ -276,7 +276,7 @@ function Show() {
         setInLiked(false)
       }
 
-      const res3 = await axios.post(`https://studio-ejn1.onrender.com/isInTVWatched/${ID}`, data)
+      const res3 = await axios.post(`https://studio-backend-alpha.vercel.app/isInTVWatched/${ID}`, data)
       if (res3.status == 200) {
         setInWatched(true)
       }
@@ -294,7 +294,7 @@ function Show() {
   }
 
   async function addToRecommended() {
-    const res = await axios.post('https://studio-ejn1.onrender.com/addToTVRec', data)
+    const res = await axios.post('https://studio-backend-alpha.vercel.app/addToTVRec', data)
       .then(res => console.log("Movie Sent"))
       .catch(err => console.log(err))
     setShowRecommendedArea(false)
@@ -307,7 +307,7 @@ function Show() {
   const [showRecommendedAlert, setShowRecommendedAlert] = useState(false)
 
   async function getData() {
-    const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
+    const res = await axios.get(`https://studio-backend-alpha.vercel.app/users2`)
       .then(res => {
         setUsers(res.data)
       })
@@ -335,7 +335,7 @@ function Show() {
   };
 
   async function postMovie(el, second) {
-    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvRec/${el._id}`, {
+    const res = await axios.put(`https://studio-backend-alpha.vercel.app/userTvRec/${el._id}`, {
       from: {
         "name": second.name,
         "username": second.username,
@@ -350,7 +350,7 @@ function Show() {
   }
 
   async function postOwnMovie(el, second) {
-    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvOwnRec/${second._id}`, {
+    const res = await axios.put(`https://studio-backend-alpha.vercel.app/userTvOwnRec/${second._id}`, {
       to: {
         "name": el.name,
         "username": el.username,
@@ -366,7 +366,7 @@ function Show() {
 
   async function getUserData(el) {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = await axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
       .then(res => {
         setShowRecommendedAlert(true)
         setTimeout(() => {
@@ -436,7 +436,7 @@ function Show() {
   }
 
   async function sendMovieEveryone(dt) {
-    const res = await axios.put(`https://studio-ejn1.onrender.com/recTvEveryone/${dt._id}`, {
+    const res = await axios.put(`https://studio-backend-alpha.vercel.app/recTvEveryone/${dt._id}`, {
       from: {
         "name": dt.name,
         "username": dt.username,
@@ -451,7 +451,7 @@ function Show() {
   }
 
   async function sendMovieOwn(dt) {
-    const res = await axios.put(`https://studio-ejn1.onrender.com/userTvOwnRec/${dt._id}`, {
+    const res = await axios.put(`https://studio-backend-alpha.vercel.app/userTvOwnRec/${dt._id}`, {
       to: {
         "name": "Everyone"
       },
@@ -464,7 +464,7 @@ function Show() {
 
   async function handleRecommendEveryone() {
     const ID = localStorage.getItem("userID")
-    const res = await axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = await axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
       .then(res => {
         setShowRecommendedAlert(true)
         setTimeout(() => {
@@ -489,6 +489,7 @@ function Show() {
     }
     else {
       setLoginNA(true)
+
       setTimeout(() => {
         setLoginNA(false)
       }, 3000)
@@ -497,7 +498,7 @@ function Show() {
 
   async function getUserInfoForNav() {
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
       .then(res => {
         navigate(`/user/${res.data.username}`)
       })

@@ -15,7 +15,7 @@ function Person() {
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
     .then(res => {
         navigate(`/user/${res.data.username}`)
     })

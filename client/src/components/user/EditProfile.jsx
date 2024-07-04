@@ -19,7 +19,7 @@ function EditProfile() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
         .then(res => {
             navigate(`/user/${res.data.username}`)
         })
@@ -42,7 +42,7 @@ function EditProfile() {
     const { username } = useParams()
 
     const getData = async () => {
-        const res = await axios.get(`https://studio-ejn1.onrender.com/user/${username}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/user/${username}`)
             .then(res => {
                 setUserData(res.data)
                 setLoading(false)
@@ -78,35 +78,35 @@ function EditProfile() {
     }
 
     const removeFilm = async (data) => {
-        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavMovies/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/removeFromFavMovies/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeTVShow = async (data) => {
-        const res = await axios.post(`https://studio-ejn1.onrender.com/removeTVShow/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/removeTVShow/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeBackdrop = async () => {
-        const res = await axios.post(`https://studio-ejn1.onrender.com/rmBackdrop/${userData._id}`, {})
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/rmBackdrop/${userData._id}`, {})
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeActors = async (data) => {
-        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavActors/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/removeFromFavActors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
     }
 
     const removeDirectors = async (data) => {
-        const res = await axios.post(`https://studio-ejn1.onrender.com/removeFromFavDirectors/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/removeFromFavDirectors/${username}`, data)
             .then()
             .catch(err => console.log(err))
         getData()
@@ -172,7 +172,7 @@ function EditProfile() {
 
     const pushToFav = async (data) => {
         setMovieSearch(false)
-        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFav/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/pushToFav/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -181,7 +181,7 @@ function EditProfile() {
 
     const pushToTVShow = async (data) => {
         setTVShowSearch(false)
-        const res = await axios.post(`https://studio-ejn1.onrender.com/pushTVShow/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/pushTVShow/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -190,7 +190,7 @@ function EditProfile() {
 
     const pushToBackdrop = async (data) => {
         setBackdropSearch(false)
-        const res = await axios.post(`https://studio-ejn1.onrender.com/backdrop/${userData._id}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/backdrop/${userData._id}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -199,7 +199,7 @@ function EditProfile() {
 
     const pushToFavActor = async (data) => {
         setActorSearch(false)
-        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFavActors/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/pushToFavActors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -208,7 +208,7 @@ function EditProfile() {
 
     const pushToFavDirectors = async (data) => {
         setDirectorSearch(false)
-        const res = await axios.post(`https://studio-ejn1.onrender.com/pushToFavDirectors/${username}`, data)
+        const res = await axios.post(`https://studio-backend-alpha.vercel.app/pushToFavDirectors/${username}`, data)
             .then(res => {
             })
             .catch(err => console.log(err))
@@ -216,7 +216,7 @@ function EditProfile() {
     }
 
     const saveChanges = async () => {
-        const res = await axios.put(`https://studio-ejn1.onrender.com/saveUserChanges/${username}`, userData)
+        const res = await axios.put(`https://studio-backend-alpha.vercel.app/saveUserChanges/${username}`, userData)
             .then(res => {
                 navigate(`/user/${username}`)
             })

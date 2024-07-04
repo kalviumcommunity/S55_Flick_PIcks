@@ -78,7 +78,7 @@ function Home() {
   }
 
   async function getData(){
-    const res = await axios.get('https://studio-ejn1.onrender.com/recs')
+    const res = await axios.get('https://studio-backend-alpha.vercel.app/recs')
   }
 
   useEffect(() => {
@@ -103,7 +103,7 @@ function Home() {
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
     .then(res => {
         navigate(`/user/${res.data.username}`)
     })
@@ -188,13 +188,13 @@ function Home() {
                   <img src={fWatchlist} alt="" className='featureImg'/>
                   <div className="featureDesc">
                     Add Movies & TV Shows to you Watchlist
-                    <br/>Save them to watch localStorage
+                    <br/>Save them to watch later
                     <br/>Like Films to tell others whats good
                   </div>
                 </div>
                 <div className="feature">
                   <div className="featureDesc">
-                    Recommned movies to your friends
+                    Recommend movies to your friends
                     <br/>Tell them whats good
                     <br/> Explore the world of cinema together
                   </div>

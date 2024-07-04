@@ -16,7 +16,7 @@ function Users() {
   const [users, setUsers] = useState([])
 
   async function getData() {
-    const res = await axios.get(`https://studio-ejn1.onrender.com/users`)
+    const res = await axios.get(`https://studio-backend-alpha.vercel.app/users2`)
       .then(res => {
         setUsers(res.data)
         setLoading(false)
@@ -30,7 +30,7 @@ function Users() {
 
   async function getUserInfoForNav(){
     const ID = localStorage.getItem('userID')
-    const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+    const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
     .then(res => {
         navigate(`/user/${res.data.username}`)
     })

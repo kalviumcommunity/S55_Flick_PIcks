@@ -1077,4 +1077,19 @@ router.delete('/deleteList/:id/:category/:listid', async (req, res) => {
     }
 })
 
+router.get('/users2', async(req,res) => {
+    console.log("here")
+    try{
+        const usersList = await userModel.find({}, '_id name username profilePic')
+        if(!usersList){
+            res.send("No Users Found")
+            return
+        }
+        res.send(usersList)
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router
