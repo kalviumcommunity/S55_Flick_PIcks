@@ -283,7 +283,7 @@ nav {
 
 .navList {
     display: flex;
-    font-size: 22px;
+    font-size: 1.15vw;
     font-weight: 600;
     align-items: center;
 }
@@ -347,7 +347,7 @@ nav {
     background-position: right bottom;
     transition: all .3s ease-out;
     color: white;
-    border: 2px solid white;
+    border: 1px solid white;
 }
 
 .loginButtonNav:hover{
