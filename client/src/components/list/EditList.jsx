@@ -30,7 +30,7 @@ function EditList() {
     const [searchInput, setSearchInput] = useState()
 
     async function getList() {
-        const res = await axios.get(`https://studio-ejn1.onrender.com/getList/${ID}/${category}/${listid}`)
+        const res = await axios.get(`https://studio-backend-alpha.vercel.app/getList/${ID}/${category}/${listid}`)
             .then(res => {
                 setData(res.data)
                 setLoading(false)
@@ -103,7 +103,7 @@ function EditList() {
 
     async function addMovie(dataToPass) {
         setShowAddArea(false)
-        const res = axios.put(`https://studio-ejn1.onrender.com/addItemList/${ID}/${category}/${listid}`, dataToPass)
+        const res = axios.put(`https://studio-backend-alpha.vercel.app/addItemList/${ID}/${category}/${listid}`, dataToPass)
             .then(res => {
                 getList()
             })
@@ -111,7 +111,7 @@ function EditList() {
     }
 
     async function removeMovie(dataToRemove){
-        const res = axios.put(`https://studio-ejn1.onrender.com/removeItem/${ID}/${category}/${listid}`, dataToRemove)
+        const res = axios.put(`https://studio-backend-alpha.vercel.app/removeItem/${ID}/${category}/${listid}`, dataToRemove)
             .then(res => {
                 getList()
             })
@@ -123,7 +123,7 @@ function EditList() {
             alert('Enter a title')
             return
         }
-        const res = axios.put(`https://studio-ejn1.onrender.com/saveList/${ID}/${category}/${listid}`, {
+        const res = axios.put(`https://studio-backend-alpha.vercel.app/saveList/${ID}/${category}/${listid}`, {
             "title" : title,
             "description" : description
         })
@@ -145,7 +145,7 @@ function EditList() {
 
     async function getUserInfoForNav(){
         const ID = localStorage.getItem('userID')
-        const res = axios.get(`https://studio-ejn1.onrender.com/userByID/${ID}`)
+        const res = axios.get(`https://studio-backend-alpha.vercel.app/userByID/${ID}`)
         .then(res => {
             navigate(`/user/${res.data.username}`)
         })
@@ -217,7 +217,7 @@ function EditList() {
                                 <div className="overlay">
                                     {el.name}
                                 </div>
-                                <div className="movieDelete" onClick={() => removeMovie(el)}>
+                                <div className="movieDelete op" onClick={() => removeMovie(el)}>
                                     <img src={close} alt="" />
                                 </div>
                             </div>

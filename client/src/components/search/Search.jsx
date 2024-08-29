@@ -246,10 +246,10 @@ function Search() {
 
 
 
-      {showPopular && onMovie == "users" && <div className="castResult">
+      {showPopular && onMovie == "users" && <div className="userResult">
         {users && onMovie == "users" && users.map((el, index) => {
           return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
-            {el.profilePic ? <div className='centerMid'><img src={el.profilePic} /></div>
+            {el.profilePic ? <div className='centerMid'><img src={el.profilePic}  className='showProfilePicImg'/></div>
               : <div className='userNotFound'><img src={user} />
               </div>}
             <div className="searchRow">
@@ -261,10 +261,10 @@ function Search() {
           </div>
         })}
       </div>}
-      {!showPopular && onMovie == "users" && <div className="castResult">
+      {!showPopular && onMovie == "users" && <div className="userResult">
         {users && onMovie == "users" && filterUsers().map((el, index) => {
           return <div className="userSearchResults white" onClick={() => navigate(`/user/${el.username}`)}>
-            {el.profilePic ? <img src={el.profilePic} />
+            {el.profilePic ? <img src={el.profilePic} className='showProfilePicImg'/>
               : <div className='userNotFound'><img src={user} />
               </div>}
             <div className="searchRow">

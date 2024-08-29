@@ -16,6 +16,7 @@ import fList from '../../assets/fList.png'
 import fGenres from '../../assets/fGenres.png'
 import fUsers from '../../assets/fUsers.png'
 import studioLogo from '../../assets/studioLogo.png'
+import downarr from '../../assets/downarr.png'
 
 function Home() {
 
@@ -150,7 +151,7 @@ function Home() {
         <div className="frameWrite mons white">
           <div>
             <div className="frameTitle">
-              STUDIO
+              <img src={studio} alt="" />
             </div>
 
             Your go to place for Movies & TV Shows.
@@ -169,6 +170,14 @@ function Home() {
         </div>
 
       </div>
+
+      <div className="scrollMore">
+        <div>
+        SCROLL DOWN
+        </div>
+        <img src={downarr} className='scrollMoreImg' />
+      </div>
+
       <div className="featuresArea white mons">
         <div className="feature">
           <img src={fGenres} alt="" className='featureImg' />

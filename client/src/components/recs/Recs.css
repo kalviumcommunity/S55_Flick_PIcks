@@ -310,19 +310,19 @@ nav {
 }
 
 .navLIS img{
-    height: 20px;
+    height: 1.1vw;
     opacity: 1;
 }
 
 .navLI img{
-    height: 20px;
+    height: 1.1vw;
     opacity: 1;
 }
 
 .logoutImg{
     opacity: 0.6;
     margin-left: 35px;
-    height: 24px;
+    height: 1.45vw;
     /* opacity: 1; */
 }
 
@@ -338,7 +338,7 @@ nav {
     border-radius: 2px;
     border: 1px solid white;
     padding: 7px 12px;
-    font-size: 1.15vw;
+    font-size: 1.05vw;
     transition: background-color 0.3s, color 0.3s, opacity 0.3s, transform 0.3s, border 0.3s;
 
     background: linear-gradient(45deg, rgb(59, 137, 52) 50%, rgba(255, 255, 255, 0) 50%);

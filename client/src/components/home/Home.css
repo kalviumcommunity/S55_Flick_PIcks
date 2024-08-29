@@ -163,7 +163,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #000000, #131416a5);
+    background: linear-gradient(to right, #000000 0%,#000000c2 40%, #13141650);
     pointer-events: none; 
 }
 
@@ -204,19 +204,19 @@
 }
 
 .recsSeeMore2 {
-    margin-top: 50px;
+    margin-top: 1.2vw;
     border: 3px solid white;
     opacity: 0.8;
     color: white;
-    height: 70px;
-    width: 240px;
+    height: 3.6vw;
+    width: 11vw;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 500;
     font-size: 1.2vw;
-    background: linear-gradient(45deg, rgb(49, 165, 25) 50%, rgba(255, 255, 255, 0) 50%);
+    background: linear-gradient(45deg, rgb(246, 246, 246) 50%, rgba(255, 255, 255, 0) 50%);
     background-size: 250% 100%;
     background-position: right bottom;
     transition: all .3s ease-out;
@@ -225,16 +225,21 @@
 .recsSeeMore2:hover {
     background-position: left bottom;
     cursor: pointer;
-    border: 1px solid rgb(49, 165, 25);
+    color: black;
+    border: 1px solid rgb(0, 0, 0);
     opacity: 1;
 }
 
 .frameTitle{
     font-size: 3.5vw;
-    font-weight: 600;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    margin-bottom: 50px;
+    font-weight: 400;
+    font-family: 'Impact','Arial Narrow Bold', sans-serif;
+    margin-bottom: 1.2vw;
     color: white;
+}
+
+.frameTitle img{
+    height: 3vw;
 }
 
 .featuresArea{
@@ -340,3 +345,27 @@
     justify-content: center;
     align-items: center;
   }
+
+  .scrollMore{
+    font-size: 1vw;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2.6vw;
+    z-index: 100000;
+    opacity: 0.8;
+  }
+
+  .scrollMoreImg{
+    height: 4vw;
+    position: relative;
+    animation: moveDownUp 6s infinite;
+  }
+
+  @keyframes moveDownUp {
+    0% { top: 0px; }
+    50% { top: 50px; }
+    100% { top: 0px; }
+}

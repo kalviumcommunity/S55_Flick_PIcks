@@ -77,7 +77,11 @@ function List() {
 
     async function deleteList(){
         const res = axios.delete(`https://studio-backend-alpha.vercel.app/deleteList/${user._id}/${category}/${listid}`)
-        .then(res => console.log("deleted"))
+        .then(res => {
+            console.log("deleted")
+            alert("List Deleted Successfully")
+            getUserInfoForNav()
+    })
         .catch(err => console.log(err))
     }
 
@@ -136,7 +140,9 @@ function List() {
                 <div className="mainListGray">
                     {data.description}
                 </div>
-                <hr className="mainListLine"/>
+                {data.description && <hr className="mainListLine"/>}
+
+                {!data.description && <hr className="mainListLine2"/>}
 
                 <div className="userWatchedTile">
                         {category == "movies" && data.content && data.content.map((el, index) => {

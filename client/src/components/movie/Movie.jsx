@@ -642,7 +642,7 @@ function Movie() {
                     </div>
                   </div>}
 
-                  {data.budget && <div className="flex">
+                  {data.budget && data.budget != 0 && <div className="flex">
                     <div className="movieDetailKey">
                       Budget:
                     </div>
@@ -651,7 +651,7 @@ function Movie() {
                     </div>
                   </div>}
 
-                  {data.revenue && <div className="flex">
+                  {data.revenue &&  data.revenue != 0 && <div className="flex">
                     <div className="movieDetailKey">
                       Collection:
                     </div>
@@ -739,7 +739,7 @@ function Movie() {
               <img src={next} alt="" className='' loading="lazy" />
             </h1>}
 
-            <div className='profileArea scrollbar'>
+            {recommendations && recommendations.results && recommendations.results.length && <div className='profileArea scrollbar'>
               {recommendations.results && recommendations.results.map((el, index) => {
                 if (index < 10 && el.backdrop_path && el.poster_path) {
                   return (
@@ -763,7 +763,7 @@ function Movie() {
                 <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
 
               </div>
-            </div>
+            </div>}
 
             {/* {RECCOMENDATIONS AREA OVER} */}
 
@@ -774,7 +774,7 @@ function Movie() {
               <img src={next} alt="" className='' loading="lazy" />
             </h1>}
 
-            <div className='profileArea scrollbar'>
+            {similar && similar.results && similar.results.length && <div className='profileArea scrollbar'>
               {similar.results && similar.results.map((el, index) => {
                 if (index < 10 && el.backdrop_path && el.poster_path) {
                   return (
@@ -798,14 +798,14 @@ function Movie() {
                 <img src={arrow} alt="arrow" className='moreArrow' loading="lazy" />
 
               </div>
-            </div>
+            </div>}
 
             {/* {SIMILAR AREA OVER} */}
 
 
             {/* REVIEW AREA */}
 
-            {review && review.results && <div className="reviewArea">
+            {review && review.results && review.results.length != 0 && <div className="reviewArea">
               <h1 className="cast white flex-center">
                 Reviews
                 <img src={next} alt="" className='' loading="lazy" />

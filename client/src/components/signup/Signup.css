@@ -4,8 +4,8 @@
 }
 
 .signupRectangle {
-    padding: 50px 0;
-    width: 25vw;
+    padding: 2.3vw 0;
+    width: 30vw;
     height: auto;
     background-color: #f9d9d1a3;
     /* border: 2px solid gray; */
@@ -17,17 +17,17 @@
 }
 
 .signupRectangle h2 {
-    font-size: 35px;
+    font-size: 2.3vw;
     font-weight: 600;
 }
 
 .signupRectangle .signupButton {
-    width: 170px;
-    height: 60px;
+    width: 9vw;
+    height: 3vw;
     border: none;
     background-color: #ffffff;
     /* color: white; */
-    font-size: 20px;
+    font-size: 1.1vw;
     font-weight: 500;
     margin-top: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
@@ -42,7 +42,8 @@
 .signupRectangle h4 {
     color: #575757;
     font-weight: 500;
-    margin-top: 20px;
+    margin: 0.5vw 0;
+    font-size: 0.9vw;
 }
 
 .signupRectangle h4:hover {
@@ -87,7 +88,7 @@
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 10px 0 30px;
+    margin: 0.66vw 0 2vw;
     width: 70%;
 }
 .myLine {

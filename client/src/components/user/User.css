@@ -464,9 +464,9 @@ hr {
 
 .movieDelete {
     background-color: #5b5b5b;
-    border-radius: 10px;
-    width: 32px;
-    height: 32px;
+    border-radius: 0.4vw;
+    width: 1.9vw;
+    height: 1.9vw;
     overflow: hidden;
     position: absolute;
     right: 0;
@@ -478,11 +478,12 @@ hr {
     opacity: 0;
     transition: opacity 0.5s;
 
+
 }
 
 .movieDelete img {
-    width: 20px;
-    height: 20px;
+    width: 1.1vw;
+    height: 1.1vw;
 }
 
 .movieDelete:hover {
@@ -499,7 +500,7 @@ hr {
 
 .addFavFilm {
     position: fixed;
-    z-index: 5;
+    z-index: 5000;
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.574);
@@ -519,7 +520,7 @@ hr {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
+    padding: 3vw 1.7vw 2vw 1.7vw;
     position: relative;
 
     backdrop-filter: blur(30px);
@@ -527,11 +528,11 @@ hr {
 
 .addFilmToFav input {
     width: 27vw;
-    height: 50px;
+    height: 2.9vw;
     outline: none;
     border: none;
-    font-size: 23px;
-    padding: 20px;
+    font-size: 1.2vw;
+    padding: 0.8vw;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
@@ -541,8 +542,8 @@ hr {
 }
 
 .searchIconFav {
-    width: 50px;
-    height: 50px;
+    width: 2.9vw;
+    height: 2.9vw;
     background-color: white;
     border-left: 2px solid black;
     display: flex;
@@ -567,7 +568,7 @@ hr {
     flex-direction: column;
     align-items: start;
     width: 90%;
-    margin: 30px;
+    margin: 1.4vw;
     overflow: scroll;
     position: relative;
 }
@@ -576,8 +577,8 @@ hr {
     width: 100%;
     margin: 10px 0;
     background-color: gray;
-    padding: 20px;
-    border-radius: 4px;
+    padding: 1vw;
+    border-radius: 0.2vw;
 }
 
 .favMovieAddResult:hover {
@@ -585,10 +586,10 @@ hr {
 }
 
 .AddFavClose {
-    width: 40px;
+    width: 2vw;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 1vw;
+    right: 1vw;
     opacity: 0.8;
 }
 
@@ -923,8 +924,8 @@ hr {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    column-gap: 30px;
-    row-gap: 30px;
+    column-gap: 1.2vw;
+    row-gap: 1vw;
 }
 
 .container {
@@ -955,7 +956,7 @@ hr {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.0vw;
     font-weight: 600;
 }
 
@@ -1641,4 +1642,8 @@ hr {
     height: 50px;
     width: 2px;
     background-color: #12100E;
+}
+
+.FavSearchResults h3{
+    font-size: 0.9vw;
 }
